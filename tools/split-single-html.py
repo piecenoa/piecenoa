@@ -6,7 +6,7 @@ Writes manifest.json (published path -> original data URI key info) for verifica
 import base64, json, os, re, sys
 
 src, out = sys.argv[1], sys.argv[2]
-html = open(src, encoding="utf-8").read()
+html = open(src, encoding="utf-8", newline="").read()  # keep CRLF exactly
 
 EXT = {
     "font/woff2": "woff2", "font/ttf": "ttf", "image/jpeg": "jpg", "image/webp": "webp",
@@ -78,7 +78,7 @@ js_names = ["js/vendor/three.min.js", "js/gallery.js", "js/app.js"]
 def write(rel, text):
     path = os.path.join(out, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    with open(path, "w", encoding="utf-8", newline="") as f:
         f.write(text)
 
 
