@@ -415,9 +415,52 @@ OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <link rel="stylesheet" id="marketplace-foundation-style" href="css/market.css">
-<link rel="stylesheet" href="css/account.css">
-<link rel="stylesheet" href="css/market-live.css">
 </head>
 <body data-view="home">
 <svg class="icon-definitions" aria-hidden="true"><defs>
@@ -443,51 +486,34 @@ OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
   <h2 id="auth-title">Welcome back.</h2><p class="auth-intro" id="auth-intro">Your own space, connected through art.</p>
   <div class="auth-tabs" role="tablist" aria-label="Account"><button id="auth-login-tab" class="active" type="button" role="tab" aria-selected="true" aria-controls="auth-panel" data-auth-mode="login">Log in</button><button id="auth-signup-tab" type="button" role="tab" aria-selected="false" aria-controls="auth-panel" tabindex="-1" data-auth-mode="signup">Sign up</button></div>
   <div id="auth-panel" role="tabpanel" aria-labelledby="auth-login-tab">
-   <div class="auth-social" id="auth-social" hidden><button class="auth-google" id="auth-google" type="button"><svg aria-hidden="true" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Continue with Google</span></button><p class="auth-divider"><span>or</span></p></div>
    <form id="auth-form">
     <label class="auth-field" id="auth-name-field" hidden><span>Name</span><input id="auth-name" name="name" autocomplete="name" placeholder="Enter your name" maxlength="40" disabled></label>
-    <label class="auth-field" id="auth-email-field"><span>Email</span><input id="auth-email" name="email" type="email" autocomplete="username" placeholder="you@example.com" maxlength="254" required></label>
-    <label class="auth-field" id="auth-password-field"><span>Password</span><span class="auth-password"><input id="auth-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" maxlength="128" required><button id="auth-show-password" type="button" aria-label="Show password" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></span></label>
+    <label class="auth-field"><span>Email</span><input id="auth-email" name="email" type="email" autocomplete="username" placeholder="you@example.com" maxlength="254" required></label>
+    <label class="auth-field"><span>Password</span><span class="auth-password"><input id="auth-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" maxlength="128" required><button id="auth-show-password" type="button" aria-label="Show password" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></span></label>
     <label class="auth-field" id="auth-confirm-field" hidden><span>Confirm password</span><input id="auth-confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Re-enter your password" maxlength="128" disabled></label>
-    <p class="auth-forgot" id="auth-forgot-row" hidden><button id="auth-forgot" type="button">Forgot password?</button></p>
     <p class="auth-status" id="auth-status" role="status" aria-live="polite" hidden></p>
-    <p class="auth-forgot" id="auth-resend-row" hidden><button id="auth-resend" type="button">Send the confirmation email again</button></p>
     <button class="auth-submit" id="auth-submit" type="submit">Log in<svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
    </form>
-   <div class="auth-account" id="auth-account" hidden>
-    <p class="auth-account-email" id="auth-account-email"></p>
-    <p class="auth-status" id="auth-account-status" role="status" aria-live="polite" hidden></p>
-    <button class="auth-submit" id="auth-go-studio" type="button">Go to my page<svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
-    <button class="auth-secondary" id="auth-change-password" type="button">Change password</button>
-    <button class="auth-secondary" id="auth-signout" type="button">Log out</button>
-    <details class="auth-danger" id="auth-danger">
-     <summary>Delete account</summary>
-     <p>This permanently deletes your account, your listings, your photos and your conversations. It cannot be undone.</p>
-     <label class="auth-field"><span>Type DELETE to confirm</span><input id="auth-delete-confirm" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10"></label>
-     <button class="auth-danger-button" id="auth-delete" type="button" disabled>Delete my account</button>
-    </details>
-   </div>
   </div>
-  <p class="auth-switch" id="auth-switch-row"><span id="auth-switch-note">Don’t have an account?</span><button id="auth-switch" type="button">Sign up</button></p>
-  <p class="auth-preview-note" id="auth-note">Accounts coming soon · No account is created in this preview.</p>
+  <p class="auth-switch"><span id="auth-switch-note">Don’t have an account?</span><button id="auth-switch" type="button">Sign up</button></p>
+  <p class="auth-preview-note">Accounts coming soon · No account is created in this preview.</p>
  </div>
 </dialog>
 <section id="market" class="screen market" lang="en" aria-label="Art marketplace" data-i18n-aria="market_label" hidden>
-<header class="market-header"><div class="market-header-inner"><a class="market-brand" href="#home" aria-label="Back to home" data-i18n-aria="back_home"><span class="wordmark" translate="no">PIECENOA</span><small>ART<br>MARKET</small></a><nav class="market-nav" aria-label="Marketplace navigation" data-i18n-aria="market_navigation"><button class="active" data-mode="all" data-i18n="nav_browse">Explore</button><button data-mode="favorites" data-i18n="nav_saved">Favorite artworks</button><button data-mode="mine" data-i18n="nav_mine">My studio</button></nav><div class="market-actions"><button class="messages-button account-button" id="market-account" data-auth-open aria-label="Account"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></button><button class="messages-button" id="open-messages" aria-label="Open inquiries" data-i18n-aria="open_inquiries"><svg aria-hidden="true"><use href="#i-chat" /></svg><span id="message-count" hidden>0</span></button><button class="sell-button" data-sell=""><svg aria-hidden="true"><use href="#i-plus" /></svg><span data-i18n="sell">List a piece</span></button></div></div></header>
+<header class="market-header"><div class="market-header-inner"><a class="market-brand" href="#home" aria-label="Back to home" data-i18n-aria="back_home"><span class="wordmark" translate="no">PIECENOA</span><small>ART<br>MARKET</small></a><nav class="market-nav" aria-label="Marketplace navigation" data-i18n-aria="market_navigation"><button class="active" data-mode="all" data-i18n="nav_browse" data-ui-copy="nav_browse" translate="no">Browse art</button><button data-mode="favorites" data-i18n="nav_saved" data-ui-copy="nav_saved" translate="no">Favorite artworks</button><button data-mode="mine" data-i18n="nav_mine" data-ui-copy="nav_mine" translate="no">My page</button></nav><div class="market-actions"><div class="market-account-actions" role="group" aria-label="Account actions" data-i18n-aria="header_tools_label"><button class="messages-button" id="open-messages" aria-label="Open inquiries" data-i18n-aria="open_inquiries"><svg aria-hidden="true"><use href="#i-chat" /></svg><span id="message-count" hidden>0</span></button><button id="open-settings" class="settings-button notranslate" translate="no" type="button" aria-controls="settings-dialog" aria-expanded="false" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.6 2.4-2 .9-2.2-.7-2 3.5L4 10.8v2.4l-1.8 1.7 2 3.5 2.3-.7 2 .9L9 21h4.1l.6-2.4 2-.9 2.2.7 2-3.5-1.8-1.7v-2.4l1.8-1.7-2-3.5-2.2.7-2-.9L13.1 3Z" /><circle cx="11" cy="12" r="3" /></svg></button><button type="button" id="header-auth" class="header-icon-action notranslate" translate="no" data-auth-open="" aria-label="Log in or sign up" data-i18n-aria="header_auth_open" title="Log in or sign up"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M5 21v-2a7 7 0 0 1 14 0v2" /></svg></button><button id="header-sell" class="sell-button" data-sell=""><span data-i18n="sell" data-ui-copy="sell" translate="no">Sell art</span></button></div></div></div></header>
 <div class="market-scroll"><main class="market-main"><div class="market-intro"><div><h1 id="market-title" tabindex="-1" data-i18n="market_title">The Art Market</h1><p data-i18n="market_note">Original works, editions and pieces ready for a new home.</p></div></div>
-<section id="studio-panel" class="studio-panel" hidden><div class="studio-identity"><span id="studio-avatar" class="studio-avatar" translate="no">S</span><div><p class="eyebrow" data-device-profile="" data-i18n="studio_device">Profile on this device</p><h2 id="studio-display-name">Your studio</h2><p id="studio-display-bio"></p><small id="studio-display-region"></small></div><button class="text-button" id="edit-studio"><span data-i18n="studio_edit">Edit studio</span><svg aria-hidden="true"><use href="#i-diagonal" /></svg></button></div><div class="studio-stats"><div><strong id="studio-listed-count">0</strong><span data-i18n="studio_listed">Listed pieces</span></div><div><strong id="studio-active-count">0</strong><span data-i18n="studio_active">Available</span></div><button data-mode="favorites"><strong id="studio-saved-count">0</strong><span data-i18n="studio_saved_label">Saved pieces</span></button><button data-market-chat=""><strong id="studio-inquiry-count">0</strong><span data-i18n="studio_inquiries">Conversations</span></button></div></section>
+<section id="studio-panel" class="studio-panel" hidden><div class="studio-identity"><button type="button" class="profile-photo-button" id="profile-photo-button" aria-label="Change profile photo"><span id="studio-avatar" class="studio-avatar" translate="no">S</span><span class="profile-photo-caption"><svg aria-hidden="true"><use href="#i-camera" /></svg><span data-i18n="profile_photo_change" data-ui-copy="profile_photo_change" translate="no">Change photo</span></span></button><div class="profile-summary"><p class="eyebrow" data-device-profile="" data-i18n="studio_device" data-ui-copy="studio_device" translate="no">My profile</p><h2 class="notranslate" translate="no" id="studio-display-name">Studio</h2><p id="studio-display-bio"></p><small id="studio-display-region" translate="no"></small></div><button type="button" class="profile-edit-button" id="edit-studio" aria-controls="studio-editor" aria-expanded="false"><span data-i18n="studio_edit" data-ui-copy="studio_edit" translate="no">Edit profile</span><svg aria-hidden="true"><use href="#i-diagonal" /></svg></button></div><div id="studio-editor" class="profile-editor" hidden><form id="studio-form" novalidate><input id="profile-photo" type="file" accept="image/jpeg,image/png,image/webp" hidden><div class="profile-edit-intro"><p data-i18n="profile_edit_note" data-ui-copy="profile_edit_note" translate="no">Edit your photo, name and introduction here, then save your changes.</p><button type="button" id="remove-profile-photo" class="profile-remove-photo" data-i18n="profile_photo_remove" data-ui-copy="profile_photo_remove" translate="no">Remove photo</button></div><p class="profile-photo-help" data-i18n="profile_photo_help" data-ui-copy="profile_photo_help" translate="no">JPG, PNG or WebP · up to 8 MB</p><p id="profile-photo-status" class="profile-photo-help" role="status" data-i18n="profile_photo_busy" data-ui-copy="profile_photo_busy" translate="no" hidden>Preparing photo…</p><div class="profile-form-fields"><div class="form-field"><label class="form-label" for="profile-name" data-i18n="studio_name" data-ui-copy="studio_name" translate="no">Profile name</label><input class="notranslate" translate="no" id="profile-name" required minlength="2" maxlength="40" autocomplete="nickname"></div><div class="form-field"><label class="form-label" for="profile-role" data-i18n="studio_role" data-ui-copy="studio_role" translate="no">Profile type</label><select id="profile-role" translate="no" class="notranslate"><option value="artist" data-i18n="seller_role_artist" data-ui-copy="seller_role_artist">Artist</option><option value="collector" data-i18n="seller_role_collector" data-ui-copy="seller_role_collector">Collector</option><option value="studio" data-i18n="seller_role_studio" data-ui-copy="seller_role_studio">Studio</option></select></div><div class="form-field profile-bio-field"><label class="form-label" for="profile-bio" data-i18n="studio_bio" data-ui-copy="studio_bio" translate="no">About me</label><textarea id="profile-bio" maxlength="240" placeholder="Introduce yourself to buyers and artists." data-i18n-placeholder="studio_bio_placeholder"></textarea></div></div><p id="profile-error" class="form-error" role="alert" hidden></p><div class="profile-form-actions"><button type="button" id="profile-cancel" class="profile-cancel" data-i18n="profile_cancel" data-ui-copy="profile_cancel" translate="no">Cancel</button><button type="submit" id="save-profile" class="primary-button"><span id="save-profile-label" data-i18n="save_profile" data-ui-copy="save_profile" translate="no">Save changes</span></button></div></form></div><div class="studio-stats"><div><strong id="studio-listed-count">0</strong><span translate="no" data-ui-copy="studio_listed" data-i18n="studio_listed">Listed pieces</span></div><div><strong id="studio-active-count">0</strong><span translate="no" data-ui-copy="studio_active" data-i18n="studio_active">Available</span></div><button data-mode="favorites"><strong id="studio-saved-count">0</strong><span translate="no" data-ui-copy="studio_saved_label" data-i18n="studio_saved_label">Saved pieces</span></button><button data-market-chat=""><strong id="studio-inquiry-count">0</strong><span translate="no" data-ui-copy="studio_inquiries" data-i18n="studio_inquiries">Conversations</span></button></div></section>
 
 <div class="market-discovery"><form class="search-row" id="search-form" role="search"><svg aria-hidden="true"><use href="#i-search" /></svg><input id="search" type="search" autocomplete="off" maxlength="100" placeholder="Search for a piece, artist or material" data-i18n-placeholder="search_placeholder" aria-label="Search listings" data-i18n-aria="search"><button class="search-clear" type="button" id="search-clear" aria-label="Clear search" data-i18n-aria="clear_search" hidden>×</button><span class="search-key" aria-hidden="true">/</span></form></div>
-<div class="market-workspace"><aside class="market-sidebar"><div class="category-section"><div class="category-row" id="categories" role="group" aria-label="Artwork categories" data-i18n-aria="categories_label"><button class="category-chip active" data-category="전체" aria-pressed="true" data-i18n="cat_all">All</button><button class="category-chip" data-category="회화" aria-pressed="false" data-i18n="cat_painting">Painting</button><button class="category-chip" data-category="드로잉" aria-pressed="false" data-i18n="cat_drawing">Drawing</button><button class="category-chip" data-category="도자·오브제" aria-pressed="false" data-i18n="cat_objects">Ceramics &amp; objects</button><button class="category-chip" data-category="아트 프린트" aria-pressed="false" data-i18n="cat_prints">Prints</button></div></div><details class="filter-panel" id="market-filters"><summary><svg aria-hidden="true"><use href="#i-filter" /></svg><span data-i18n="simple_filters">More filters</span></summary><div class="market-filter-fields"><label class="market-select"><span data-i18n="kind_label">Work type</span><select id="work-kind" aria-label="Work type" data-i18n-aria="kind_label"><option value="all" data-i18n="kind_all">All work types</option><option value="original" data-i18n="kind_original">Original work</option><option value="edition" data-i18n="kind_edition">Limited edition</option><option value="reproduction" data-i18n="kind_reproduction">Art print</option></select></label><label class="market-select"><span data-i18n="currency_label">Currency</span><select id="currency-filter" aria-label="Currency" data-i18n-aria="currency_label"><option value="all" data-i18n="currency_any">Any currency</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="KRW">KRW</option><option value="JPY">JPY</option><option value="CNY">CNY</option><option value="HKD">HKD</option><option value="TWD">TWD</option><option value="SGD">SGD</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option></select></label><label class="market-select"><span data-i18n="budget_label">Budget</span><select id="price-range" aria-label="Budget" data-i18n-aria="budget_label"><option value="all" data-i18n="budget_all">Any price</option><option value="under50" data-i18n="budget_under50">Under ₩50,000</option><option value="50to200" data-i18n="budget_50to200">₩50,000–200,000</option><option value="200to500" data-i18n="budget_200to500">₩200,000–500,000</option><option value="over500" data-i18n="budget_over500">₩500,000 and above</option><option value="under100" data-i18n="collection_budget">Under ₩100,000</option></select></label><label class="market-select"><span data-i18n="delivery_label">How to collect</span><select id="delivery-filter" aria-label="How to collect" data-i18n-aria="delivery_label"><option value="all" data-i18n="delivery_all">Any handover</option><option value="meetup" data-i18n="delivery_meetup">Meet in person</option><option value="shipping" data-i18n="delivery_shipping">Delivery</option></select></label><label class="available-toggle"><input type="checkbox" id="available-only"><span data-i18n="available_only">Available only</span></label><button class="clear-market-filters" id="clear-market-filters" data-i18n="clear_filters">Clear filters</button></div></details></aside>
-<section class="market-feed" aria-label="Artwork listings"><div class="market-data-state" id="market-data-state" role="status" hidden><span id="market-data-text"></span><button id="retry-market-data" hidden data-i18n="market_retry">Try again</button></div><div class="list-heading"><h2 id="list-heading">Fresh on the market <span id="result-count">0</span></h2><div class="list-tools"><select id="mine-status" aria-label="Listing status" data-i18n-aria="status_label" hidden><option value="all" data-i18n="mine_status_all">All your pieces</option><option value="판매중" data-i18n="available">Available</option><option value="예약중" data-i18n="reserved">Reserved</option><option value="판매완료" data-i18n="sold">Sold</option></select><select id="sort" class="sort-select" aria-label="Sort listings" data-i18n-aria="sort_label"><option value="newest" data-i18n="sort_newest">Newest</option><option value="price-low" data-i18n="sort_price_low">Price: low to high</option><option value="price-high" data-i18n="sort_price_high">Price: high to low</option></select></div></div><p data-i18n="result_hint" class="market-results-hint">Select a piece to see the details and contact the seller.</p><div id="active-market-filters" class="active-market-filters" hidden></div><p id="results-status" class="sr-only" role="status" aria-live="polite"></p><div id="product-grid" class="product-grid"></div><div class="empty-state" id="empty-state" hidden><svg aria-hidden="true"><use href="#i-search" /></svg><h3 id="empty-title">No results</h3><p id="empty-text">Try a different search or clear the filters.</p><button class="secondary-button" id="reset-filters"><span data-i18n="browse_all">Browse all</span><svg aria-hidden="true"><use href="#i-arrow" /></svg></button></div></section></div>
-<footer class="market-bottom"><span data-i18n="market_footer">PIECENOA · Frontend preview. Example pieces are not for sale. Inquiries stay on this device.</span><div><button data-info="guide" data-i18n="help">How it works</button><button id="my-posts-shortcut" data-i18n="my_listings_link">My listings ↗</button></div></footer></main></div>
+<div class="market-workspace"><aside class="market-sidebar"><div class="category-section"><div class="category-row" id="categories" role="group" aria-label="Artwork categories" data-i18n-aria="categories_label"><button class="category-chip active notranslate" data-category="전체" aria-pressed="true" data-i18n="cat_all" data-ui-copy="cat_all" translate="no">All</button><button class="category-chip notranslate" data-category="회화" aria-pressed="false" data-i18n="cat_painting" data-ui-copy="cat_painting" translate="no">Painting</button><button class="category-chip notranslate" data-category="드로잉" aria-pressed="false" data-i18n="cat_drawing" data-ui-copy="cat_drawing" translate="no">Drawing &amp; Calligraphy</button><button class="category-chip notranslate" data-category="아트 프린트" aria-pressed="false" data-i18n="cat_prints" data-ui-copy="cat_prints" translate="no">Prints &amp; Posters</button><button class="category-chip notranslate" data-category="사진" aria-pressed="false" data-i18n="cat_photography" data-ui-copy="cat_photography" translate="no">Photography</button><button class="category-chip notranslate" data-category="조각·입체" aria-pressed="false" data-i18n="cat_sculpture" data-ui-copy="cat_sculpture" translate="no">Sculpture</button><button class="category-chip notranslate" data-category="도자·오브제" aria-pressed="false" data-i18n="cat_objects" data-ui-copy="cat_objects" translate="no">Craft &amp; Ceramics</button><button class="category-chip notranslate" data-category="주얼리" aria-pressed="false" data-i18n="cat_jewelry" data-ui-copy="cat_jewelry" translate="no">Jewelry</button><button class="category-chip notranslate" data-category="복합·기타" aria-pressed="false" data-i18n="cat_other" data-ui-copy="cat_other" translate="no">Mixed Media &amp; Other</button></div></div></aside>
+<section class="market-feed" aria-label="Artwork listings"><div class="market-data-state" id="market-data-state" role="status" hidden><span id="market-data-text"></span><button id="retry-market-data" hidden data-i18n="market_retry">Try again</button></div><div class="list-heading"><h2 id="list-heading">Fresh on the market <span id="result-count">0</span></h2><div class="list-tools"><select class="notranslate" translate="no" id="mine-status" aria-label="Listing status" data-i18n-aria="status_label" hidden><option data-ui-copy="mine_status_all" value="all" data-i18n="mine_status_all">All your pieces</option><option data-ui-copy="available" value="판매중" data-i18n="available">Available</option><option data-ui-copy="reserved" value="예약중" data-i18n="reserved">Reserved</option><option data-ui-copy="sold" value="판매완료" data-i18n="sold">Sold</option></select><select lang="en" translate="no" id="sort" class="sort-select notranslate" aria-label="Sort listings" data-i18n-aria="sort_label"><option value="newest" data-i18n="sort_newest">Newest first</option><option value="popular" data-i18n="sort_popular">Most popular</option><option value="price-low" data-i18n="sort_price_low">Lowest price first</option><option value="price-high" data-i18n="sort_price_high">Highest price first</option></select></div></div><p id="results-status" class="sr-only" role="status" aria-live="polite"></p><p translate="no" data-ui-copy="currency_sort_note" data-i18n="currency_sort_note" hidden class="currency-sort-note" id="currency-sort-note">Prices are sorted separately within each currency.</p><div id="product-grid" class="product-grid"></div><div class="empty-state" id="empty-state" hidden><svg aria-hidden="true"><use href="#i-search" /></svg><h3 id="empty-title">No results</h3><p id="empty-text">Try a different search or clear the filters.</p><button class="secondary-button" id="reset-filters"><span data-i18n="browse_all">Browse all</span><svg aria-hidden="true"><use href="#i-arrow" /></svg></button></div></section></div>
+<footer class="market-bottom"><span data-i18n="market_footer">PIECENOA · Frontend preview. Example pieces are not for sale. Inquiries stay on this device.</span></footer></main></div>
 <button class="mobile-sell" data-sell=""><svg aria-hidden="true"><use href="#i-plus" /></svg><span data-i18n="sell">List a piece</span></button><nav class="market-bottom-nav" aria-label="Marketplace navigation" data-i18n-aria="market_navigation"><button class="active" data-mode="all"><svg aria-hidden="true"><use href="#i-home" /></svg><span data-i18n="nav_browse">Explore</span></button><button data-mode="favorites"><svg aria-hidden="true"><use href="#i-heart" /></svg><span data-i18n="nav_saved">Favorite artworks</span></button><button data-market-chat=""><svg aria-hidden="true"><use href="#i-chat" /></svg><span data-i18n="nav_chat">Inquiries</span></button><button data-mode="mine"><svg aria-hidden="true"><use href="#i-studio" /></svg><span data-i18n="nav_mine">My studio</span></button></nav>
 </section>
 
-
 <dialog id="detail-dialog" class="dialog" aria-label="Listing details" data-i18n-aria="details_label"></dialog>
-<dialog id="sell-dialog" class="dialog form-dialog" aria-labelledby="sell-title"><button class="dialog-close" data-close aria-label="Close listing form" data-i18n-aria="close_sell">×</button><header class="form-header"><p class="eyebrow" data-i18n="new_listing">NEW LISTING</p><h2 id="sell-title" data-i18n="sell_title">List a piece</h2><p data-i18n-html="sell_description">Add a photo and the details a buyer needs.<br>This demo saves listings in your browser.</p></header><form id="sell-form" class="sell-form" novalidate><div class="photo-picker"><label class="photo-button" aria-label="Upload a photo" data-i18n-aria="upload_photo"><svg aria-hidden="true"><use href="#i-camera"/></svg><span data-i18n="add_photo">Add photo</span><img id="upload-preview" alt="Listing photo preview" data-i18n-alt="preview_alt" hidden><input id="photo" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Choose an artwork photo" data-i18n-aria="choose_photo" required></label><div class="photo-help" data-i18n-html="photo_help">One clear photo.<br>JPG, PNG or WebP. Up to 8 MB.</div></div><div class="form-field"><label class="form-label" for="post-title"><span class="field-name" data-i18n="form_title">Title</span><span data-i18n="required">Required</span></label><input id="post-title" name="title" required minlength="2" maxlength="60" placeholder="e.g. Oil painting, 20 × 25 cm" data-i18n-placeholder="title_placeholder"></div><div class="form-columns"><div class="form-field"><label class="form-label" for="post-category" data-i18n="form_category">Category</label><select id="post-category" name="category" required><option value="회화" data-i18n="cat_painting">Painting</option><option value="드로잉" data-i18n="cat_drawing">Drawing</option><option value="도자·오브제" data-i18n="cat_objects">Ceramics &amp; objects</option><option value="아트 프린트" data-i18n="cat_prints">Prints</option></select></div><div class="form-field"><label class="form-label" for="post-price"><span class="field-name" data-i18n="form_price">Price</span><span data-i18n="price_help_live">Enter 0 to give it away</span></label><div class="price-input"><select id="post-currency" aria-label="Currency" data-i18n-aria="currency_label"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="KRW">KRW</option><option value="JPY">JPY</option><option value="CNY">CNY</option><option value="HKD">HKD</option><option value="TWD">TWD</option><option value="SGD">SGD</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option></select><input id="post-price" name="price" type="number" inputmode="numeric" min="0" max="999999999" step="1" required placeholder="Enter a price" data-i18n-placeholder="price_placeholder"></div></div></div><div class="form-field"><label class="form-label" for="post-region" data-i18n="location_label">Location (anywhere in the world)</label><input id="post-region" name="region" required maxlength="80" autocomplete="off" placeholder="e.g. Paris, France" data-i18n-placeholder="location_example"></div>
-<details class="sell-optional-details"><summary data-i18n="optional_art_details">Artwork details (optional)</summary><fieldset class="art-form-section"><legend data-i18n="form_art_details">THE WORK</legend><div class="form-columns"><div class="form-field"><label class="form-label" for="post-artist" data-i18n="artist_label">Artist</label><input id="post-artist" maxlength="80" placeholder="Artist or studio name" data-i18n-placeholder="artist_placeholder"></div><div class="form-field"><label class="form-label" for="post-medium" data-i18n="medium_label">Medium</label><input id="post-medium" maxlength="80" placeholder="e.g. Oil on canvas" data-i18n-placeholder="medium_placeholder"></div></div><div class="form-columns"><div class="form-field"><label class="form-label" for="post-size" data-i18n="size_label">Dimensions</label><input id="post-size" maxlength="50" placeholder="e.g. 30 × 40 cm" data-i18n-placeholder="size_placeholder"></div><div class="form-field"><label class="form-label" for="post-year" data-i18n="year_label">Year</label><input id="post-year" type="number" inputmode="numeric" min="1000" max="2100" placeholder="2026"></div></div><div class="form-columns"><div class="form-field"><label class="form-label" for="post-kind" data-i18n="kind_label">Work type</label><select id="post-kind"><option value="original" data-i18n="kind_original">Original work</option><option value="edition" data-i18n="kind_edition">Limited edition</option><option value="reproduction" data-i18n="kind_reproduction">Art print</option></select></div><div class="form-field"><label class="form-label" for="post-condition" data-i18n="condition_label">Condition</label><select id="post-condition"><option value="new" data-i18n="condition_new">New / studio piece</option><option value="good" data-i18n="condition_good">Good condition</option><option value="vintage" data-i18n="condition_vintage">Vintage / signs of age</option></select></div></div></fieldset><fieldset class="art-form-section"><legend data-i18n="form_trade_details">THE HANDOVER</legend><div class="form-columns"><div class="form-field"><label class="form-label" for="post-delivery" data-i18n="delivery_label">How to collect</label><select id="post-delivery"><option value="meetup" data-i18n="delivery_meetup">Meet in person</option><option value="shipping" data-i18n="delivery_shipping">Delivery</option><option value="either" data-i18n="delivery_either">Meetup or delivery</option></select></div><div class="form-field"><label class="form-label" for="post-framing" data-i18n="framing_label">Framing</label><select id="post-framing"><option value="unknown" data-i18n="metadata_ask">Ask the seller</option><option value="yes" data-i18n="framing_yes">Frame included</option><option value="no" data-i18n="framing_no">Unframed</option></select></div></div><label class="form-check"><input type="checkbox" id="post-negotiable"><span  data-i18n="negotiable">Open to offers</span></label></fieldset></details><div class="form-field"><label class="form-label" for="post-description"><span class="field-name" data-i18n="form_description">Description</span><span data-i18n="description_help">Materials, size, condition and collection</span></label><textarea id="post-description" name="description" required minlength="10" maxlength="2000" placeholder="Include the size, materials, condition and how you would like to hand over the piece." data-i18n-placeholder="description_placeholder"></textarea></div><p id="form-error" class="form-error" role="alert" hidden></p><div class="form-footer"><p id="draft-state" data-i18n="draft_hint">Drafts stay in this tab.</p><button class="primary-button" type="submit" id="publish-post"><span data-publish-label>Post listing</span><svg aria-hidden="true"><use href="#i-diagonal"/></svg></button></div></form></dialog>
+<dialog id="sell-dialog" class="dialog form-dialog" aria-labelledby="sell-title"><button class="dialog-close" data-close="" aria-label="Close listing form" data-i18n-aria="close_sell">×</button><header class="form-header"><h2 id="sell-title" data-i18n="sell_title">Sell a piece</h2><p data-i18n="sell_description" data-ui-copy="sell_description" translate="no">Add a photo, the details and your price.</p></header><form id="sell-form" class="sell-form" novalidate><div class="sell-form-body"><aside class="sell-visual"><p class="sale-photo-label"><span data-i18n="sale_photo_label" data-ui-copy="sale_photo_label" translate="no">Photo</span></p><div class="photo-picker"><label class="photo-button" aria-label="Upload a photo" data-i18n-aria="upload_photo"><svg aria-hidden="true"><use href="#i-camera" /></svg><span data-i18n="add_photo">Add photo</span><img id="upload-preview" alt="Listing photo preview" data-i18n-alt="preview_alt" hidden><input id="photo" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Choose an artwork photo" data-i18n-aria="choose_photo" required></label><div class="photo-help" data-i18n-html="photo_help">JPG, PNG or WebP · Up to 8 MB</div></div><p class="sale-photo-note"><span data-i18n="sale_photo_note" data-ui-copy="sale_photo_note" translate="no">Use a clear photo of the whole piece.</span></p></aside><div class="sell-fields"><div class="form-field"><label class="form-label" for="post-title"><span translate="no" data-ui-copy="form_title" class="field-name" data-i18n="form_title">Title</span></label><input class="notranslate" translate="no" id="post-title" name="title" required minlength="2" maxlength="60" placeholder="Enter the name of the artwork you want to sell" data-i18n-placeholder="title_placeholder"></div><div class="sale-essential-row"><div class="form-field sale-price-field"><label class="form-label" for="post-price"><span translate="no" data-ui-copy="form_price" class="field-name" data-i18n="form_price">Price</span></label><div class="price-entry"><label class="currency-picker"><span class="sr-only" data-ui-copy="currency_label" data-i18n="currency_label" translate="no">Currency</span><select id="post-currency" name="currency" translate="no" class="notranslate" aria-label="Currency"><option value="USD" selected data-currency-option="USD">USD · US Dollar</option><option value="EUR" data-currency-option="EUR">EUR · Euro</option><option value="JPY" data-currency-option="JPY">JPY · Japanese Yen</option><option value="GBP" data-currency-option="GBP">GBP · British Pound</option><option value="CNY" data-currency-option="CNY">CNY · Chinese Yuan</option><option value="CHF" data-currency-option="CHF">CHF · Swiss Franc</option><option value="CAD" data-currency-option="CAD">CAD · Canadian Dollar</option><option value="AUD" data-currency-option="AUD">AUD · Australian Dollar</option><option value="KRW" data-currency-option="KRW">KRW · South Korean Won</option><option value="HKD" data-currency-option="HKD">HKD · Hong Kong Dollar</option><option value="SGD" data-currency-option="SGD">SGD · Singapore Dollar</option><option value="INR" data-currency-option="INR">INR · Indian Rupee</option><option value="NZD" data-currency-option="NZD">NZD · New Zealand Dollar</option><option value="TWD" data-currency-option="TWD">TWD · New Taiwan Dollar</option><option value="AED" data-currency-option="AED">AED · UAE Dirham</option><option value="BRL" data-currency-option="BRL">BRL · Brazilian Real</option><option value="MXN" data-currency-option="MXN">MXN · Mexican Peso</option><option value="THB" data-currency-option="THB">THB · Thai Baht</option><option value="VND" data-currency-option="VND">VND · Vietnamese Dong</option><option value="RUB" data-currency-option="RUB">RUB · Russian Ruble</option></select></label><input aria-describedby="price-help" class="notranslate" translate="no" id="post-price" name="price" type="number" inputmode="decimal" min="0" max="999999999.99" step="0.01" required placeholder="Enter a price" data-i18n-placeholder="price_placeholder"></div><span class="sale-field-hint notranslate" translate="no" id="price-help">USD · Up to 2 decimal places · 0 = free</span></div><div class="form-field"><label translate="no" data-ui-copy="form_category" class="form-label" for="post-category" data-i18n="form_category">Category</label><select aria-describedby="post-category-help" class="notranslate" translate="no" id="post-category" name="category"><option value="회화" data-i18n="cat_painting" data-ui-copy="cat_painting">Painting</option><option value="드로잉" data-i18n="cat_drawing" data-ui-copy="cat_drawing">Drawing &amp; Calligraphy</option><option value="아트 프린트" data-i18n="cat_prints" data-ui-copy="cat_prints">Prints &amp; Posters</option><option value="사진" data-i18n="cat_photography" data-ui-copy="cat_photography">Photography</option><option value="조각·입체" data-i18n="cat_sculpture" data-ui-copy="cat_sculpture">Sculpture</option><option value="도자·오브제" data-i18n="cat_objects" data-ui-copy="cat_objects">Craft &amp; Ceramics</option><option value="주얼리" data-i18n="cat_jewelry" data-ui-copy="cat_jewelry">Jewelry</option><option value="복합·기타" data-i18n="cat_other" data-ui-copy="cat_other">Mixed Media &amp; Other</option></select><p id="post-category-help" class="category-help notranslate sr-only" translate="no">Oil, acrylic, watercolor and traditional paintings.</p></div></div><div class="form-field"><label class="form-label" for="post-description"><span class="field-name" data-i18n="form_description">Description</span></label><textarea id="post-description" name="description" required minlength="10" maxlength="2000" placeholder="Describe the piece, its condition and collection or delivery." data-i18n-placeholder="description_placeholder"></textarea></div><div class="form-field"><label translate="no" data-ui-copy="location_label" class="form-label" for="post-region" data-i18n="location_label">Location</label><input id="post-region" name="region" required maxlength="80" autocomplete="off" placeholder="e.g. Paris, France" data-i18n-placeholder="location_example"></div><details id="sell-optional" class="sale-optional"><summary><span data-i18n="form_art_optional" data-ui-copy="form_art_optional" translate="no">More details (optional)</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"/></svg></summary><fieldset class="sell-simple-options"><legend class="sr-only" data-i18n="form_art_optional" data-ui-copy="form_art_optional" translate="no">More details (optional)</legend><div class="form-columns"><div class="form-field"><label class="form-label" for="post-artist" data-i18n="artist_label" data-ui-copy="artist_label" translate="no">Artist</label><input id="post-artist" maxlength="80" placeholder="Artist or studio name" data-i18n-placeholder="artist_placeholder"></div><div class="form-field"><label class="form-label" for="post-size" data-i18n="size_label" data-ui-copy="size_label" translate="no">Size</label><input id="post-size" maxlength="50" placeholder="e.g. 30 × 40 cm" data-i18n-placeholder="size_placeholder"></div></div><div class="form-columns"><div class="form-field"><label class="form-label" for="post-medium" data-i18n="medium_label" data-ui-copy="medium_label" translate="no">Material</label><input id="post-medium" maxlength="80" placeholder="e.g. Oil on canvas" data-i18n-placeholder="medium_placeholder"></div><div class="form-field"><label class="form-label" for="post-condition" data-i18n="condition_label" data-ui-copy="condition_label" translate="no">Condition</label><select id="post-condition" translate="no" class="notranslate"><option value="unknown" selected data-i18n="condition_unknown" data-ui-copy="condition_unknown">Not specified</option><option value="new" data-i18n="condition_new" data-ui-copy="condition_new">New</option><option value="good" data-i18n="condition_good" data-ui-copy="condition_good">Good condition</option><option value="vintage" data-i18n="condition_vintage" data-ui-copy="condition_vintage">Signs of age</option></select></div></div></fieldset></details>
+</div></div><div class="sell-form-bottom"><p id="form-error" class="form-error" role="alert" hidden></p><div class="form-footer"><p id="draft-state" data-i18n="draft_hint">Drafts stay in this tab.</p><button class="primary-button" type="submit" id="publish-post"><span data-publish-label="">Post listing</span><svg aria-hidden="true"><use href="#i-diagonal" /></svg></button></div></div></form></dialog>
 
 
 
@@ -500,11 +526,409 @@ OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
 
 
 
-<dialog id="studio-dialog" class="dialog form-dialog studio-dialog" aria-labelledby="studio-title"><button class="dialog-close" data-close="" aria-label="Close">×</button><header class="form-header"><p class="eyebrow" data-device-profile="" data-i18n="studio_device">Profile on this device</p><h2 id="studio-title" data-i18n="studio_title">Your name, your collection.</h2></header><form id="studio-form" class="sell-form" novalidate><div class="form-field avatar-field" id="profile-avatar-field" hidden><span class="form-label" data-i18n="avatar_label">Profile photo</span><label class="avatar-picker"><span class="studio-avatar" id="profile-avatar-preview" translate="no">S</span><span class="avatar-picker-text" data-i18n="avatar_change">Choose a photo</span><input id="profile-avatar" class="sr-only" type="file" accept="image/jpeg,image/png,image/webp"></label></div><div class="form-field"><label class="form-label" for="profile-name" data-i18n="studio_name">Name or studio</label><input id="profile-name" required minlength="2" maxlength="40" autocomplete="nickname"></div><div class="form-field"><label class="form-label" for="profile-role" data-i18n="studio_role">I am here as</label><select id="profile-role"><option value="artist" data-i18n="seller_role_artist">Artist</option><option value="collector" data-i18n="seller_role_collector">Collector</option><option value="studio" data-i18n="seller_role_studio">Studio</option></select></div><div class="form-field"><label class="form-label" for="profile-bio" data-i18n="studio_bio">A few words about your work</label><textarea id="profile-bio" maxlength="240" placeholder="Art you make, collect or love." data-i18n-placeholder="studio_bio_placeholder"></textarea></div><p id="profile-error" class="form-error" role="alert" hidden></p><div class="form-footer"><p data-device-profile="" data-i18n="studio_device">Profile on this device</p><button type="submit" class="primary-button" data-i18n="save_profile">Save studio</button></div></form></dialog><dialog id="seller-dialog" class="dialog seller-dialog" aria-labelledby="seller-title"><button class="dialog-close" data-close="" aria-label="Close studio">×</button><div id="seller-content"></div></dialog>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dialog id="seller-dialog" class="dialog seller-dialog" aria-labelledby="seller-title"><button class="dialog-close" data-close="" aria-label="Close studio">×</button><div id="seller-content"></div></dialog>
+
+
+
+<dialog id="settings-dialog" class="dialog settings-dialog" aria-labelledby="settings-title"><button class="dialog-close" data-close="" aria-label="Close">×</button><header class="settings-header"><h2 id="settings-title" data-i18n="settings_title" data-ui-copy="settings_title" translate="no">Settings</h2><p data-i18n="settings_intro" data-ui-copy="settings_intro" translate="no">Your preferences, in one place.</p></header><div class="settings-list"><section class="settings-group"><h3 data-i18n="settings_account" data-ui-copy="settings_account" translate="no">Account</h3><button type="button" id="settings-login" class="settings-item" data-auth-open=""><span><strong data-i18n="settings_login" data-ui-copy="settings_login" translate="no">Log in</strong><small data-i18n="settings_login_note" data-ui-copy="settings_login_note" translate="no">Log in or create an account</small></span><svg aria-hidden="true"><use href="#i-diagonal" /></svg></button></section><section class="settings-group"><h3 data-i18n="settings_preferences" data-ui-copy="settings_preferences" translate="no">Preferences</h3><fieldset class="settings-theme settings-preference" aria-describedby="settings-theme-note"><legend data-i18n="settings_theme" data-ui-copy="settings_theme" translate="no">Appearance</legend><div class="theme-choices"><label class="theme-choice"><input type="radio" id="settings-theme-light" name="settings-theme" value="light" checked><span class="theme-choice-body"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" /></svg><span data-i18n="theme_light" data-ui-copy="theme_light" translate="no">Light</span></span></label><label class="theme-choice"><input type="radio" id="settings-theme-dark" name="settings-theme" value="dark"><span class="theme-choice-body"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z" /></svg><span data-i18n="theme_dark" data-ui-copy="theme_dark" translate="no">Dark</span></span></label></div><p id="settings-theme-note" data-i18n="settings_theme_note" data-ui-copy="settings_theme_note" translate="no">Choose a light or dark appearance.</p></fieldset><div class="settings-preference"><label for="settings-currency" data-i18n="settings_currency" data-ui-copy="settings_currency" translate="no">Default selling currency</label><select id="settings-currency" class="notranslate" translate="no" aria-label="Default selling currency"><option value="USD" data-currency-option="USD">USD · US Dollar</option><option value="EUR" data-currency-option="EUR">EUR · Euro</option><option value="JPY" data-currency-option="JPY">JPY · Japanese Yen</option><option value="GBP" data-currency-option="GBP">GBP · British Pound</option><option value="CNY" data-currency-option="CNY">CNY · Chinese Yuan</option><option value="CHF" data-currency-option="CHF">CHF · Swiss Franc</option><option value="CAD" data-currency-option="CAD">CAD · Canadian Dollar</option><option value="AUD" data-currency-option="AUD">AUD · Australian Dollar</option><option value="KRW" data-currency-option="KRW">KRW · South Korean Won</option><option value="HKD" data-currency-option="HKD">HKD · Hong Kong Dollar</option><option value="SGD" data-currency-option="SGD">SGD · Singapore Dollar</option><option value="INR" data-currency-option="INR">INR · Indian Rupee</option><option value="NZD" data-currency-option="NZD">NZD · New Zealand Dollar</option><option value="TWD" data-currency-option="TWD">TWD · New Taiwan Dollar</option><option value="AED" data-currency-option="AED">AED · UAE Dirham</option><option value="BRL" data-currency-option="BRL">BRL · Brazilian Real</option><option value="MXN" data-currency-option="MXN">MXN · Mexican Peso</option><option value="THB" data-currency-option="THB">THB · Thai Baht</option><option value="VND" data-currency-option="VND">VND · Vietnamese Dong</option><option value="RUB" data-currency-option="RUB">RUB · Russian Ruble</option></select><p data-i18n="settings_currency_note" data-ui-copy="settings_currency_note" translate="no">Applies to new listings. Existing prices stay as listed.</p></div><label class="settings-badge-option" for="settings-chat-badges"><span class="settings-option-copy"><strong data-i18n="settings_badges" data-ui-copy="settings_badges" translate="no">Unread chat badge</strong><small data-i18n="settings_badges_note" data-ui-copy="settings_badges_note" translate="no">Show an unread count on the chat icon.</small></span><input type="checkbox" role="switch" id="settings-chat-badges" aria-label="Unread chat badge" data-i18n-aria="settings_badges" checked><span class="settings-switch-track" aria-hidden="true"></span></label></section><section class="settings-group"><h3 data-i18n="settings_support" data-ui-copy="settings_support" translate="no">Help</h3><button type="button" class="settings-item" data-info="guide"><span><strong data-i18n="help" data-ui-copy="help" translate="no">How it works</strong><small data-i18n="settings_help_note" data-ui-copy="settings_help_note" translate="no">Buying, selling and chatting</small></span><svg aria-hidden="true"><use href="#i-diagonal" /></svg></button><button type="button" class="settings-item" data-info="faq"><span><strong data-i18n="faq_title" data-ui-copy="faq_title" translate="no">Frequently asked questions</strong><small data-i18n="settings_faq_note" data-ui-copy="settings_faq_note" translate="no">Listings, payments and your profile</small></span><svg aria-hidden="true"><use href="#i-diagonal" /></svg></button></section><div class="settings-links"><button type="button" data-info="about" data-i18n="settings_about" data-ui-copy="settings_about" translate="no">About PIECENOA</button><button type="button" data-info="credits" data-i18n="settings_credits" data-ui-copy="settings_credits" translate="no">Credits</button></div></div></dialog>
 
 <dialog id="info-dialog" class="dialog info-dialog" aria-labelledby="info-title"><button class="dialog-close" data-close aria-label="Close information" data-i18n-aria="close_info">×</button><p class="eyebrow" data-i18n="info_eyebrow">PIECENOA</p><h2 id="info-title"></h2><div id="info-content"></div><button class="primary-button" id="info-enter"><span data-i18n="browse_art">Browse art</span><svg aria-hidden="true"><use href="#i-diagonal"/></svg></button></dialog>
-<dialog id="chat-dialog" class="dialog chat-dialog" aria-label="Inquiry preview" data-i18n-aria="chat_label"><button class="dialog-close" data-close aria-label="Close inquiries" data-i18n-aria="close_chat">×</button><div class="chat-layout"><aside class="chat-sidebar"><h2 data-i18n="inquiries">Inquiries</h2><div id="threads"></div></aside><section class="chat-main"><header class="chat-main-header"><h3 id="chat-product" data-i18n="chat_no_product">Choose a listing to start an inquiry.</h3><p id="chat-product-price" data-i18n="chat_no_product_hint">Open a listing and select Try an inquiry.</p></header><div class="chat-disclaimer" data-i18n="chat_disclaimer">Preview only. Messages stay in this browser and are not sent.</div><div class="chat-messages" id="chat-messages"><div class="chat-welcome" data-i18n="chat_start">Choose a listing to write an inquiry.</div></div><div class="chat-quick-questions"><button data-quick-inquiry="quick_available" data-i18n="quick_available" disabled>Is this piece still available?</button><button data-quick-inquiry="quick_condition" data-i18n="quick_condition" disabled>Could you tell me more about its condition?</button><button data-quick-inquiry="quick_viewing" data-i18n="quick_viewing" disabled>Could we arrange a viewing or collection?</button></div><form class="chat-input" id="chat-form" novalidate><input id="chat-input" maxlength="500" autocomplete="off" placeholder="Write an inquiry" data-i18n-placeholder="chat_placeholder" aria-label="Inquiry message" data-i18n-aria="chat_input_label" disabled><button type="submit" id="send-message" aria-label="Save inquiry" data-i18n-aria="send_inquiry" disabled><svg aria-hidden="true"><use href="#i-send"/></svg></button></form></section></div></dialog>
+<dialog id="chat-dialog" class="dialog chat-dialog is-inbox" aria-label="Chats" data-i18n-aria="chat_label"><button class="dialog-close" data-close="" aria-label="Close chats" data-i18n-aria="close_chat">×</button><div class="chat-layout"><aside class="chat-sidebar"><div class="chat-sidebar-heading"><h2 class="notranslate" translate="no" data-ui-copy="inquiries" data-i18n="inquiries">Chats</h2><button hidden class="notranslate" id="chat-show-all" type="button" data-i18n="chat_all" data-ui-copy="chat_all" translate="no">All chats</button></div><div id="threads"></div></aside><section hidden class="chat-main"><header class="chat-main-header"><h3 id="chat-product" data-i18n="chat_no_product">Select a conversation</h3><p id="chat-product-price" data-i18n="chat_no_product_hint">Choose a chat on the left, or start one from an artwork.</p></header><div translate="no" data-ui-copy="chat_disclaimer" class="chat-disclaimer notranslate" data-i18n="chat_disclaimer">Preview chat · messages stay on this device and are not sent to the seller.</div><div class="chat-messages" id="chat-messages"><div class="chat-welcome" data-i18n="chat_start">Your conversations will appear here.</div></div><div hidden class="chat-quick-questions"><button data-quick-inquiry="quick_available" data-i18n="quick_available" disabled>Is this piece still available?</button><button data-quick-inquiry="quick_condition" data-i18n="quick_condition" disabled>Could you tell me more about its condition?</button><button data-quick-inquiry="quick_viewing" data-i18n="quick_viewing" disabled>Could we arrange a viewing or collection?</button></div><form hidden class="chat-input" id="chat-form" novalidate><input class="notranslate" translate="no" id="chat-input" maxlength="500" autocomplete="off" placeholder="Write a message" data-i18n-placeholder="chat_placeholder" aria-label="Inquiry message" data-i18n-aria="chat_input_label" disabled><button type="submit" id="send-message" aria-label="Send message" data-i18n-aria="send_inquiry" disabled><svg aria-hidden="true"><use href="#i-send" /></svg></button></form></section></div></dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <!-- Three.js and Reflector: The MIT License
 
@@ -530,10 +954,6 @@ THE SOFTWARE.
  -->
 <script src="js/vendor/three.min.js"></script>
 <script src="js/gallery.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="js/config.js"></script>
-<script src="js/account.js"></script>
-<script src="js/market-supabase.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
