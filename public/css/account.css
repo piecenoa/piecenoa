@@ -51,3 +51,5 @@ a.auth-secondary{text-decoration:none;box-sizing:border-box}
 .auth-consent[hidden]{display:none}
 .auth-consent input{margin-top:3px;flex:none;accent-color:var(--ui-action,#512d30)}
 .auth-consent a{color:var(--ui-link,inherit);text-decoration:underline;text-underline-offset:2px}
+.chat-safety-actions{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.chat-safety-actions .chat-safety-button{margin-left:0}

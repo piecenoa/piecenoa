@@ -171,9 +171,10 @@
       id: row.id,
       listingId: row.listing_id || row.id,
       title: listing?.title || row.listing_title || '',
-      // open | left (other person deleted their account) | blocked (you blocked them) | closed (they blocked you)
+      // open | left (other person deleted their account) | left_chat (they deleted this chat)
+      // | blocked (you blocked them) | closed (they blocked you)
       listingAvailable: Boolean(listing),
-      chatState: ['open', 'left', 'blocked', 'closed'].includes(row.chat_state) ? row.chat_state : 'open',
+      chatState: ['open', 'left', 'left_chat', 'blocked', 'closed'].includes(row.chat_state) ? row.chat_state : 'open',
       counterpartId: (row.buyer_id === uid ? row.seller_id : row.buyer_id) || null,
       ...(listing ? { price: listing.price_minor / scale(listing.currency), priceMinor: listing.price_minor, currency: listing.currency } : { price: 0 }),
       ...(listing ? { conversationCount: count(listing.conversation_count) } : {}),
@@ -376,6 +377,14 @@
       const previous = before?.avatar_path;
       if (previous && previous !== data.avatar_path) removeOwnFile('avatars', previous);
       return profileDTO(data);
+    },
+
+    // Delete a chat for the viewer only. The other person keeps the history but cannot reply.
+    async leaveConversation(conversationId) {
+      requireViewer();
+      if (!UUID.test(String(conversationId || ''))) throw failure('VALIDATION');
+      const { error } = await db.rpc('leave_conversation', { p_conversation: conversationId });
+      check(error);
     },
 
     // Block or unblock another member. Blocking stops new chats and messages both ways.
