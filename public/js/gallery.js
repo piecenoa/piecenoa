@@ -370,6 +370,8 @@ function createMuseumDoorway({T,room,scene,paintMap,bronze,box}){
 
 
 function setupGalleryAuth({showDialog}) {
+ // With Supabase configured, js/account.js owns this dialog (sign-in, sign-up, reset, account).
+ if(window.PIECENOA_ACCOUNT?.setup){window.PIECENOA_ACCOUNT.setup({showDialog});return}
  const $=selector=>document.querySelector(selector);
  const dialog=$('#auth-dialog'),form=$('#auth-form');
  const tabs=[...dialog.querySelectorAll('[data-auth-mode]')];
