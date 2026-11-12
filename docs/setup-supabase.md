@@ -130,3 +130,21 @@ select id, '추가한 이유' from auth.users where lower(email) = '추가할이
 배포한 뒤 브라우저 개발자 도구의 콘솔에 `Content Security Policy` 경고가 없으면,
 이름을 `Content-Security-Policy`로 바꿔서 실제로 막게 하세요.
 Supabase 프로젝트 주소가 바뀌면 이 줄의 주소도 같이 바꿔야 해요.
+
+## 10. 약관과 개인정보처리방침 (실제 서비스 전에 꼭 채우기)
+
+`public/terms.html`, `public/privacy.html`에서 노란색으로 표시된 칸을 실제 정보로 바꿔요.
+- `[운영자 이름]` / `[Operator name]`
+- `[연락 이메일]` / `[Contact email]`
+- `[개인정보 보호책임자 이름]` / `[Privacy officer name]`
+- `[메일 발송 업체]` / `[Email provider]` (3번에서 고른 서비스, 예: Resend)
+
+내용을 바꾸면 두 페이지의 시행일과 `public/js/account.js`의 `LEGAL_VERSION`을 같은 날짜로 바꿔요.
+가입한 회원의 동의 시각과 버전은 Supabase **Authentication → Users**에서 회원을 누르면 `raw_user_meta_data`에 보여요.
+결제를 시작하기 전에는 전문가(변호사 등)의 검토를 받는 것을 권해요.
+
+## 11. 차단과 탈퇴한 회원의 채팅
+
+- 회원은 채팅 화면 위쪽의 **이 회원 차단하기**로 상대를 차단해요. 차단하면 서로 새 채팅과 메시지를 보낼 수 없어요.
+- 회원이 탈퇴해도 상대방은 지난 대화를 볼 수 있어요. 탈퇴한 사람은 "탈퇴한 회원"으로 보이고 답장은 못 해요.
+- 두 사람이 모두 탈퇴하면 그 대화는 자동으로 지워져요.

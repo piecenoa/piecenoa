@@ -32,7 +32,7 @@
   const LISTING = 'id, seller_id, title, description, price_minor, currency, category, status, image_path, artist, medium, ' +
     'dimensions, year, kind, condition, delivery, framed, negotiable, location_text, country_code, visibility, ' +
     'moderation_status, favorite_count, conversation_count, created_at, updated_at, deleted_at, ' + SELLER;
-  const CONVERSATION = 'id, listing_id, buyer_id, seller_id, last_message_at, ' +
+  const CONVERSATION = 'id, listing_id, listing_title, buyer_id, seller_id, last_message_at, chat_state, ' +
     'listing:listings(id, title, price_minor, currency, conversation_count), ' +
     'messages(id, sender_id, body, created_at, read_at, client_id)';
 
@@ -43,6 +43,7 @@
     const status = Number(error.status || error.statusCode || 0);
     const message = String(error.message || '');
     if (/RATE_LIMIT/.test(message)) throw failure('RATE_LIMIT', error);
+    if (/CHAT_CLOSED/.test(message)) throw failure('CHAT_CLOSED', error);
     if (status === 401 || error.code === 'PGRST301' || /jwt|not authenticated|AUTH_REQUIRED/i.test(message)) throw failure('AUTH_REQUIRED', error);
     if (error.code === '42501' || status === 403) throw failure('FORBIDDEN', error);
     if (['23514', '22P02', '23502', '23503'].includes(error.code)) throw failure('VALIDATION', error);
@@ -168,8 +169,12 @@
     const listing = row.listing;
     return {
       id: row.id,
-      listingId: row.listing_id,
-      title: listing?.title || '',
+      listingId: row.listing_id || row.id,
+      title: listing?.title || row.listing_title || '',
+      // open | left (other person deleted their account) | blocked (you blocked them) | closed (they blocked you)
+      listingAvailable: Boolean(listing),
+      chatState: ['open', 'left', 'blocked', 'closed'].includes(row.chat_state) ? row.chat_state : 'open',
+      counterpartId: (row.buyer_id === uid ? row.seller_id : row.buyer_id) || null,
       ...(listing ? { price: listing.price_minor / scale(listing.currency), priceMinor: listing.price_minor, currency: listing.currency } : { price: 0 }),
       ...(listing ? { conversationCount: count(listing.conversation_count) } : {}),
       role: row.buyer_id === uid ? 'buyer' : 'seller',
@@ -341,7 +346,8 @@
       if (!viewerId()) return;
       const ids = (Array.isArray(input.messageIds) ? input.messageIds : []).map(String).filter((id) => UUID.test(id)).slice(0, 100);
       let query = db.from('messages').update({ read_at: new Date().toISOString() })
-        .eq('conversation_id', conversationId).is('read_at', null).neq('sender_id', viewerId());
+        .eq('conversation_id', conversationId).is('read_at', null)
+        .or('sender_id.is.null,sender_id.neq.' + viewerId());
       if (ids.length) query = query.in('id', ids);
       const { error } = await query;
       if (error) console.warn('[PIECENOA] mark read failed', error.message);
@@ -370,6 +376,17 @@
       const previous = before?.avatar_path;
       if (previous && previous !== data.avatar_path) removeOwnFile('avatars', previous);
       return profileDTO(data);
+    },
+
+    // Block or unblock another member. Blocking stops new chats and messages both ways.
+    async setBlocked(userId, blocked) {
+      const uid = requireViewer();
+      if (!UUID.test(String(userId || '')) || userId === uid) throw failure('VALIDATION');
+      const { error } = blocked
+        ? await db.from('user_blocks').upsert({ blocked_id: userId }, { onConflict: 'blocker_id,blocked_id', ignoreDuplicates: true })
+        : await db.from('user_blocks').delete().eq('blocker_id', uid).eq('blocked_id', userId);
+      check(error);
+      return { blocked: Boolean(blocked) };
     },
 
     // Reports go to the moderation queue; the database keeps a snapshot of the listing.

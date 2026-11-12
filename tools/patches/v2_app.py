@@ -58,5 +58,36 @@ sub("negotiable:Boolean(p.negotiable),region:p.region,location:{text:displayLoca
 sub("render();renderDetail()}catch(error){select.value=p.status;repositoryError(error)}",
     "render();renderDetail()}catch(error){select.value=isStatus?p.status:p.visibility||'public';repositoryError(error)}")
 
+# Live market: never claim chats stay on this device or that the site is a preview.
+sub("isPreview=repository.mode==='local-preview';",
+    "isPreview=repository.mode==='local-preview';if(!isPreview){COPY.chat_disclaimer=COPY.chat_live_note;COPY.market_footer=COPY.market_footer_live}")
+
+# Blocking and departed members (chat history kept after account deletion).
+sub('const COPY={', r'''const COPY={"chat_live_note":["Messages are delivered to the other member and kept with your account. Never send passwords or card numbers.","메시지는 상대방에게 전달되고 계정에 보관돼요. 비밀번호나 카드 번호는 절대 보내지 마세요."],"chat_block":["Block this member","이 회원 차단하기"],"chat_unblock":["Unblock","차단 풀기"],"chat_block_confirm":["Block this member? Neither of you will be able to send new messages. You can unblock later.","이 회원을 차단할까요? 서로 새 메시지를 보낼 수 없게 돼요. 나중에 풀 수 있어요."],"chat_blocked_done":["Member blocked.","회원을 차단했어요."],"chat_unblocked_done":["Member unblocked.","차단을 풀었어요."],"chat_member_left":["Deleted member","탈퇴한 회원"],"chat_member_left_note":["This member deleted their account. You can read past messages, but you cannot reply.","탈퇴한 회원이에요. 지난 메시지는 볼 수 있지만 답장할 수 없어요."],"chat_blocked_note":["You blocked this member. Unblock them to send messages again.","내가 차단한 회원이에요. 다시 메시지를 보내려면 차단을 풀어 주세요."],"chat_closed_note":["You can no longer send messages in this chat.","이 대화에는 더 이상 메시지를 보낼 수 없어요."],''')
+sub("return{id:String(c.id),listingId:String(c.listingId||c.id),title:String(c.title||''),",
+    "return{id:String(c.id),listingId:String(c.listingId||c.id),title:String(c.title||''),chatState:['open','left','blocked','closed'].includes(c.chatState)?c.chatState:'open',counterpartId:c.counterpartId?String(c.counterpartId):null,")
+sub("function repositoryError(error){const code=error?.code;",
+    "function repositoryError(error){const code=error?.code;if(code==='CHAT_CLOSED'){const th=currentChatThread();if(th&&th.chatState==='open')th.chatState='closed';notify('chat_closed_note');return}")
+sub("""strong><span class="chat-thread-preview">'+esc(last?.text||'')+'</span>""",
+    """strong>'+(c.chatState==='left'?'<span class="chat-thread-gone">'+esc(chatCopy('chat_member_left'))+'</span>':'')+'<span class="chat-thread-preview">'+esc(last?.text||'')+'</span>""")
+sub("const compose=Boolean(thread);$('.chat-quick-questions')",
+    "const compose=Boolean(thread)&&(thread.chatState||'open')==='open';renderChatSafety(thread);$('.chat-quick-questions')")
+sub("function renderChats(scrollToEnd=true){",
+    r"""function renderChatSafety(thread){let box=$('#chat-safety');if(!box){box=document.createElement('div');box.id='chat-safety';box.className='chat-safety';$('.chat-main-header').after(box)}
+ const state=!isPreview&&thread&&!String(thread.id).startsWith('draft-')?(thread.chatState||'open'):null,note={left:'chat_member_left_note',blocked:'chat_blocked_note',closed:'chat_closed_note'}[state],action=thread?.counterpartId?(state==='open'?'block':state==='blocked'?'unblock':''):'';
+ box.hidden=!state||!note&&!action;box.innerHTML=(note?'<p>'+esc(chatCopy(note))+'</p>':'')+(action?'<button type="button" class="chat-safety-button" data-chat-block="'+action+'">'+esc(chatCopy(action==='block'?'chat_block':'chat_unblock'))+'</button>':'');
+}
+function renderChats(scrollToEnd=true){""")
+sub("$('#chat-form').addEventListener('submit',sendInquiry);",
+    "$('#chat-form').addEventListener('submit',sendInquiry);$('#chat-dialog').addEventListener('click',async event=>{const button=event.target.closest('[data-chat-block]');if(!button||button.disabled)return;const thread=currentChatThread(),block=button.dataset.chatBlock==='block';if(!thread?.counterpartId||typeof repository.setBlocked!=='function'||!requireMarketReady())return;if(block&&!window.confirm(chatCopy('chat_block_confirm')))return;button.disabled=true;try{await repository.setBlocked(thread.counterpartId,block);conversations.forEach(c=>{if(c.counterpartId===thread.counterpartId&&c.chatState!=='left')c.chatState=block?'blocked':'open'});notify(block?'chat_blocked_done':'chat_unblocked_done')}catch(error){repositoryError(error)}finally{renderChats(false)}});")
+
+# A chat whose artwork is gone shows that instead of a zero price.
+sub("chatState:['open','left','blocked','closed'].includes(c.chatState)?c.chatState:'open',",
+    "chatState:['open','left','blocked','closed'].includes(c.chatState)?c.chatState:'open',listingGone:c.listingAvailable===false,")
+sub("const priced=post||thread,", "const listingGone=Boolean(thread?.listingGone&&!post),priced=listingGone?null:post||thread,")
+sub("money(priced)+(post?' · '+areaName(post):''):chatCopy('chat_no_product_hint')",
+    "money(priced)+(post?' · '+areaName(post):''):chatCopy(listingGone?'chat_listing_gone':'chat_no_product_hint')")
+sub('const COPY={', r'''const COPY={"chat_listing_gone":["This artwork is no longer listed.","더 이상 판매하지 않는 작품이에요."],''')
+
 open(path, 'w', encoding='utf-8', newline='').write(out)
 print('v2 app.js patch applied:', len(src), '->', len(out), 'chars')

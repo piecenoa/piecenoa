@@ -29,5 +29,8 @@ sub('<script src="js/app.js"></script>',
     '<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>\n'
     '<script src="js/config.js"></script>\n<script src="js/account.js"></script>\n<script src="js/market-supabase.js"></script>\n'
     '<script src="js/app.js"></script>')
+# Footer: neutral text until the app sets it, plus Terms and Privacy links.
+sub('<footer class="market-bottom"><span data-i18n="market_footer">PIECENOA · Frontend preview. Example pieces are not for sale. Inquiries stay on this device.</span></footer>',
+    '<footer class="market-bottom"><span data-i18n="market_footer">PIECENOA</span><nav class="legal-links" aria-label="Legal"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a></nav></footer>')
 open(target, 'w', encoding='utf-8', newline='').write(s)
 print('index.html: auth dialog + account scripts applied')

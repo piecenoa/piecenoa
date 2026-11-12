@@ -106,6 +106,9 @@
     }, 0);
   });
 
+  // Update together with the effective date on terms.html and privacy.html.
+  const LEGAL_VERSION = '2026-11-13';
+
   function setup({ showDialog }) {
     const $ = (selector) => document.querySelector(selector);
     const dialog = $('#auth-dialog'), form = $('#auth-form');
@@ -136,6 +139,17 @@
     let mode = 'login', busy = false, lastEmail = '';
 
     el.note.textContent = 'Your email stays private. It is never shown on your studio.';
+
+    // Sign-up consent: required, links to the Terms and Privacy Policy pages.
+    const consent = document.createElement('label');
+    consent.className = 'auth-consent';
+    consent.hidden = true;
+    consent.innerHTML = '<input id="auth-consent" type="checkbox" disabled> <span>I agree to the ' +
+      '<a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and ' +
+      '<a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. ' +
+      '<span lang="ko">(이용약관과 개인정보처리방침에 동의합니다. 필수)</span></span>';
+    el.submit.before(consent);
+    el.consent = consent.querySelector('input');
 
     function setStatus(target, message, error) {
       target.textContent = message || '';
@@ -171,6 +185,8 @@
       toggleField(el.emailField, el.email, Boolean(m.email));
       toggleField(el.passwordField, el.password, Boolean(m.password));
       toggleField(el.confirmField, el.confirm, Boolean(m.confirm));
+      toggleField(consent, el.consent, mode === 'signup');
+      el.consent.checked = false;
       const choosing = mode === 'signup' || mode === 'new-password';
       el.password.autocomplete = choosing ? 'new-password' : 'current-password';
       el.password.minLength = choosing ? 8 : 1;
@@ -315,7 +331,11 @@
         } else if (mode === 'signup') {
           const name = el.name.value.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 40);
           if (!name) { setStatus(el.status, 'Please enter your name.', true); el.name.focus(); return; }
-          const { data, error } = await client.auth.signUp({ email, password, options: { data: { name }, emailRedirectTo: siteURL } });
+          if (!el.consent.checked) { setStatus(el.status, 'Please agree to the Terms of Service and Privacy Policy.', true); el.consent.focus(); return; }
+          const consentAt = new Date().toISOString();
+          const { data, error } = await client.auth.signUp({ email, password, options: {
+            data: { name, terms_version: LEGAL_VERSION, terms_accepted_at: consentAt, privacy_accepted_at: consentAt },
+            emailRedirectTo: siteURL } });
           if (error) { setStatus(el.status, friendly(error), true); return; }
           if (data.session) { dialog.close(); return; }
           // The same reply is shown whether or not the email was already registered.
