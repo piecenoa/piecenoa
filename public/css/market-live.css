@@ -1,0 +1,20 @@
+/* Live-market additions: currency, profile photos, unavailable favorites. Follows market.css colours. */
+.price-input{display:flex;gap:8px}
+.price-input select{flex:0 0 92px;width:92px}
+.price-input input{flex:1 1 auto;min-width:0}
+.market-select select:disabled{opacity:.55;cursor:not-allowed}
+.product-price .status-chip{margin-right:6px}
+
+/* Profile photos fill the existing round avatars. */
+.studio-avatar,.avatar{overflow:hidden}
+.studio-avatar img,.avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+
+.avatar-field .form-label{margin-bottom:10px}
+.avatar-picker{display:inline-flex;align-items:center;gap:14px;cursor:pointer;border-radius:30px;padding:2px 14px 2px 2px}
+.avatar-picker:focus-within{outline:2px solid #88987b;outline-offset:3px}
+.avatar-picker-text{color:#596e47;font-size:12px;text-decoration:underline;text-underline-offset:4px}
+
+/* A saved piece the seller removed or made private. */
+.product-card.is-unavailable .product-open{cursor:default}
+.product-card.is-unavailable .unavailable-art{background:repeating-linear-gradient(135deg,#ecebe4 0 12px,#e5e4dc 12px 24px)}
+.product-card.is-unavailable h3{color:#7d8676}
