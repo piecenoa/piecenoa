@@ -37,6 +37,13 @@ sub('function startThread(post){if(!requireMarketReady())return;',
 sub("const items=allPosts().filter(p=>(mode==='all'||mode==='favorites'&&favorites.has(p.id)||mode==='mine'&&p.mine)&&",
     "const items=allPosts().filter(p=>(mode==='all'&&p.visibility!=='private'&&p.moderation!=='hidden'||mode==='favorites'&&favorites.has(p.id)||mode==='mine'&&p.mine)&&")
 
+# Abuse limits and reports (stage 5).
+sub('const COPY={', r'''const COPY={"rate_limited":["You are doing that too often. Please wait a little and try again.","너무 자주 요청했어요. 잠시 후 다시 시도해 주세요."],"report_title":["Report this listing","이 작품 신고하기"],"report_reason":["Reason","신고 사유"],"report_spam":["Spam or misleading","스팸 또는 오해의 소지"],"report_scam":["Possible scam","사기 의심"],"report_counterfeit":["Counterfeit or wrong artist","위작 또는 작가 표기 오류"],"report_prohibited":["Prohibited item","판매 금지 품목"],"report_offensive":["Offensive content","불쾌한 내용"],"report_other":["Something else","기타"],"report_details":["Tell us what is wrong (optional)","무엇이 문제인지 알려 주세요 (선택)"],"report_submit":["Send report","신고 보내기"],''')
+sub("code==='CONFLICT'?'market_conflict':'market_action_error')}",
+    "code==='CONFLICT'?'market_conflict':code==='RATE_LIMIT'?'rate_limited':'market_action_error')}")
+sub("+'</div></div>';updateDetailHeart();syncMarketLabels();",
+    "+(!isPreview&&!p.mine&&!p.demo?'<details class=\"report-listing\"><summary>'+t('report_title')+'</summary><form data-report-form data-listing=\"'+esc(p.id)+'\"><select name=\"reason\" aria-label=\"'+esc(t('report_reason'))+'\">'+['spam','scam','counterfeit','prohibited','offensive','other'].map(r=>'<option value=\"'+r+'\">'+t('report_'+r)+'</option>').join('')+'</select><textarea name=\"details\" maxlength=\"1000\" aria-label=\"'+esc(t('report_details'))+'\" placeholder=\"'+esc(t('report_details'))+'\"></textarea><button type=\"submit\">'+t('report_submit')+'</button></form></details>':'')+'</div></div>';updateDetailHeart();syncMarketLabels();")
+
 # Reload when a different member signs in or out.
 sub('setupGalleryAuth({showDialog});',
     "setupGalleryAuth({showDialog});\nwindow.addEventListener('piecenoa:viewer-changed',()=>initializeMarketData());")

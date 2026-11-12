@@ -108,3 +108,25 @@ npx serve public                # http://localhost:3000
 
 배포할 때 `vercel.json`의 빌드 명령이 이 값으로 `config.js`를 만들어요.
 값을 안 넣으면 사이트는 미리보기 모드로 열려요. 깨지지 않아요.
+
+---
+
+## 8. 관리자
+
+- 관리자 화면: 사이트 주소 뒤에 `/admin.html` (예: `http://localhost:3000/admin.html`)
+- 사이트에서 관리자 계정으로 로그인한 뒤 열면 돼요. 관리자가 아니면 "관리자만 볼 수 있는 페이지예요"가 떠요.
+- 관리자 추가는 **SQL Editor에서만** 할 수 있어요. 사이트나 API로는 바꿀 수 없어요.
+
+```
+insert into public.admin_users (user_id, note)
+select id, '추가한 이유' from auth.users where lower(email) = '추가할이메일@example.com';
+```
+
+- 관리자 빼기: `delete from public.admin_users where user_id = (select id from auth.users where lower(email) = '이메일');`
+
+## 9. 보안 헤더 (배포 후)
+
+`vercel.json`의 `Content-Security-Policy-Report-Only`는 처음에는 **검사만** 해요.
+배포한 뒤 브라우저 개발자 도구의 콘솔에 `Content Security Policy` 경고가 없으면,
+이름을 `Content-Security-Policy`로 바꿔서 실제로 막게 하세요.
+Supabase 프로젝트 주소가 바뀌면 이 줄의 주소도 같이 바꿔야 해요.

@@ -1,26 +1,36 @@
-/* Account additions to the existing auth dialog. Colours match the dialog's computed theme. */
+/* Account additions to the auth dialog. Colours follow the theme variables in market.css
+   (light and dark), with the original light values as fallbacks. */
 .auth-social{margin:0 0 4px}
-.auth-google{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:46px;border:1px solid #dfd3bd;border-radius:7px;background:#fffcf5;color:#493326;font:12px var(--sans);font-style:normal!important;transition:border-color .2s,background .2s}
-.auth-google:hover{background:#f8f1e4;border-color:#cdbb99}
-.auth-google:focus-visible{outline:2px solid #996c48;outline-offset:2px}
+.auth-google{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:46px;border:1px solid var(--ui-field-border,#dfd3bd);border-radius:7px;background:var(--ui-input,#fffcf5);color:var(--ui-text,#493326);font:12px var(--sans);font-style:normal!important;transition:border-color .2s,background .2s}
+.auth-google:hover{background:var(--ui-raised,#f8f1e4)}
+.auth-google:focus-visible{outline:2px solid var(--ui-focus,#996c48);outline-offset:2px}
 .auth-google svg{width:17px;height:17px;stroke:none}
-.auth-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#a39780;font:10px/1 var(--sans);font-style:normal!important}
-.auth-divider:before,.auth-divider:after{content:"";flex:1;height:1px;background:#d9cab0}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:var(--ui-dim,#a39780);font:10px/1 var(--sans);font-style:normal!important}
+.auth-divider:before,.auth-divider:after{content:"";flex:1;height:1px;background:var(--ui-border,#d9cab0)}
 .auth-forgot{display:flex;justify-content:flex-end;margin:-4px 0 4px}
-.auth-forgot button{min-height:32px;padding:4px 2px;color:#77553b;text-decoration:underline;text-underline-offset:4px;font:11px var(--sans);font-style:normal!important}
+.auth-forgot button{min-height:32px;padding:4px 2px;color:var(--ui-link,#77553b);text-decoration:underline;text-underline-offset:4px;font:11px var(--sans);font-style:normal!important}
 #auth-resend-row{justify-content:flex-start;margin:6px 0 0}
-.auth-status.is-error{border-color:#e2c3b6;background:#f5e3dc;color:#8c3f2f}
+.auth-status.is-error{border-color:var(--ui-error-border,#e2c3b6);background:var(--ui-error-bg,#f5e3dc);color:var(--ui-error,#8c3f2f)}
 .auth-submit[aria-busy="true"],.auth-google[aria-busy="true"],.auth-secondary[aria-busy="true"],.auth-danger-button[aria-busy="true"]{opacity:.6;cursor:progress}
-.auth-account-email{margin:0 0 6px;color:#7c684d;font:12px/1.7 var(--sans);font-style:normal!important;overflow-wrap:anywhere}
+.auth-account-email{margin:0 0 6px;color:var(--ui-muted,#7c684d);font:12px/1.7 var(--sans);font-style:normal!important;overflow-wrap:anywhere}
 .auth-account .auth-submit{margin-top:14px}
-.auth-secondary{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin-top:10px;border:1px solid #d7c7a8;border-radius:7px;background:transparent;color:#512d30;font:12px var(--sans);font-style:normal!important;transition:background .2s}
-.auth-secondary:hover{background:#eae0ce}
-.auth-danger{margin-top:22px;padding-top:14px;border-top:1px solid #e3d7c2;color:#7c684d;font:11px/1.8 var(--sans);font-style:normal!important}
-.auth-danger summary{cursor:pointer;min-height:32px;display:flex;align-items:center;color:#8c3f2f;font:11px var(--sans);list-style:none}
+.auth-secondary{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin-top:10px;border:1px solid var(--ui-border,#d7c7a8);border-radius:7px;background:transparent;color:var(--ui-text,#512d30);font:12px var(--sans);font-style:normal!important;transition:background .2s}
+.auth-secondary:hover{background:var(--ui-raised,#eae0ce)}
+.auth-danger{margin-top:22px;padding-top:14px;border-top:1px solid var(--ui-border,#e3d7c2);color:var(--ui-muted,#7c684d);font:11px/1.8 var(--sans);font-style:normal!important}
+.auth-danger summary{cursor:pointer;min-height:32px;display:flex;align-items:center;color:var(--ui-error,#8c3f2f);font:11px var(--sans);list-style:none}
 .auth-danger summary::-webkit-details-marker{display:none}
 .auth-danger p{margin:6px 0 12px}
-.auth-danger-button{width:100%;min-height:44px;border:1px solid #7a3a2e;border-radius:7px;background:#7a3a2e;color:#f6e9dc;font:12px var(--sans);font-style:normal!important}
+.auth-danger-button{width:100%;min-height:44px;border:1px solid var(--ui-error,#7a3a2e);border-radius:7px;background:var(--ui-error,#7a3a2e);color:var(--ui-on-action,#f6e9dc);font:12px var(--sans);font-style:normal!important}
 .auth-danger-button:disabled{opacity:.45;cursor:not-allowed}
 #header-auth{position:relative}
-.account-button svg{width:19px;height:19px}
-#header-auth.is-signed-in:after,.account-button.is-signed-in:after{content:"";position:absolute;right:9px;top:9px;width:6px;height:6px;border-radius:50%;background:#788565;border:2px solid #fcfbf8}
+#header-auth.is-signed-in:after{content:"";position:absolute;right:7px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--ui-gold,#788565);border:2px solid var(--ui-bg,#fcfbf8)}
+
+/* Report a listing (live market only). */
+.report-listing{margin-top:16px;font:11px/1.7 var(--sans);color:var(--ui-muted,#7c684d)}
+.report-listing summary{cursor:pointer;display:inline-flex;min-height:32px;align-items:center;color:var(--ui-muted,#7c684d);text-decoration:underline;text-underline-offset:4px;list-style:none}
+.report-listing summary::-webkit-details-marker{display:none}
+.report-listing form{display:grid;gap:10px;margin-top:8px;padding:12px;border:1px solid var(--ui-border,#e3d7c2);border-radius:6px;background:var(--ui-surface,#f6f2ea)}
+.report-listing select,.report-listing textarea{width:100%;border:1px solid var(--ui-field-border,#d7c7a8);border-radius:6px;background:var(--ui-input,#fffcf5);color:var(--ui-text,#493326);padding:9px 10px;font:12px var(--sans)}
+.report-listing textarea{min-height:70px;resize:vertical}
+.report-listing button{justify-self:start;min-height:38px;padding:8px 16px;border-radius:6px;background:var(--ui-action,#80583e);color:var(--ui-on-action,#fffaf2);font:12px var(--sans)}
+.report-listing button:disabled{opacity:.55}

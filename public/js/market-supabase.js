@@ -42,6 +42,7 @@
     console.warn('[PIECENOA] market request failed', error.code || '', error.message || error);
     const status = Number(error.status || error.statusCode || 0);
     const message = String(error.message || '');
+    if (/RATE_LIMIT/.test(message)) throw failure('RATE_LIMIT', error);
     if (status === 401 || error.code === 'PGRST301' || /jwt|not authenticated|AUTH_REQUIRED/i.test(message)) throw failure('AUTH_REQUIRED', error);
     if (error.code === '42501' || status === 403) throw failure('FORBIDDEN', error);
     if (['23514', '22P02', '23502', '23503'].includes(error.code)) throw failure('VALIDATION', error);
@@ -371,6 +372,20 @@
       return profileDTO(data);
     },
 
+    // Reports go to the moderation queue; the database keeps a snapshot of the listing.
+    async reportListing(listingId, reason, details) {
+      requireViewer();
+      const allowed = ['spam', 'scam', 'counterfeit', 'prohibited', 'offensive', 'other'];
+      const { error } = await db.from('reports').insert({
+        target_type: 'listing',
+        listing_id: listingId,
+        reason: oneOf(reason, allowed, 'other'),
+        details: String(details || '').trim().slice(0, 1000),
+      });
+      if (error?.code === '23505') throw failure('DUPLICATE', error);
+      check(error);
+    },
+
     // Pushes conversations to the app when a message arrives or is read.
     subscribe(listener) {
       const uid = viewerId();
@@ -400,6 +415,38 @@
   };
 
   window.PIECENOA_MARKET_REPOSITORY = repository;
+
+  // "Report this listing" form inside the listing details (markup comes from app.js).
+  let toastTimer = 0;
+  function toast(text) {
+    const box = document.getElementById('toast');
+    if (!box) return;
+    clearTimeout(toastTimer);
+    box.textContent = text;
+    box.classList.add('show');
+    toastTimer = setTimeout(() => box.classList.remove('show'), 3200);
+  }
+  document.addEventListener('submit', async (event) => {
+    const form = event.target.closest?.('[data-report-form]');
+    if (!form) return;
+    event.preventDefault();
+    if (!viewerId()) { document.querySelector('#header-auth')?.click(); return; }
+    const button = form.querySelector('button[type="submit"]');
+    if (button?.disabled) return;
+    if (button) button.disabled = true;
+    try {
+      await repository.reportListing(form.dataset.listing, form.elements.reason?.value, form.elements.details?.value);
+      form.closest('details')?.removeAttribute('open');
+      form.reset();
+      toast('Thank you. Our team will review this listing.');
+    } catch (error) {
+      toast(error.code === 'DUPLICATE' ? 'You have already reported this listing. We are reviewing it.'
+        : error.code === 'RATE_LIMIT' ? 'You are doing that too often. Please wait a little and try again.'
+        : 'The report could not be sent. Please try again.');
+    } finally {
+      if (button) button.disabled = false;
+    }
+  });
 
   // Reload the market when a different member signs in or out.
   let lastViewer;
