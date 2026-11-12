@@ -33,6 +33,10 @@ sub('async function toggleFavorite(id){if(!requireMarketReady()||pendingFavorite
 sub('function startThread(post){if(!requireMarketReady())return;',
     "function startThread(post){if(!isPreview&&post?.demo){notify('demo_action_blocked');return}if(!requireMarketReady())return;")
 
+# Explore shows only public, active pieces; the owner sees private ones in My page only.
+sub("const items=allPosts().filter(p=>(mode==='all'||mode==='favorites'&&favorites.has(p.id)||mode==='mine'&&p.mine)&&",
+    "const items=allPosts().filter(p=>(mode==='all'&&p.visibility!=='private'&&p.moderation!=='hidden'||mode==='favorites'&&favorites.has(p.id)||mode==='mine'&&p.mine)&&")
+
 # Reload when a different member signs in or out.
 sub('setupGalleryAuth({showDialog});',
     "setupGalleryAuth({showDialog});\nwindow.addEventListener('piecenoa:viewer-changed',()=>initializeMarketData());")
