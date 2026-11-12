@@ -192,12 +192,33 @@
       el.deleteButton.disabled = true;
       el.danger.open = false;
       if (m.account) {
+        showAdminLink();
         el.accountEmail.textContent = session?.user?.email ? 'Signed in as ' + session.user.email : '';
         setStatus(el.accountStatus, notice.message, notice.error);
         setStatus(el.status, '');
       } else {
         setStatus(el.status, notice.message, notice.error);
       }
+    }
+
+    // Admin console link: only for accounts listed in admin_users (checked by the database).
+    let adminLink = null, adminFor = null;
+    async function showAdminLink() {
+      const uid = session?.user?.id || null;
+      if (adminLink) adminLink.hidden = adminFor !== uid || adminLink.dataset.admin !== 'yes';
+      if (!uid || adminFor === uid) return;
+      adminFor = uid;
+      const { data, error } = await client.rpc('is_admin');
+      if (adminFor !== uid) return;
+      const yes = !error && data === true;
+      if (!adminLink && yes) {
+        adminLink = document.createElement('a');
+        adminLink.className = 'auth-secondary';
+        adminLink.href = 'admin.html';
+        adminLink.textContent = 'Admin console';
+        el.goStudio.after(adminLink);
+      }
+      if (adminLink) { adminLink.dataset.admin = yes ? 'yes' : 'no'; adminLink.hidden = !yes; }
     }
 
     async function run(button, task) {

@@ -34,3 +34,5 @@
 .report-listing textarea{min-height:70px;resize:vertical}
 .report-listing button{justify-self:start;min-height:38px;padding:8px 16px;border-radius:6px;background:var(--ui-action,#80583e);color:var(--ui-on-action,#fffaf2);font:12px var(--sans)}
 .report-listing button:disabled{opacity:.55}
+a.auth-secondary{text-decoration:none;box-sizing:border-box}
+.auth-secondary[hidden]{display:none}
