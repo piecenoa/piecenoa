@@ -1,0 +1,296 @@
+{
+ "source": "piecenoa-original-2026-11-12.html",
+ "files": [
+  {
+   "path": "assets/fonts/cormorant-garamond-1.woff2",
+   "mime": "font/woff2",
+   "bytes": 20284,
+   "offset": 2502
+  },
+  {
+   "path": "assets/fonts/cormorant-garamond-2.woff2",
+   "mime": "font/woff2",
+   "bytes": 23660,
+   "offset": 29886
+  },
+  {
+   "path": "assets/fonts/dm-sans-1.woff2",
+   "mime": "font/woff2",
+   "bytes": 20808,
+   "offset": 61737
+  },
+  {
+   "path": "assets/fonts/dm-sans-2.woff2",
+   "mime": "font/woff2",
+   "bytes": 39712,
+   "offset": 89810
+  },
+  {
+   "path": "assets/fonts/pretendard-1.woff2",
+   "mime": "font/woff2",
+   "bytes": 765892,
+   "offset": 143064
+  },
+  {
+   "path": "assets/fonts/gallery-hangul-serif-1.ttf",
+   "mime": "font/ttf",
+   "bytes": 3056312,
+   "offset": 1218418
+  },
+  {
+   "path": "assets/images/gallery-poster.jpg",
+   "mime": "image/jpeg",
+   "bytes": 298928,
+   "offset": 5338621
+  },
+  {
+   "path": "assets/images/photo-435882.jpg",
+   "mime": "image/jpeg",
+   "bytes": 89191,
+   "offset": 6560354
+  },
+  {
+   "path": "assets/images/photo-436529.jpg",
+   "mime": "image/jpeg",
+   "bytes": 108511,
+   "offset": 6679313
+  },
+  {
+   "path": "assets/images/photo-436534.jpg",
+   "mime": "image/jpeg",
+   "bytes": 128833,
+   "offset": 6824032
+  },
+  {
+   "path": "assets/images/hero.webp",
+   "mime": "image/webp",
+   "bytes": 935720,
+   "offset": 6995845
+  },
+  {
+   "path": "assets/images/ceramic.webp",
+   "mime": "image/webp",
+   "bytes": 148120,
+   "offset": 8243509
+  },
+  {
+   "path": "assets/models/captured-room.glb.gz",
+   "mime": "application/gzip",
+   "bytes": 7343069,
+   "offset": 8444489
+  },
+  {
+   "path": "assets/images/gallery-panorama.jpg",
+   "mime": "image/jpeg",
+   "bytes": 397836,
+   "offset": 18235299
+  },
+  {
+   "path": "assets/models/museum-bust.glb",
+   "mime": "model/gltf-binary",
+   "bytes": 800448,
+   "offset": 18765786
+  },
+  {
+   "path": "assets/images/museum-wall-paint.webp",
+   "mime": "image/webp",
+   "bytes": 54114,
+   "offset": 19833101
+  },
+  {
+   "path": "assets/images/paris-depth-tile-0.jpg",
+   "mime": "image/jpeg",
+   "bytes": 2953769,
+   "offset": 19905297
+  },
+  {
+   "path": "assets/images/paris-depth-tile-1.jpg",
+   "mime": "image/jpeg",
+   "bytes": 2822050,
+   "offset": 23843701
+  },
+  {
+   "path": "assets/models/eiffel-tower.glb.gz",
+   "mime": "application/gzip",
+   "bytes": 5548547,
+   "offset": 27606477
+  },
+  {
+   "path": "assets/images/terrace-stone.jpg",
+   "mime": "image/jpeg",
+   "bytes": 143727,
+   "offset": 35004588
+  },
+  {
+   "path": "assets/images/art-starry-night.webp",
+   "mime": "image/webp",
+   "bytes": 1579934,
+   "offset": 35196267
+  },
+  {
+   "path": "assets/images/art-mona-lisa.webp",
+   "mime": "image/webp",
+   "bytes": 787824,
+   "offset": 37302887
+  },
+  {
+   "path": "assets/images/art-pearl-earring.webp",
+   "mime": "image/webp",
+   "bytes": 748366,
+   "offset": 38353363
+  },
+  {
+   "path": "assets/images/art-sunflowers.webp",
+   "mime": "image/webp",
+   "bytes": 903408,
+   "offset": 39351229
+  },
+  {
+   "path": "assets/images/art-great-wave.webp",
+   "mime": "image/webp",
+   "bytes": 669882,
+   "offset": 40555814
+  },
+  {
+   "path": "assets/images/art-impression.webp",
+   "mime": "image/webp",
+   "bytes": 531698,
+   "offset": 41449032
+  },
+  {
+   "path": "assets/images/art-milkmaid.webp",
+   "mime": "image/webp",
+   "bytes": 867334,
+   "offset": 42158004
+  },
+  {
+   "path": "assets/images/art-whistler.webp",
+   "mime": "image/webp",
+   "bytes": 575586,
+   "offset": 43314492
+  },
+  {
+   "path": "assets/images/art-bedroom.webp",
+   "mime": "image/webp",
+   "bytes": 806694,
+   "offset": 44081979
+  },
+  {
+   "path": "assets/images/art-cafe.webp",
+   "mime": "image/webp",
+   "bytes": 665682,
+   "offset": 45157607
+  },
+  {
+   "path": "assets/images/art-water-lilies.webp",
+   "mime": "image/webp",
+   "bytes": 1213184,
+   "offset": 46045226
+  },
+  {
+   "path": "assets/images/art-wanderer.webp",
+   "mime": "image/webp",
+   "bytes": 482722,
+   "offset": 47662846
+  },
+  {
+   "path": "assets/images/art-rembrandt-self.webp",
+   "mime": "image/webp",
+   "bytes": 368144,
+   "offset": 48306523
+  },
+  {
+   "path": "assets/images/art-van-gogh-self-blue.webp",
+   "mime": "image/webp",
+   "bytes": 862498,
+   "offset": 48797430
+  },
+  {
+   "path": "assets/images/art-van-gogh-self-hat.webp",
+   "mime": "image/webp",
+   "bytes": 1036006,
+   "offset": 49947476
+  },
+  {
+   "path": "assets/images/art-van-gogh-self-bandaged.webp",
+   "mime": "image/webp",
+   "bytes": 896918,
+   "offset": 51328871
+  },
+  {
+   "path": "assets/images/art-picasso-self.webp",
+   "mime": "image/webp",
+   "bytes": 492172,
+   "offset": 52524806
+  },
+  {
+   "path": "assets/images/art-picasso-stein.webp",
+   "mime": "image/webp",
+   "bytes": 896950,
+   "offset": 53181082
+  },
+  {
+   "path": "assets/images/art-picasso-self-1907.webp",
+   "mime": "image/webp",
+   "bytes": 518766,
+   "offset": 54377065
+  },
+  {
+   "path": "assets/images/art-napoleon.webp",
+   "mime": "image/webp",
+   "bytes": 620140,
+   "offset": 55068793
+  },
+  {
+   "path": "assets/images/art-kiss.webp",
+   "mime": "image/webp",
+   "bytes": 1123354,
+   "offset": 55895685
+  },
+  {
+   "path": "assets/images/art-flaming-june.webp",
+   "mime": "image/webp",
+   "bytes": 633440,
+   "offset": 57393536
+  },
+  {
+   "path": "assets/images/art-venus.webp",
+   "mime": "image/webp",
+   "bytes": 467856,
+   "offset": 58238161
+  },
+  {
+   "path": "assets/images/art-creation.webp",
+   "mime": "image/webp",
+   "bytes": 380054,
+   "offset": 58862009
+  },
+  {
+   "path": "assets/images/art-scream.webp",
+   "mime": "image/webp",
+   "bytes": 676684,
+   "offset": 59368787
+  },
+  {
+   "path": "assets/images/art-ophelia.webp",
+   "mime": "image/webp",
+   "bytes": 812816,
+   "offset": 60271074
+  },
+  {
+   "path": "assets/images/art-olympia.webp",
+   "mime": "image/webp",
+   "bytes": 461842,
+   "offset": 61354869
+  }
+ ],
+ "css": [
+  "css/gallery.css",
+  "css/market.css"
+ ],
+ "js": [
+  "js/vendor/three.min.js",
+  "js/gallery.js",
+  "js/app.js"
+ ]
+}

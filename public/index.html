@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<!--
+PARIS EXTERIOR - WORLD-SPACE 3D ENVIRONMENT
+Gallery: 9 frames, 3 distinct masterpieces per frame (27 total). Keep 20 original works in their original slots; replace only 7 crowded scenes with individual portraits. Random selection on each visit, with no immediate repeat per frame.
+Eiffel Tower: 86230-triangle GLB, revision 2, contributed by n42k via 3D Model Repository, originating at BlendSwap 67944. CC0 1.0.
+https://3dmr.eu/model/4/2 ; https://creativecommons.org/publicdomain/zero/1.0/
+Changes: restore original PNG lattice alpha masks, warm night materials, true-scale world-space placement.
+Distant photographic texture: The Seine in Paris, 25 February 2007, 7500 x 3750 pixels, Alexandre Duret-Lutz, CC BY-SA 2.0.
+https://commons.wikimedia.org/wiki/File:The_Seine_in_Paris,_25_February_2007.jpg
+https://creativecommons.org/licenses/by-sa/2.0/
+Changes: two original-resolution texture tiles, world-space sky/city/water depth projection and runtime night grading. The adapted photographic environment is offered under CC BY-SA 2.0.
+River surface: complete bank-to-bank replacement. The original photographed water is removed with a per-tile shoreline mask, including the elevated distant strip. A separate world-space water mesh is bounded by the original river banks, on-demand planar scene reflections, small stationary ripple normals, water Fresnel reflectance and feathered shores. Existing city, bridge, boats, terrace and museum preserved.
+Terrace: actual 3D ironwork and stone slabs, using a deterministic UV bake of the original CC0 Poly Haven Solitude Interior floor.
+No AI-generated or upscaled image is used for the current exterior.
+-->
+<html lang="en" translate="yes">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14171c">
+<meta name="description" content="Buy and sell paintings, prints and objects on PIECENOA.">
+<title>PIECENOA — Art marketplace</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'12'%20fill%3D'%2314171c'%2F%3E%3Ctext%20font-style%3D%22italic%22%20x%3D'32'%20y%3D'47'%20text-anchor%3D'middle'%20font-family%3D'Georgia'%20font-size%3D'48'%20fill%3D'%23eee9db'%3EP%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="css/gallery.css">
+<!-- FONT LICENSE: pretendard
+Copyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard),
+with Reserved Font Name Pretendard.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+-->
+<!-- FONT LICENSE: dmsans
+Copyright 2014 The DM Sans Project Authors (https://github.com/googlefonts/dm-fonts)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+-->
+<!-- FONT LICENSE: cormorant
+Copyright 2015 the Cormorant Project Authors (github.com/CatharsisFonts/Cormorant)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+-->
+
+<!-- Generated project assets: OpenAI built-in ImageGen. Frame prompt: photorealistic antique gold acanthus carved landscape frame, original white roses and yellow flowers oil painting on a teal background, front view, transparent cutout. Ceramic prompt: handmade matte ivory ceramic sculptural vase, limestone shelf and warm gray wall, natural product photography. These images illustrate a demo and are not actual sale listings. -->
+<!-- PIECENOA self-contained distribution
+All artwork, fonts, JavaScript, photographic textures and 3D geometry are embedded.
+No adjacent assets or development folders are required to use this file.
+Captured architecture and panorama: Solitude Interior, Andreas Mischok.
+https://polyhaven.com/a/solitude_interior
+Marble Bust 01, Rico Cilliers: https://polyhaven.com/a/marble_bust_01
+Capture assets: CC0, https://polyhaven.com/license
+Original artwork retained from the user-provided website.
+Added public-domain artwork, The Metropolitan Museum of Art:
+Edgar Degas — The Dance Class (1874), https://www.metmuseum.org/art/collection/search/438817
+Rembrandt (Rembrandt van Rijn) — Aristotle with a Bust of Homer (1653), https://www.metmuseum.org/art/collection/search/437394
+Three.js and bundled helper licensing is preserved below.
+-->
+<!-- FONT LICENSE: Gallery Hangul Serif (Nanum Myeongjo)
+Copyright (c) 2010, NHN Corporation (http://www.nhncorp.com),
+with Reserved Font Name Nanum, Naver Nanum, NanumGothic, Naver NanumGothic, NanumMyeongjo, 
+Naver NanumMyeongjo, NanumBrush, Naver NanumBrush, NanumPen, Naver NanumPen
+ 
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+ 
+This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+ 
+SIL OPEN FONT LICENSE
+Version 1.1 - 26 February 2007
+ 
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide development of collaborative font projects,
+to support the font creation efforts of academic and linguistic communities, and to provide a free and open framework 
+in which fonts may be shared and improved in partnership with others.
+ 
+The OFL allows the licensed fonts to be used, studied, modified and redistributed freely as long as they are not sold 
+by themselves. 
+The fonts, including any derivative works, can be bundled, embedded, redistributed and/or sold with any software provided 
+that any reserved names are not used by derivative works. 
+The fonts and derivatives, however, cannot be released under any other type of license.
+The requirement for fonts to remain under this license does not apply to any document created using the fonts or their derivatives.
+
+ 
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright Holder(s) under this license and clearly marked as such. 
+ This may include source files, build scripts and documentation.
+ 
+"Reserved Font Name" refers to any names specified as such after the copyright statement(s).
+ 
+"Original Version" refers to the collection of Font Software components as distributed by the Copyright Holder(s).
+ 
+"Modified Version" refers to any derivative made by adding to, deleting, or substituting ? in part or in whole ? 
+ any of the components of the Original Version, by changing formats or by porting the Font Software to a new environment.
+ 
+"Author" refers to any designer, engineer, programmer, technical writer or other person who contributed to the Font Software.
+ 
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining a copy of the Font Software, to use, study, copy, merge, 
+embed, modify, redistribute, and sell modified and unmodified copies of the Font Software, subject to the following conditions:
+ 
+1) Neither the Font Software nor any of its individual components,in Original or Modified Versions, 
+    may be sold by itself.
+ 
+2) Original or Modified Versions of the Font Software may be bundled, redistributed and/or sold with any software, 
+    provided that each copy contains the above copyright notice and this license. These can be included either as stand-alone text files, 
+    human-readable headers or in the appropriate machine-readable metadata fields within text or binary files as long as those fields 
+    can be easily viewed by the user.
+ 
+3) No Modified Version of the Font Software may use the Reserved Font Name(s) unless explicit written 
+    permission is granted by the corresponding Copyright Holder. This restriction only applies to the primary font name as presented 
+    to the users.
+ 
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font Software shall not be used to promote, endorse or advertise 
+    any Modified Version, except to acknowledge the contribution(s) of the Copyright Holder(s) and the Author(s) or with their explicit 
+    written permission.
+ 
+5) The Font Software, modified or unmodified, in part or in whole, must be distributed entirely under this license, and must not be distributed 
+    under any other license. The requirement for fonts to remain under this license does not apply to any document created using 
+    the Font Software.
+
+
+ 
+TERMINATION
+This license becomes null and void if any of the above conditions are not met.
+
+ 
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. 
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE 
+OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
+
+-->
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" id="marketplace-foundation-style" href="css/market.css">
+</head>
+<body data-view="home">
+<svg class="icon-definitions" aria-hidden="true"><defs>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol><symbol id="i-diagonal" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol><symbol id="i-location" viewBox="0 0 24 24"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l1.5-4A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 11.5h.01m4 0h.01m4 0h.01"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7h4l2-3h4l2 3h4v13H4Z"/><circle cx="12" cy="13" r="4"/></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="m3 3 19 9-19 9 4-9-4-9Zm4 9h15"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+</defs><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></symbol><symbol id="i-studio" viewBox="0 0 24 24"><path d="M4 21h16M5 17l3-14h8l3 14ZM7 8h10M12 17v4M3 17h18"/></symbol><symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18M7 3v6M17 9v6M10 15v6"/></symbol></svg>
+<section id="home" class="screen gallery" lang="en" translate="yes" aria-label="PIECENOA 3D gallery">
+ <div id="gallery-stage" class="gallery-stage" aria-hidden="true"><img class="gallery-poster" src="assets/images/gallery-poster.jpg" alt="" fetchpriority="high" decoding="async"></div>
+ <div id="gallery-scroll" class="gallery-scroll" tabindex="0" aria-label="Explore the gallery: scroll up to move forward, scroll down to move back"></div>
+ <div class="gallery-vignette" aria-hidden="true"></div>
+ <header class="home-header">
+  <a class="brand-lockup" href="#home" aria-label="PIECENOA home"><span class="wordmark" translate="no">PIECENOA</span></a>
+  <nav class="home-navigation" aria-label="Account"><button class="home-login" data-auth-open lang="en"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg><span>Log in</span></button></nav>
+ </header>
+ <main class="gallery-content"><div class="gallery-copy"><h1 id="gallery-motto" lang="en" translate="yes">Connecting art to its next chapter.</h1></div></main>
+ <div class="entry-wrap"><button id="frame-entry" class="entry-frame" data-enter="all" aria-label="Enter the art market through the painting" disabled><img data-asset="hero" alt="A gold frame with a flower painting — enter the art market" width="1448" height="1086" decoding="async" fetchpriority="high"></button></div>
+ <button id="community-shortcut" class="community-shortcut" lang="en" data-community-direct><span>Art Market</span><svg aria-hidden="true"><use href="#i-diagonal"/></svg></button>
+ <div class="gallery-portal" aria-hidden="true"></div>
+</section>
+<dialog id="auth-dialog" class="dialog auth-dialog" lang="en" aria-labelledby="auth-title">
+ <button class="dialog-close auth-close" data-close aria-label="Close"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+ <div class="auth-content">
+  <span class="auth-wordmark" translate="no">PIECENOA</span>
+  <h2 id="auth-title">Welcome back.</h2><p class="auth-intro" id="auth-intro">Your own space, connected through art.</p>
+  <div class="auth-tabs" role="tablist" aria-label="Account"><button id="auth-login-tab" class="active" type="button" role="tab" aria-selected="true" aria-controls="auth-panel" data-auth-mode="login">Log in</button><button id="auth-signup-tab" type="button" role="tab" aria-selected="false" aria-controls="auth-panel" tabindex="-1" data-auth-mode="signup">Sign up</button></div>
+  <div id="auth-panel" role="tabpanel" aria-labelledby="auth-login-tab">
+   <form id="auth-form">
+    <label class="auth-field" id="auth-name-field" hidden><span>Name</span><input id="auth-name" name="name" autocomplete="name" placeholder="Enter your name" maxlength="40" disabled></label>
+    <label class="auth-field"><span>Email</span><input id="auth-email" name="email" type="email" autocomplete="username" placeholder="you@example.com" maxlength="254" required></label>
+    <label class="auth-field"><span>Password</span><span class="auth-password"><input id="auth-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" maxlength="128" required><button id="auth-show-password" type="button" aria-label="Show password" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></span></label>
+    <label class="auth-field" id="auth-confirm-field" hidden><span>Confirm password</span><input id="auth-confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Re-enter your password" maxlength="128" disabled></label>
+    <p class="auth-status" id="auth-status" role="status" aria-live="polite" hidden></p>
+    <button class="auth-submit" id="auth-submit" type="submit">Log in<svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+   </form>
+  </div>
+  <p class="auth-switch"><span id="auth-switch-note">Don’t have an account?</span><button id="auth-switch" type="button">Sign up</button></p>
+  <p class="auth-preview-note">Accounts coming soon · No account is created in this preview.</p>
+ </div>
+</dialog>
+<section id="market" class="screen market" lang="en" aria-label="Art marketplace" data-i18n-aria="market_label" hidden>
+<header class="market-header"><div class="market-header-inner"><a class="market-brand" href="#home" aria-label="Back to home" data-i18n-aria="back_home"><span class="wordmark" translate="no">PIECENOA</span><small>ART<br>MARKET</small></a><nav class="market-nav" aria-label="Marketplace navigation" data-i18n-aria="market_navigation"><button class="active" data-mode="all" data-i18n="nav_browse">Explore</button><button data-mode="favorites" data-i18n="nav_saved">Favorite artworks</button><button data-mode="mine" data-i18n="nav_mine">My studio</button></nav><div class="market-actions"><button class="messages-button" id="open-messages" aria-label="Open inquiries" data-i18n-aria="open_inquiries"><svg aria-hidden="true"><use href="#i-chat" /></svg><span id="message-count" hidden>0</span></button><button class="sell-button" data-sell=""><svg aria-hidden="true"><use href="#i-plus" /></svg><span data-i18n="sell">List a piece</span></button></div></div></header>
+<div class="market-scroll"><main class="market-main"><div class="market-intro"><div><h1 id="market-title" tabindex="-1" data-i18n="market_title">The Art Market</h1><p data-i18n="market_note">Original works, editions and pieces ready for a new home.</p></div></div>
+<section id="studio-panel" class="studio-panel" hidden><div class="studio-identity"><span id="studio-avatar" class="studio-avatar" translate="no">S</span><div><p class="eyebrow" data-device-profile="" data-i18n="studio_device">Profile on this device</p><h2 id="studio-display-name">Your studio</h2><p id="studio-display-bio"></p><small id="studio-display-region"></small></div><button class="text-button" id="edit-studio"><span data-i18n="studio_edit">Edit studio</span><svg aria-hidden="true"><use href="#i-diagonal" /></svg></button></div><div class="studio-stats"><div><strong id="studio-listed-count">0</strong><span data-i18n="studio_listed">Listed pieces</span></div><div><strong id="studio-active-count">0</strong><span data-i18n="studio_active">Available</span></div><button data-mode="favorites"><strong id="studio-saved-count">0</strong><span data-i18n="studio_saved_label">Saved pieces</span></button><button data-market-chat=""><strong id="studio-inquiry-count">0</strong><span data-i18n="studio_inquiries">Conversations</span></button></div></section>
+
+<div class="market-discovery"><form class="search-row" id="search-form" role="search"><svg aria-hidden="true"><use href="#i-search" /></svg><input id="search" type="search" autocomplete="off" maxlength="100" placeholder="Search for a piece, artist or material" data-i18n-placeholder="search_placeholder" aria-label="Search listings" data-i18n-aria="search"><button class="search-clear" type="button" id="search-clear" aria-label="Clear search" data-i18n-aria="clear_search" hidden>×</button><span class="search-key" aria-hidden="true">/</span></form></div>
+<div class="market-workspace"><aside class="market-sidebar"><div class="category-section"><div class="category-row" id="categories" role="group" aria-label="Artwork categories" data-i18n-aria="categories_label"><button class="category-chip active" data-category="전체" aria-pressed="true" data-i18n="cat_all">All</button><button class="category-chip" data-category="회화" aria-pressed="false" data-i18n="cat_painting">Painting</button><button class="category-chip" data-category="드로잉" aria-pressed="false" data-i18n="cat_drawing">Drawing</button><button class="category-chip" data-category="도자·오브제" aria-pressed="false" data-i18n="cat_objects">Ceramics &amp; objects</button><button class="category-chip" data-category="아트 프린트" aria-pressed="false" data-i18n="cat_prints">Prints</button></div></div><details class="filter-panel" id="market-filters"><summary><svg aria-hidden="true"><use href="#i-filter" /></svg><span data-i18n="simple_filters">More filters</span></summary><div class="market-filter-fields"><label class="market-select"><span data-i18n="kind_label">Work type</span><select id="work-kind" aria-label="Work type" data-i18n-aria="kind_label"><option value="all" data-i18n="kind_all">All work types</option><option value="original" data-i18n="kind_original">Original work</option><option value="edition" data-i18n="kind_edition">Limited edition</option><option value="reproduction" data-i18n="kind_reproduction">Art print</option></select></label><label class="market-select"><span data-i18n="budget_label">Budget</span><select id="price-range" aria-label="Budget" data-i18n-aria="budget_label"><option value="all" data-i18n="budget_all">Any price</option><option value="under50" data-i18n="budget_under50">Under ₩50,000</option><option value="50to200" data-i18n="budget_50to200">₩50,000–200,000</option><option value="200to500" data-i18n="budget_200to500">₩200,000–500,000</option><option value="over500" data-i18n="budget_over500">₩500,000 and above</option><option value="under100" data-i18n="collection_budget">Under ₩100,000</option></select></label><label class="market-select"><span data-i18n="delivery_label">How to collect</span><select id="delivery-filter" aria-label="How to collect" data-i18n-aria="delivery_label"><option value="all" data-i18n="delivery_all">Any handover</option><option value="meetup" data-i18n="delivery_meetup">Meet in person</option><option value="shipping" data-i18n="delivery_shipping">Delivery</option></select></label><label class="available-toggle"><input type="checkbox" id="available-only"><span data-i18n="available_only">Available only</span></label><button class="clear-market-filters" id="clear-market-filters" data-i18n="clear_filters">Clear filters</button></div></details></aside>
+<section class="market-feed" aria-label="Artwork listings"><div class="market-data-state" id="market-data-state" role="status" hidden><span id="market-data-text"></span><button id="retry-market-data" hidden data-i18n="market_retry">Try again</button></div><div class="list-heading"><h2 id="list-heading">Fresh on the market <span id="result-count">0</span></h2><div class="list-tools"><select id="mine-status" aria-label="Listing status" data-i18n-aria="status_label" hidden><option value="all" data-i18n="mine_status_all">All your pieces</option><option value="판매중" data-i18n="available">Available</option><option value="예약중" data-i18n="reserved">Reserved</option><option value="판매완료" data-i18n="sold">Sold</option></select><select id="sort" class="sort-select" aria-label="Sort listings" data-i18n-aria="sort_label"><option value="newest" data-i18n="sort_newest">Newest</option><option value="price-low" data-i18n="sort_price_low">Price: low to high</option><option value="price-high" data-i18n="sort_price_high">Price: high to low</option></select></div></div><p data-i18n="result_hint" class="market-results-hint">Select a piece to see the details and contact the seller.</p><div id="active-market-filters" class="active-market-filters" hidden></div><p id="results-status" class="sr-only" role="status" aria-live="polite"></p><div id="product-grid" class="product-grid"></div><div class="empty-state" id="empty-state" hidden><svg aria-hidden="true"><use href="#i-search" /></svg><h3 id="empty-title">No results</h3><p id="empty-text">Try a different search or clear the filters.</p><button class="secondary-button" id="reset-filters"><span data-i18n="browse_all">Browse all</span><svg aria-hidden="true"><use href="#i-arrow" /></svg></button></div></section></div>
+<footer class="market-bottom"><span data-i18n="market_footer">PIECENOA · Frontend preview. Example pieces are not for sale. Inquiries stay on this device.</span><div><button data-info="guide" data-i18n="help">How it works</button><button id="my-posts-shortcut" data-i18n="my_listings_link">My listings ↗</button></div></footer></main></div>
+<button class="mobile-sell" data-sell=""><svg aria-hidden="true"><use href="#i-plus" /></svg><span data-i18n="sell">List a piece</span></button><nav class="market-bottom-nav" aria-label="Marketplace navigation" data-i18n-aria="market_navigation"><button class="active" data-mode="all"><svg aria-hidden="true"><use href="#i-home" /></svg><span data-i18n="nav_browse">Explore</span></button><button data-mode="favorites"><svg aria-hidden="true"><use href="#i-heart" /></svg><span data-i18n="nav_saved">Favorite artworks</span></button><button data-market-chat=""><svg aria-hidden="true"><use href="#i-chat" /></svg><span data-i18n="nav_chat">Inquiries</span></button><button data-mode="mine"><svg aria-hidden="true"><use href="#i-studio" /></svg><span data-i18n="nav_mine">My studio</span></button></nav>
+</section>
+
+
+<dialog id="detail-dialog" class="dialog" aria-label="Listing details" data-i18n-aria="details_label"></dialog>
+<dialog id="sell-dialog" class="dialog form-dialog" aria-labelledby="sell-title"><button class="dialog-close" data-close aria-label="Close listing form" data-i18n-aria="close_sell">×</button><header class="form-header"><p class="eyebrow" data-i18n="new_listing">NEW LISTING</p><h2 id="sell-title" data-i18n="sell_title">List a piece</h2><p data-i18n-html="sell_description">Add a photo and the details a buyer needs.<br>This demo saves listings in your browser.</p></header><form id="sell-form" class="sell-form" novalidate><div class="photo-picker"><label class="photo-button" aria-label="Upload a photo" data-i18n-aria="upload_photo"><svg aria-hidden="true"><use href="#i-camera"/></svg><span data-i18n="add_photo">Add photo</span><img id="upload-preview" alt="Listing photo preview" data-i18n-alt="preview_alt" hidden><input id="photo" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Choose an artwork photo" data-i18n-aria="choose_photo" required></label><div class="photo-help" data-i18n-html="photo_help">One clear photo.<br>JPG, PNG or WebP. Up to 8 MB.</div></div><div class="form-field"><label class="form-label" for="post-title"><span class="field-name" data-i18n="form_title">Title</span><span data-i18n="required">Required</span></label><input id="post-title" name="title" required minlength="2" maxlength="60" placeholder="e.g. Oil painting, 20 × 25 cm" data-i18n-placeholder="title_placeholder"></div><div class="form-columns"><div class="form-field"><label class="form-label" for="post-category" data-i18n="form_category">Category</label><select id="post-category" name="category" required><option value="회화" data-i18n="cat_painting">Painting</option><option value="드로잉" data-i18n="cat_drawing">Drawing</option><option value="도자·오브제" data-i18n="cat_objects">Ceramics &amp; objects</option><option value="아트 프린트" data-i18n="cat_prints">Prints</option></select></div><div class="form-field"><label class="form-label" for="post-price"><span class="field-name" data-i18n="form_price">Price</span><span data-i18n="price_help">KRW · enter 0 to give it away</span></label><input id="post-price" name="price" type="number" inputmode="numeric" min="0" max="999999999" step="1" required placeholder="Enter a price" data-i18n-placeholder="price_placeholder"></div></div><div class="form-field"><label class="form-label" for="post-region" data-i18n="location_label">Location (anywhere in the world)</label><input id="post-region" name="region" required maxlength="80" autocomplete="off" placeholder="e.g. Paris, France" data-i18n-placeholder="location_example"></div>
+<details class="sell-optional-details"><summary data-i18n="optional_art_details">Artwork details (optional)</summary><fieldset class="art-form-section"><legend data-i18n="form_art_details">THE WORK</legend><div class="form-columns"><div class="form-field"><label class="form-label" for="post-artist" data-i18n="artist_label">Artist</label><input id="post-artist" maxlength="80" placeholder="Artist or studio name" data-i18n-placeholder="artist_placeholder"></div><div class="form-field"><label class="form-label" for="post-medium" data-i18n="medium_label">Medium</label><input id="post-medium" maxlength="80" placeholder="e.g. Oil on canvas" data-i18n-placeholder="medium_placeholder"></div></div><div class="form-columns"><div class="form-field"><label class="form-label" for="post-size" data-i18n="size_label">Dimensions</label><input id="post-size" maxlength="50" placeholder="e.g. 30 × 40 cm" data-i18n-placeholder="size_placeholder"></div><div class="form-field"><label class="form-label" for="post-year" data-i18n="year_label">Year</label><input id="post-year" type="number" inputmode="numeric" min="1000" max="2100" placeholder="2026"></div></div><div class="form-columns"><div class="form-field"><label class="form-label" for="post-kind" data-i18n="kind_label">Work type</label><select id="post-kind"><option value="original" data-i18n="kind_original">Original work</option><option value="edition" data-i18n="kind_edition">Limited edition</option><option value="reproduction" data-i18n="kind_reproduction">Art print</option></select></div><div class="form-field"><label class="form-label" for="post-condition" data-i18n="condition_label">Condition</label><select id="post-condition"><option value="new" data-i18n="condition_new">New / studio piece</option><option value="good" data-i18n="condition_good">Good condition</option><option value="vintage" data-i18n="condition_vintage">Vintage / signs of age</option></select></div></div></fieldset><fieldset class="art-form-section"><legend data-i18n="form_trade_details">THE HANDOVER</legend><div class="form-columns"><div class="form-field"><label class="form-label" for="post-delivery" data-i18n="delivery_label">How to collect</label><select id="post-delivery"><option value="meetup" data-i18n="delivery_meetup">Meet in person</option><option value="shipping" data-i18n="delivery_shipping">Delivery</option><option value="either" data-i18n="delivery_either">Meetup or delivery</option></select></div><div class="form-field"><label class="form-label" for="post-framing" data-i18n="framing_label">Framing</label><select id="post-framing"><option value="unknown" data-i18n="metadata_ask">Ask the seller</option><option value="yes" data-i18n="framing_yes">Frame included</option><option value="no" data-i18n="framing_no">Unframed</option></select></div></div><label class="form-check"><input type="checkbox" id="post-negotiable"><span  data-i18n="negotiable">Open to offers</span></label></fieldset></details><div class="form-field"><label class="form-label" for="post-description"><span class="field-name" data-i18n="form_description">Description</span><span data-i18n="description_help">Materials, size, condition and collection</span></label><textarea id="post-description" name="description" required minlength="10" maxlength="2000" placeholder="Include the size, materials, condition and how you would like to hand over the piece." data-i18n-placeholder="description_placeholder"></textarea></div><p id="form-error" class="form-error" role="alert" hidden></p><div class="form-footer"><p id="draft-state" data-i18n="draft_hint">Drafts stay in this tab.</p><button class="primary-button" type="submit" id="publish-post"><span data-publish-label>Post listing</span><svg aria-hidden="true"><use href="#i-diagonal"/></svg></button></div></form></dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+<dialog id="studio-dialog" class="dialog form-dialog studio-dialog" aria-labelledby="studio-title"><button class="dialog-close" data-close="" aria-label="Close">×</button><header class="form-header"><p class="eyebrow" data-device-profile="" data-i18n="studio_device">Profile on this device</p><h2 id="studio-title" data-i18n="studio_title">Your name, your collection.</h2></header><form id="studio-form" class="sell-form" novalidate><div class="form-field"><label class="form-label" for="profile-name" data-i18n="studio_name">Name or studio</label><input id="profile-name" required minlength="2" maxlength="40" autocomplete="nickname"></div><div class="form-field"><label class="form-label" for="profile-role" data-i18n="studio_role">I am here as</label><select id="profile-role"><option value="artist" data-i18n="seller_role_artist">Artist</option><option value="collector" data-i18n="seller_role_collector">Collector</option><option value="studio" data-i18n="seller_role_studio">Studio</option></select></div><div class="form-field"><label class="form-label" for="profile-bio" data-i18n="studio_bio">A few words about your work</label><textarea id="profile-bio" maxlength="240" placeholder="Art you make, collect or love." data-i18n-placeholder="studio_bio_placeholder"></textarea></div><p id="profile-error" class="form-error" role="alert" hidden></p><div class="form-footer"><p data-device-profile="" data-i18n="studio_device">Profile on this device</p><button type="submit" class="primary-button" data-i18n="save_profile">Save studio</button></div></form></dialog><dialog id="seller-dialog" class="dialog seller-dialog" aria-labelledby="seller-title"><button class="dialog-close" data-close="" aria-label="Close studio">×</button><div id="seller-content"></div></dialog>
+
+
+<dialog id="info-dialog" class="dialog info-dialog" aria-labelledby="info-title"><button class="dialog-close" data-close aria-label="Close information" data-i18n-aria="close_info">×</button><p class="eyebrow" data-i18n="info_eyebrow">PIECENOA</p><h2 id="info-title"></h2><div id="info-content"></div><button class="primary-button" id="info-enter"><span data-i18n="browse_art">Browse art</span><svg aria-hidden="true"><use href="#i-diagonal"/></svg></button></dialog>
+<dialog id="chat-dialog" class="dialog chat-dialog" aria-label="Inquiry preview" data-i18n-aria="chat_label"><button class="dialog-close" data-close aria-label="Close inquiries" data-i18n-aria="close_chat">×</button><div class="chat-layout"><aside class="chat-sidebar"><h2 data-i18n="inquiries">Inquiries</h2><div id="threads"></div></aside><section class="chat-main"><header class="chat-main-header"><h3 id="chat-product" data-i18n="chat_no_product">Choose a listing to start an inquiry.</h3><p id="chat-product-price" data-i18n="chat_no_product_hint">Open a listing and select Try an inquiry.</p></header><div class="chat-disclaimer" data-i18n="chat_disclaimer">Preview only. Messages stay in this browser and are not sent.</div><div class="chat-messages" id="chat-messages"><div class="chat-welcome" data-i18n="chat_start">Choose a listing to write an inquiry.</div></div><div class="chat-quick-questions"><button data-quick-inquiry="quick_available" data-i18n="quick_available" disabled>Is this piece still available?</button><button data-quick-inquiry="quick_condition" data-i18n="quick_condition" disabled>Could you tell me more about its condition?</button><button data-quick-inquiry="quick_viewing" data-i18n="quick_viewing" disabled>Could we arrange a viewing or collection?</button></div><form class="chat-input" id="chat-form" novalidate><input id="chat-input" maxlength="500" autocomplete="off" placeholder="Write an inquiry" data-i18n-placeholder="chat_placeholder" aria-label="Inquiry message" data-i18n-aria="chat_input_label" disabled><button type="submit" id="send-message" aria-label="Save inquiry" data-i18n-aria="send_inquiry" disabled><svg aria-hidden="true"><use href="#i-send"/></svg></button></form></section></div></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!-- Three.js and Reflector: The MIT License
+
+Copyright © 2010-2023 three.js authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+ -->
+<script src="js/vendor/three.min.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
