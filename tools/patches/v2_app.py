@@ -132,5 +132,18 @@ sub("$('#chat-dialog').addEventListener('click',async event=>{const leave=",
  const removeMessage=event.target.closest('[data-message-delete]');if(removeMessage){const thread=currentChatThread(),id=removeMessage.dataset.id,scope=removeMessage.dataset.messageDelete==='all'?'all':'me';if(removeMessage.disabled||!thread||!requireMarketReady()||!window.confirm(chatCopy(scope==='all'?'message_delete_all_confirm':'message_delete_me_confirm')))return;removeMessage.disabled=true;try{await repository.deleteMessage(id,scope);thread.messages=scope==='me'?thread.messages.filter(m=>String(m.id)!==id):thread.messages.map(m=>String(m.id)===id?{...m,text:'',deleted:true}:m);openMessageMenu=null;notify(scope==='all'?'message_deleted_all_done':'message_deleted_me_done');render()}catch(error){repositoryError(error)}finally{renderChats(false)}return}
  const leave=""")
 
+# Show the other person's nickname (and photo) in the chat list and chat header.
+sub('const COPY={', r'''const COPY={"chat_with":["Chatting with {name}","{name} 님과의 대화"],''')
+sub("counterpartId:c.counterpartId?String(c.counterpartId):null,",
+    "counterpartId:c.counterpartId?String(c.counterpartId):null,counterpartName:String(c.counterpartName||'').slice(0,40),counterpartAvatar:typeof c.counterpartAvatarUrl==='string'&&/^https:\\/\\//.test(c.counterpartAvatarUrl)?c.counterpartAvatarUrl:'',")
+sub("""<strong>'+esc(threadTitle(c))+'</strong>'""",
+    """<strong>'+esc(threadTitle(c))+'</strong>'+(c.counterpartName?'<span class="chat-thread-who">'+esc(c.counterpartName)+'</span>':'')""")
+sub("function renderChatSafety(thread){",
+    r"""function renderChatPartner(thread){let who=$('#chat-with');if(!who){who=document.createElement('p');who.id='chat-with';who.className='chat-with';$('#chat-product').after(who)}
+ const draft=Boolean(thread)&&String(thread.id).startsWith('draft-'),name=isPreview||!thread?'':thread.counterpartName||(draft?findPost(thread.listingId)?.sellerInfo?.name||'':''),gone=!isPreview&&(thread?.chatState==='left'||thread?.chatState==='left_chat'),avatar=!draft&&thread?.counterpartAvatar?thread.counterpartAvatar:draft?findPost(thread.listingId)?.sellerInfo?.avatarUrl||'':'';
+ who.hidden=!name&&!gone;who.innerHTML=name?(avatar?'<img class="chat-with-avatar" alt="" src="'+esc(avatar)+'">':'<span class="chat-with-avatar" aria-hidden="true">'+esc(name.slice(0,1).toUpperCase())+'</span>')+'<span>'+esc(chatCopy('chat_with').replace('{name}',name))+'</span>':gone?'<span>'+esc(chatCopy(thread.chatState==='left'?'chat_member_left':'chat_member_left_chat'))+'</span>':'';
+}
+function renderChatSafety(thread){renderChatPartner(thread);""")
+
 open(path, 'w', encoding='utf-8', newline='').write(out)
 print('v2 app.js patch applied:', len(src), '->', len(out), 'chars')

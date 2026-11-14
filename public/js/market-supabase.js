@@ -34,6 +34,8 @@
     'moderation_status, favorite_count, conversation_count, created_at, updated_at, deleted_at, ' + SELLER;
   const CONVERSATION = 'id, listing_id, listing_title, buyer_id, seller_id, last_message_at, chat_state, ' +
     'listing:listings(id, title, price_minor, currency, conversation_count), ' +
+    'buyer:profiles!conversations_buyer_id_fkey(id, display_name, avatar_path), ' +
+    'seller:profiles!conversations_seller_id_fkey(id, display_name, avatar_path), ' +
     'messages(id, sender_id, body, created_at, read_at, client_id, deleted_at)';
 
   const failure = (code, cause) => Object.assign(new Error(code), { code, cause });
@@ -166,6 +168,13 @@
     };
   }
 
+  // The other person's public name and photo (never their email).
+  function partnerFields(profile) {
+    if (!profile) return { counterpartName: '', counterpartAvatarUrl: '' };
+    const name = profile.display_name && profile.display_name !== 'Member' ? profile.display_name : 'Member';
+    return { counterpartName: name, counterpartAvatarUrl: publicUrl('avatars', profile.avatar_path) || '' };
+  }
+
   function conversationDTO(row, uid) {
     const listing = row.listing;
     return {
@@ -177,6 +186,7 @@
       listingAvailable: Boolean(listing),
       chatState: ['open', 'left', 'left_chat', 'blocked', 'closed'].includes(row.chat_state) ? row.chat_state : 'open',
       counterpartId: (row.buyer_id === uid ? row.seller_id : row.buyer_id) || null,
+      ...partnerFields(row.buyer_id === uid ? row.seller : row.buyer),
       ...(listing ? { price: listing.price_minor / scale(listing.currency), priceMinor: listing.price_minor, currency: listing.currency } : { price: 0 }),
       ...(listing ? { conversationCount: count(listing.conversation_count) } : {}),
       role: row.buyer_id === uid ? 'buyer' : 'seller',
