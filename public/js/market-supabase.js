@@ -450,7 +450,8 @@
           pending.delete(conversationId);
           try {
             const conversation = await fetchConversation(conversationId, uid);
-            if (conversation.messages.length) listener({ type: 'conversation', conversation });
+            // Sent even when no messages are left, so the app can remove the chat.
+            listener({ type: 'conversation', conversation });
           } catch (error) {
             console.warn('[PIECENOA] live update failed', error?.code || error);
           }
