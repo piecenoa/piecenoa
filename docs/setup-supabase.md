@@ -175,4 +175,7 @@ Supabase 프로젝트 주소가 바뀌면 이 줄의 주소도 같이 바꿔야 
 - [ ] `ALLOWED_ORIGINS`에 실제 도메인 추가 (5번)
 - [ ] 보안 헤더를 검사 모드에서 차단 모드로 (9번)
 - [ ] **자동 정리 예약(Cron)** (12번). `CLEANUP_SECRET` 값을 모르면 새 값을 만들어 Secrets와 예약 작업에 같이 넣어요.
-- [ ] (선택) Google 로그인, 캡차, 유출 비밀번호 차단·백업(Pro)
+- [ ] **Google 로그인 (배포 후)**: Google Auth Platform → 대상에서 **앱 게시**(지금은 테스트 사용자만 로그인 가능),
+      브랜딩에 홈페이지·`/privacy.html`·`/terms.html`·승인된 도메인 입력, 클라이언트의 자바스크립트 원본에 실제 도메인 추가.
+      Supabase Redirect URLs에 `https://<도메인>/**` 추가. 리디렉션 URI(`.../auth/v1/callback`)는 그대로.
+- [ ] (선택) 캡차, 유출 비밀번호 차단·백업(Pro)
