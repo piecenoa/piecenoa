@@ -80,3 +80,5 @@ a.auth-secondary{text-decoration:none;box-sizing:border-box}
 .load-more-listings:hover{background:var(--ui-raised,#e7ebdf)}
 .load-more-listings[hidden]{display:none}
 .load-more-listings:disabled{opacity:.6;cursor:progress}
+.auth-google-note{margin:8px 0 0;font:11px/1.6 var(--sans);color:var(--ui-muted,#66715d);text-align:center}
+.auth-google-note a{color:inherit;text-decoration:underline;text-underline-offset:2px}

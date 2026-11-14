@@ -65,6 +65,22 @@
   }
   const isUnconfirmed = (error) => error?.code === 'email_not_confirmed' || /email not confirmed/i.test(String(error?.message || ''));
 
+  // Update together with the effective date on terms.html and privacy.html.
+  const LEGAL_VERSION = '2026-11-13';
+  const CONSENT_KEY = 'piecenoa.consent';
+
+  // Google sign-in creates the account on Google's side of the redirect, so the consent the person
+  // gave before leaving (the notice under the Google button) is saved when they come back.
+  async function recordConsent() {
+    const user = session?.user;
+    if (!user || user.user_metadata?.terms_version) return;
+    let at = null;
+    try { at = sessionStorage.getItem(CONSENT_KEY); sessionStorage.removeItem(CONSENT_KEY); } catch {}
+    if (!at || Number.isNaN(Date.parse(at))) return;
+    const { error } = await client.auth.updateUser({ data: { terms_version: LEGAL_VERSION, terms_accepted_at: at, privacy_accepted_at: at } });
+    if (error) console.warn('[PIECENOA] consent not saved', error.message);
+  }
+
   const ready = (async () => {
     try {
       if (redirect?.access_token && redirect.refresh_token) {
@@ -82,6 +98,7 @@
       }
       const { data } = await client.auth.getSession();
       session = data.session;
+      await recordConsent().catch(() => {});
       await loadProfile();
     } catch (error) {
       console.error('[PIECENOA] account start failed', error);
@@ -105,9 +122,6 @@
       emit();
     }, 0);
   });
-
-  // Update together with the effective date on terms.html and privacy.html.
-  const LEGAL_VERSION = '2026-11-13';
 
   function setup({ showDialog }) {
     const $ = (selector) => document.querySelector(selector);
@@ -363,7 +377,21 @@
       setStatus(el.status, 'We sent the confirmation link again to ' + email + '.');
     }));
 
+    // Continuing with Google can create a new account, so it needs the same consent as email sign-up.
+    const googleNote = document.createElement('p');
+    googleNote.className = 'auth-google-note';
+    googleNote.innerHTML = 'By continuing with Google, you agree to the ' +
+      '<a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and ' +
+      '<a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.';
+    el.google.after(googleNote);
+
     el.google.addEventListener('click', () => run(el.google, async () => {
+      if (mode === 'signup' && !el.consent.checked) {
+        setStatus(el.status, 'Please agree to the Terms of Service and Privacy Policy.', true);
+        el.consent.focus();
+        return;
+      }
+      try { sessionStorage.setItem(CONSENT_KEY, new Date().toISOString()); } catch {}
       const { error } = await client.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: siteURL } });
       if (error) setStatus(el.status, friendly(error), true);
     }));
