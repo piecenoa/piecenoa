@@ -75,10 +75,12 @@
     const user = session?.user;
     if (!user || user.user_metadata?.terms_version) return;
     let at = null;
-    try { at = sessionStorage.getItem(CONSENT_KEY); sessionStorage.removeItem(CONSENT_KEY); } catch {}
-    if (!at || Number.isNaN(Date.parse(at))) return;
-    const { error } = await client.auth.updateUser({ data: { terms_version: LEGAL_VERSION, terms_accepted_at: at, privacy_accepted_at: at } });
-    if (error) console.warn('[PIECENOA] consent not saved', error.message);
+    try { at = localStorage.getItem(CONSENT_KEY); localStorage.removeItem(CONSENT_KEY); } catch {}
+    if (!at || Number.isNaN(Date.parse(at)) || Date.now() - Date.parse(at) > 60 * 60 * 1000) return;
+    const { data, error } = await client.auth.updateUser({ data: { terms_version: LEGAL_VERSION, terms_accepted_at: at, privacy_accepted_at: at } });
+    if (error) { console.warn('[PIECENOA] consent not saved', error.message); return; }
+    // Use the updated user right away so the consent step is not shown again.
+    if (data?.user && session) session = { ...session, user: data.user };
   }
 
   const ready = (async () => {
@@ -149,6 +151,8 @@
         submit: 'Send reset link', email: true, switchNote: 'Remembered it?', switchLabel: 'Log in', switchTo: 'login' },
       'new-password': { title: 'Choose a new password.', intro: 'Use at least 8 characters.', submit: 'Save password', password: true, confirm: true },
       account: { title: 'Your account.', intro: 'You are signed in to PIECENOA.', account: true },
+      consent: { title: 'One more step.', intro: 'To keep using PIECENOA, please agree to the Terms of Service and Privacy Policy.',
+        submit: 'Agree and continue', switchNote: 'Not now?', switchLabel: 'Log out', switchTo: 'logout' },
     };
     let mode = 'login', busy = false, lastEmail = '';
 
@@ -172,7 +176,7 @@
     function toggleField(field, input, on) { field.hidden = !on; input.disabled = !on; input.required = on; }
 
     function setMode(next, notice = {}) {
-      if ((next === 'account' || next === 'new-password') && !session) next = 'login';
+      if ((next === 'account' || next === 'new-password' || next === 'consent') && !session) next = 'login';
       mode = MODES[next] ? next : 'login';
       const m = MODES[mode];
       tabs.forEach((tab) => {
@@ -198,7 +202,7 @@
       toggleField(el.emailField, el.email, Boolean(m.email));
       toggleField(el.passwordField, el.password, Boolean(m.password));
       toggleField(el.confirmField, el.confirm, Boolean(m.confirm));
-      toggleField(consent, el.consent, mode === 'signup');
+      toggleField(consent, el.consent, mode === 'signup' || mode === 'consent');
       el.consent.checked = false;
       const choosing = mode === 'signup' || mode === 'new-password';
       el.password.autocomplete = choosing ? 'new-password' : 'current-password';
@@ -308,6 +312,10 @@
     el.switchButton.addEventListener('click', () => {
       const target = MODES[mode].switchTo;
       if (!target) return;
+      if (target === 'logout') {
+        run(el.switchButton, async () => { await client.auth.signOut({ scope: 'local' }); dialog.close(); });
+        return;
+      }
       setMode(target);
       el.email.focus();
     });
@@ -361,6 +369,13 @@
           const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: siteURL });
           if (error?.status === 429) { setStatus(el.status, friendly(error), true); return; }
           setStatus(el.status, 'If an account exists for ' + email + ', a reset link is on its way. Check your inbox.');
+        } else if (mode === 'consent') {
+          if (!el.consent.checked) { setStatus(el.status, 'Please agree to the Terms of Service and Privacy Policy.', true); el.consent.focus(); return; }
+          const consentAt = new Date().toISOString();
+          const { data, error } = await client.auth.updateUser({ data: { terms_version: LEGAL_VERSION, terms_accepted_at: consentAt, privacy_accepted_at: consentAt } });
+          if (error) { setStatus(el.status, friendly(error), true); return; }
+          if (data?.user && session) session = { ...session, user: data.user };
+          dialog.close();
         } else if (mode === 'new-password') {
           const { error } = await client.auth.updateUser({ password });
           if (error) { setStatus(el.status, friendly(error), true); return; }
@@ -391,7 +406,7 @@
         el.consent.focus();
         return;
       }
-      try { sessionStorage.setItem(CONSENT_KEY, new Date().toISOString()); } catch {}
+      try { localStorage.setItem(CONSENT_KEY, new Date().toISOString()); } catch {}
       const { error } = await client.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: siteURL } });
       if (error) setStatus(el.status, friendly(error), true);
     }));
@@ -429,7 +444,17 @@
       setMode(session ? 'account' : 'login');
     });
 
+    // Members without a consent record (for example an account first made with Google elsewhere)
+    // are asked once per page load.
+    let consentAsked = false;
+    function askConsentIfNeeded() {
+      if (consentAsked || !session || session.user?.user_metadata?.terms_version || pending || dialog.open) return;
+      consentAsked = true;
+      open('consent');
+    }
+
     listeners.add(renderSignedIn);
+    listeners.add(() => setTimeout(askConsentIfNeeded, 0));
     ui = { showPending };
     setMode('login');
     renderSignedIn();
@@ -438,6 +463,7 @@
       el.social.hidden = !(MODES[mode].social && googleEnabled);
       renderSignedIn();
       showPending();
+      askConsentIfNeeded();
     });
   }
 
