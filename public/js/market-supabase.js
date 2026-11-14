@@ -34,7 +34,7 @@
     'moderation_status, favorite_count, conversation_count, created_at, updated_at, deleted_at, ' + SELLER;
   const CONVERSATION = 'id, listing_id, listing_title, buyer_id, seller_id, last_message_at, chat_state, ' +
     'listing:listings(id, title, price_minor, currency, conversation_count), ' +
-    'messages(id, sender_id, body, created_at, read_at, client_id)';
+    'messages(id, sender_id, body, created_at, read_at, client_id, deleted_at)';
 
   const failure = (code, cause) => Object.assign(new Error(code), { code, cause });
   function check(error, fallback = 'SERVER') {
@@ -44,6 +44,7 @@
     const message = String(error.message || '');
     if (/RATE_LIMIT/.test(message)) throw failure('RATE_LIMIT', error);
     if (/CHAT_CLOSED/.test(message)) throw failure('CHAT_CLOSED', error);
+    if (/TOO_LATE/.test(message)) throw failure('TOO_LATE', error);
     if (status === 401 || error.code === 'PGRST301' || /jwt|not authenticated|AUTH_REQUIRED/i.test(message)) throw failure('AUTH_REQUIRED', error);
     if (error.code === '42501' || status === 403) throw failure('FORBIDDEN', error);
     if (['23514', '22P02', '23502', '23503'].includes(error.code)) throw failure('VALIDATION', error);
@@ -185,7 +186,8 @@
         return {
           id: m.id,
           clientId: m.client_id || undefined,
-          text: m.body,
+          text: m.deleted_at ? '' : m.body,
+          deleted: Boolean(m.deleted_at),
           createdAt: m.created_at,
           senderId: m.sender_id,
           direction: outgoing ? 'outgoing' : 'incoming',
@@ -377,6 +379,21 @@
       const previous = before?.avatar_path;
       if (previous && previous !== data.avatar_path) removeOwnFile('avatars', previous);
       return profileDTO(data);
+    },
+
+    // Delete one message: 'me' hides it only for the viewer; 'all' erases it for both people
+    // (sender only, within 24 hours of sending).
+    async deleteMessage(messageId, scope) {
+      requireViewer();
+      if (!UUID.test(String(messageId || ''))) throw failure('VALIDATION');
+      if (scope === 'all') {
+        const { error } = await db.rpc('delete_message_for_everyone', { p_message: messageId });
+        check(error);
+        return;
+      }
+      const { error } = await db.from('message_hides')
+        .upsert({ message_id: messageId }, { onConflict: 'user_id,message_id', ignoreDuplicates: true });
+      check(error);
     },
 
     // Delete a chat for the viewer only. The other person keeps the history but cannot reply.

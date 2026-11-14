@@ -53,3 +53,22 @@ a.auth-secondary{text-decoration:none;box-sizing:border-box}
 .auth-consent a{color:var(--ui-link,inherit);text-decoration:underline;text-underline-offset:2px}
 .chat-safety-actions{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
 .chat-safety-actions .chat-safety-button{margin-left:0}
+.message-more{margin-left:4px;padding:0 6px;min-width:28px;min-height:24px;border:0;border-radius:6px;background:transparent;color:inherit;font:14px/1 var(--sans);letter-spacing:.05em;cursor:pointer;vertical-align:middle}
+.message-more:hover,.message-more[aria-expanded="true"]{background:var(--ui-raised,#e7ebdf);color:var(--ui-text,#33402d)}
+.message-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.message-actions button{min-height:32px;padding:5px 12px;border:1px solid var(--ui-border,#cfd6c3);border-radius:16px;background:var(--ui-surface,#f6f7f1);color:var(--ui-text,#33402d);font:11px var(--sans);cursor:pointer}
+.message-actions button[data-message-delete="all"]{color:var(--ui-error,#9b4332);border-color:currentColor}
+.message-actions button:disabled{opacity:.55;cursor:progress}
+.message.is-deleted p{font-style:italic;opacity:.7}
+.chat-edit-toggle{min-height:32px;padding:4px 12px;border:1px solid var(--ui-border,#cfd6c3);border-radius:16px;background:transparent;color:var(--ui-muted,#66715d);font:11px var(--sans);cursor:pointer;white-space:nowrap}
+.chat-edit-toggle[aria-pressed="true"]{color:var(--ui-text,#33402d);border-color:var(--ui-text,#33402d)}
+.chat-edit-toggle[hidden]{display:none}
+.chat-edit-bar{display:flex;gap:8px;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--ui-border,#dce1d4)}
+.chat-edit-bar[hidden]{display:none}
+.chat-edit-bar button{min-height:34px;padding:5px 14px;border:1px solid var(--ui-border,#cfd6c3);border-radius:17px;background:transparent;color:var(--ui-text,#33402d);font:12px var(--sans);cursor:pointer}
+.chat-edit-bar button.is-danger{color:var(--ui-error,#9b4332);border-color:currentColor}
+.chat-edit-bar button:disabled{opacity:.45;cursor:default}
+.thread-button.is-selecting{position:relative;border:1px dashed var(--ui-border,#cfd6c3)}
+.thread-button.is-selecting::before{content:"";position:absolute;top:8px;left:8px;width:18px;height:18px;border:1.5px solid var(--ui-muted,#66715d);border-radius:50%;background:var(--ui-surface,#fff);z-index:1}
+.thread-button.is-picked{border-style:solid;border-color:var(--ui-error,#9b4332);background:var(--ui-selected-bg,#eef1e6)}
+.thread-button.is-picked::before{content:"✓";display:grid;place-items:center;color:#fff;background:var(--ui-error,#9b4332);border-color:var(--ui-error,#9b4332);font:12px/1 var(--sans)}

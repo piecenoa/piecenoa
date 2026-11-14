@@ -89,5 +89,48 @@ sub("money(priced)+(post?' · '+areaName(post):''):chatCopy('chat_no_product_hin
     "money(priced)+(post?' · '+areaName(post):''):chatCopy(listingGone?'chat_listing_gone':'chat_no_product_hint')")
 sub('const COPY={', r'''const COPY={"chat_listing_gone":["This artwork is no longer listed.","더 이상 판매하지 않는 작품이에요."],''')
 
+# Delete a message (for me / for everyone) and delete several chats from the list.
+sub('const COPY={', r'''const COPY={"message_deleted":["This message was deleted.","삭제된 메시지예요."],"message_options":["Message options","메시지 옵션"],"message_delete_me":["Delete for me","나에게서 삭제"],"message_delete_all":["Delete for everyone","모두에게서 삭제"],"message_delete_me_confirm":["Delete this message only for you? The other person will still see it.","이 메시지를 나에게서만 삭제할까요? 상대방에게는 그대로 보여요."],"message_delete_all_confirm":["Delete this message for everyone? Both of you will see that a message was deleted. This is possible within 24 hours of sending.","이 메시지를 모두에게서 삭제할까요? 두 사람 모두에게 삭제된 메시지로 보여요. 보낸 지 24시간 안에만 할 수 있어요."],"message_deleted_me_done":["Deleted for you.","나에게서 삭제했어요."],"message_deleted_all_done":["Deleted for everyone.","모두에게서 삭제했어요."],"message_delete_too_late":["Messages can be deleted for everyone only within 24 hours of sending.","보낸 지 24시간이 지난 메시지는 모두에게서 삭제할 수 없어요."],"chat_edit":["Edit","편집"],"chat_edit_done":["Done","완료"],"chat_pick_all":["Select all","전체 선택"],"chat_unpick_all":["Clear","선택 해제"],"chat_delete_picked":["Delete ({count})","삭제 ({count})"],"chat_delete_picked_confirm":["Delete {count} chat(s)? They are removed only for you and cannot be undone. The other people keep the past messages but can no longer reply.","선택한 채팅 {count}개를 삭제할까요? 내 목록에서만 사라지고 되돌릴 수 없어요. 상대방에게는 지난 메시지가 남지만 더 이상 답장할 수 없어요."],"chat_delete_partial":["Some chats could not be deleted. Please try again.","일부 채팅을 삭제하지 못했어요. 다시 시도해 주세요."],''')
+sub("filter(m=>m&&typeof m.text==='string'&&m.text.trim()).slice(-100).map(m=>({id:m.id,text:m.text.slice(0,500),",
+    "filter(m=>m&&(m.deleted===true||typeof m.text==='string'&&m.text.trim())).slice(-100).map(m=>({id:m.id,text:String(m.text||'').slice(0,500),deleted:m.deleted===true,")
+sub("thread.messages.some(message=>message&&typeof message.text==='string'&&message.text.trim())",
+    "thread.messages.some(message=>message&&(message.deleted===true||typeof message.text==='string'&&message.text.trim()))")
+sub("""'<span class="chat-thread-preview">'+esc(last?.text||'')+'</span>""",
+    """'<span class="chat-thread-preview">'+esc(last?.deleted?chatCopy('message_deleted'):last?.text||'')+'</span>""")
+sub("""'<div class="message '+(message.direction==='incoming'?'is-incoming':'')+'"><p>'+esc(message.text)+'</p><small>'+esc(time)+(time?' · ':'')+t(message.state==='sent'?'message_sent':'stored_inquiry')+'</small></div>'""",
+    """'<div class="message '+(message.direction==='incoming'?'is-incoming':'')+(message.deleted?' is-deleted':'')+'"><p>'+esc(message.deleted?chatCopy('message_deleted'):message.text)+'</p><small>'+esc(time)+(time?' · ':'')+t(message.state==='sent'?'message_sent':'stored_inquiry')+messageMenuButton(thread,message)+'</small>'+messageMenuActions(thread,message)+'</div>'""")
+sub("""'<button type="button" class="thread-button '+(selected?'active':'')+'" data-thread="'+esc(c.id)+'" aria-pressed="'+selected+'">'""",
+    """'<button type="button" class="thread-button '+(chatEditing?'is-selecting'+(chatPicked.has(c.id)?' is-picked':''):selected?'active':'')+'" data-thread="'+esc(c.id)+'" aria-pressed="'+(chatEditing?chatPicked.has(c.id):selected)+'">'""")
+sub("""'no_threads'))+'</p>';
+ $('#chat-product').textContent=""",
+    """'no_threads'))+'</p>';
+ renderChatEditor(visible);$('#chat-product').textContent=""")
+sub("function renderChatSafety(thread){",
+    r"""let chatEditing=false,openMessageMenu=null;const chatPicked=new Set();
+function messageMenuAvailable(thread,message){return !isPreview&&Boolean(message?.id)&&typeof repository.deleteMessage==='function'&&Boolean(thread)&&!String(thread.id).startsWith('draft-')}
+function messageMenuButton(thread,message){if(!messageMenuAvailable(thread,message))return '';return ' <button type="button" class="message-more" data-message-menu="'+esc(message.id)+'" aria-expanded="'+(openMessageMenu===String(message.id))+'" aria-label="'+esc(chatCopy('message_options'))+'">⋯</button>'}
+function messageMenuActions(thread,message){if(!messageMenuAvailable(thread,message)||openMessageMenu!==String(message.id))return '';const canAll=message.direction!=='incoming'&&!message.deleted&&Date.now()-(Date.parse(message.time)||0)<864e5;return '<span class="message-actions"><button type="button" data-message-delete="me" data-id="'+esc(message.id)+'">'+esc(chatCopy('message_delete_me'))+'</button>'+(canAll?'<button type="button" data-message-delete="all" data-id="'+esc(message.id)+'">'+esc(chatCopy('message_delete_all'))+'</button>':'')+'</span>'}
+function renderChatEditor(visible){const heading=$('.chat-sidebar-heading'),can=!isPreview&&typeof repository.leaveConversation==='function';if(!heading||!can)return;let toggle=$('#chat-edit');if(!toggle){toggle=document.createElement('button');toggle.type='button';toggle.id='chat-edit';toggle.className='chat-edit-toggle';heading.append(toggle)}
+ [...chatPicked].forEach(id=>{if(!visible.some(c=>c.id===id))chatPicked.delete(id)});if(chatEditing&&!visible.length)chatEditing=false;
+ toggle.hidden=!visible.length;toggle.textContent=chatCopy(chatEditing?'chat_edit_done':'chat_edit');toggle.setAttribute('aria-pressed',String(chatEditing));
+ let bar=$('#chat-edit-bar');if(!bar){bar=document.createElement('div');bar.id='chat-edit-bar';bar.className='chat-edit-bar';$('#threads').before(bar)}
+ bar.hidden=!chatEditing;const all=visible.length>0&&visible.every(c=>chatPicked.has(c.id));bar.innerHTML=chatEditing?'<button type="button" data-chat-pick-all>'+esc(chatCopy(all?'chat_unpick_all':'chat_pick_all'))+'</button><button type="button" class="is-danger" data-chat-delete-picked'+(chatPicked.size?'':' disabled')+'>'+esc(chatCopy('chat_delete_picked').replace('{count}',String(chatPicked.size)))+'</button>':'';
+}
+function renderChatSafety(thread){""")
+sub("function openChats(){chatViewVersion++;",
+    "function openChats(){chatEditing=false;chatPicked.clear();openMessageMenu=null;chatViewVersion++;")
+sub("$('#threads').addEventListener('click',event=>{const button=event.target.closest('[data-thread]');",
+    "$('#threads').addEventListener('click',event=>{if(chatEditing){const pick=event.target.closest('[data-thread]');if(pick){const id=pick.dataset.thread;chatPicked.has(id)?chatPicked.delete(id):chatPicked.add(id);renderChats(false)}return}const button=event.target.closest('[data-thread]');")
+sub("function repositoryError(error){const code=error?.code;",
+    "function repositoryError(error){const code=error?.code;if(code==='TOO_LATE'){notify('message_delete_too_late');return}")
+sub("$('#chat-dialog').addEventListener('click',async event=>{const leave=",
+    r"""$('#chat-dialog').addEventListener('click',async event=>{
+ if(event.target.closest('#chat-edit')){chatEditing=!chatEditing;chatPicked.clear();openMessageMenu=null;renderChats(false);return}
+ if(event.target.closest('[data-chat-pick-all]')){const visible=scopedConversations(),all=visible.every(c=>chatPicked.has(c.id));visible.forEach(c=>all?chatPicked.delete(c.id):chatPicked.add(c.id));renderChats(false);return}
+ const deletePicked=event.target.closest('[data-chat-delete-picked]');if(deletePicked){const ids=[...chatPicked];if(deletePicked.disabled||!ids.length||!requireMarketReady()||!window.confirm(chatCopy('chat_delete_picked_confirm').replace('{count}',String(ids.length))))return;deletePicked.disabled=true;const results=await Promise.allSettled(ids.map(id=>repository.leaveConversation(id))),done=ids.filter((id,index)=>results[index].status==='fulfilled');conversations=conversations.filter(c=>!done.includes(c.id));done.forEach(id=>{chatReadMarks.delete(id);chatPicked.delete(id)});if(done.includes(activeThread)){activeThread=null;chatScope=null;draftInquiry=null}if(!chatPicked.size)chatEditing=false;chatViewVersion++;notify(done.length===ids.length?'chat_left_done':'chat_delete_partial');render();renderChats(false);return}
+ const menu=event.target.closest('[data-message-menu]');if(menu){openMessageMenu=openMessageMenu===menu.dataset.messageMenu?null:menu.dataset.messageMenu;renderChats(false);return}
+ const removeMessage=event.target.closest('[data-message-delete]');if(removeMessage){const thread=currentChatThread(),id=removeMessage.dataset.id,scope=removeMessage.dataset.messageDelete==='all'?'all':'me';if(removeMessage.disabled||!thread||!requireMarketReady()||!window.confirm(chatCopy(scope==='all'?'message_delete_all_confirm':'message_delete_me_confirm')))return;removeMessage.disabled=true;try{await repository.deleteMessage(id,scope);thread.messages=scope==='me'?thread.messages.filter(m=>String(m.id)!==id):thread.messages.map(m=>String(m.id)===id?{...m,text:'',deleted:true}:m);openMessageMenu=null;notify(scope==='all'?'message_deleted_all_done':'message_deleted_me_done');render()}catch(error){repositoryError(error)}finally{renderChats(false)}return}
+ const leave=""")
+
 open(path, 'w', encoding='utf-8', newline='').write(out)
 print('v2 app.js patch applied:', len(src), '->', len(out), 'chars')
