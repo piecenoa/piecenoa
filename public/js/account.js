@@ -146,8 +146,7 @@
     consent.hidden = true;
     consent.innerHTML = '<input id="auth-consent" type="checkbox" disabled> <span>I agree to the ' +
       '<a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and ' +
-      '<a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. ' +
-      '<span lang="ko">(이용약관과 개인정보처리방침에 동의합니다. 필수)</span></span>';
+      '<a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>';
     el.submit.before(consent);
     el.consent = consent.querySelector('input');
 
