@@ -166,3 +166,13 @@ Supabase 프로젝트 주소가 바뀌면 이 줄의 주소도 같이 바꿔야 
 - 매일 실행: **Integrations → Cron**에서 작업을 만들어요. 종류 *Supabase Edge Function*, 함수 `cleanup-storage`, 방법 POST,
   시간 `0 18 * * *`(한국 시간 새벽 3시), 헤더 `x-cleanup-secret: <CLEANUP_SECRET 값>`.
 - 관리자 페이지 **개요 → 지금 정리하기**로 바로 실행할 수도 있어요.
+
+## 배포 전 남은 일 (체크리스트)
+
+- [ ] 이메일 발송 서비스(SMTP) 연결 (3번)
+- [ ] 약관·개인정보처리방침 노란 칸 채우기 (10번)
+- [ ] Vercel 배포와 환경변수 (7번), 배포 후 Site URL·Redirect URLs를 실제 도메인으로 (2번)
+- [ ] `ALLOWED_ORIGINS`에 실제 도메인 추가 (5번)
+- [ ] 보안 헤더를 검사 모드에서 차단 모드로 (9번)
+- [ ] **자동 정리 예약(Cron)** (12번). `CLEANUP_SECRET` 값을 모르면 새 값을 만들어 Secrets와 예약 작업에 같이 넣어요.
+- [ ] (선택) Google 로그인, 캡차, 유출 비밀번호 차단·백업(Pro)
