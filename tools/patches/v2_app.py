@@ -149,5 +149,20 @@ function renderChatSafety(thread){renderChatPartner(thread);""")
 sub("const dto=event?.conversation||(Array.isArray(event?.messages)?event:null);if(!dto)return;mergeConversation(dto)}",
     "const dto=event?.conversation||(Array.isArray(event?.messages)?event:null);if(!dto)return;if(!hasConversationMessages(fromConversationDTO(dto,viewerId))){conversations=conversations.filter(c=>c.id!==String(dto.id));if(activeThread===String(dto.id)){activeThread=null;chatScope=null;draftInquiry=null;chatViewVersion++}}else mergeConversation(dto)}")
 
+# Database search and "show more" for the live market (the first page holds the newest 500).
+sub('const COPY={', r'''const COPY={"load_more":["Show more artworks","작품 더 보기"],"load_more_loading":["Loading…","불러오는 중…"],''')
+sub("posts=(Array.isArray(data.listings)?data.listings:[]).map(p=>fromListingDTO(p,viewerId)).filter(Boolean);",
+    "posts=(Array.isArray(data.listings)?data.listings:[]).map(p=>fromListingDTO(p,viewerId)).filter(Boolean);feedHasMore=data.hasMoreListings===true;searchedQueries.clear();")
+sub("function mergeListing(dto){",
+    r"""let feedHasMore=false,feedLoading=false,searchTimer=0;const searchedQueries=new Set();
+function mergeListings(list){let added=0;for(const dto of Array.isArray(list)?list:[]){const p=fromListingDTO(dto,viewerId);if(!p||posts.some(item=>item.id===p.id))continue;posts.push(p);added++}return added}
+function remoteSearch(rawQuery){if(isPreview||!repositoryReady||typeof repository.searchListings!=='function')return;const key=rawQuery.trim().toLowerCase();if(key.length<2||searchedQueries.has(key))return;clearTimeout(searchTimer);searchTimer=setTimeout(async()=>{if($('#search').value.trim().toLowerCase()!==key)return;searchedQueries.add(key);try{if(mergeListings(await repository.searchListings(key)))render()}catch(error){searchedQueries.delete(key);console.warn('[PIECENOA] search failed',error?.code||error)}},350)}
+function renderLoadMore(){const grid=$('#product-grid');if(!grid)return;let more=$('#load-more-listings');if(!more){more=document.createElement('button');more.type='button';more.id='load-more-listings';more.className='load-more-listings';grid.after(more)}more.hidden=isPreview||mode!=='all'||!feedHasMore;more.disabled=feedLoading;more.textContent=t(feedLoading?'load_more_loading':'load_more')}
+async function loadMoreListings(){if(feedLoading||!feedHasMore||typeof repository.loadMoreListings!=='function')return;feedLoading=true;renderLoadMore();try{const page=await repository.loadMoreListings();mergeListings(page?.listings);feedHasMore=page?.hasMore===true}catch(error){repositoryError(error)}finally{feedLoading=false;render()}}
+document.addEventListener('click',event=>{if(event.target.closest('#load-more-listings'))loadMoreListings()});
+function mergeListing(dto){""")
+sub("$('#product-grid').innerHTML=renderCurrencyResults(items,sort);",
+    "$('#product-grid').innerHTML=renderCurrencyResults(items,sort);renderLoadMore();if(rawQuery&&mode==='all')remoteSearch(rawQuery);")
+
 open(path, 'w', encoding='utf-8', newline='').write(out)
 print('v2 app.js patch applied:', len(src), '->', len(out), 'chars')

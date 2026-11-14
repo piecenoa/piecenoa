@@ -212,6 +212,18 @@
       }, ban ? '회원을 제재했어요.' : '제재를 풀었어요.');
     }
   });
+  // Storage cleanup: removes listings deleted 30+ days ago and unused photo files.
+  $('#run-cleanup').addEventListener('click', (event) => {
+    const button = event.currentTarget;
+    if (!window.confirm('삭제한 지 30일이 지난 작품과 쓰이지 않는 사진 파일을 지울까요? 되돌릴 수 없어요.')) return;
+    run(button, async () => {
+      const { data, error } = await db.functions.invoke('cleanup-storage', { method: 'POST' });
+      if (error) throw Object.assign(new Error(error.message || 'CLEANUP_FAILED'), { cause: error });
+      $('#cleanup-result').textContent = '완료: 작품 ' + (data?.listingsRemoved ?? 0) + '개, 사진 파일 ' + (data?.filesRemoved ?? 0) + '개를 지웠어요. (' + when(new Date().toISOString()) + ')';
+      await loadStats();
+    }, '저장소를 정리했어요.');
+  });
+
   $('#report-filter').addEventListener('change', () => run(null, loadReports));
   $('#listing-search').addEventListener('submit', (e) => { e.preventDefault(); run(null, loadListings); });
   $('#listing-filter').addEventListener('change', () => run(null, loadListings));

@@ -30,6 +30,12 @@
 
     <section data-panel="overview" class="admin-panel">
       <div class="admin-stats" id="stats"></div>
+      <div class="admin-maintenance">
+        <h2>저장소 정리</h2>
+        <p class="admin-meta">삭제한 지 30일이 지난 작품을 완전히 지우고, 아무 데도 쓰이지 않는 사진 파일(하루 이상 지난 것)을 지워요. 매일 자동으로도 실행돼요.</p>
+        <button class="admin-button" type="button" id="run-cleanup">지금 정리하기</button>
+        <p class="admin-meta" id="cleanup-result" aria-live="polite"></p>
+      </div>
     </section>
 
     <section data-panel="reports" class="admin-panel" hidden>

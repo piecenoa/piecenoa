@@ -210,6 +210,20 @@
     };
   }
 
+  // Public feed, newest first, one page at a time. The cursor is the last row of the previous page.
+  let feedCursor = null;
+  async function publicFeed(cursor) {
+    let query = db.from('listings').select(LISTING)
+      .eq('visibility', 'public').eq('moderation_status', 'active').is('deleted_at', null);
+    if (cursor) query = query.or('created_at.lt."' + cursor.createdAt + '",and(created_at.eq."' + cursor.createdAt + '",id.lt.' + cursor.id + ')');
+    const { data, error } = await query.order('created_at', { ascending: false }).order('id', { ascending: false }).limit(FEED_SIZE + 1);
+    check(error);
+    const rows = (data || []).slice(0, FEED_SIZE);
+    const last = rows.at(-1);
+    feedCursor = last ? { createdAt: last.created_at, id: last.id } : cursor;
+    return { rows, hasMore: (data || []).length > FEED_SIZE };
+  }
+
   async function loadConversations(uid) {
     const { data, error } = await db.from('conversations').select(CONVERSATION)
       .order('last_message_at', { ascending: false })
@@ -250,12 +264,10 @@
     async bootstrap() {
       await account.ready;
       const uid = viewerId();
-      const feed = await db.from('listings').select(LISTING)
-        .eq('visibility', 'public').eq('moderation_status', 'active').is('deleted_at', null)
-        .order('created_at', { ascending: false }).limit(FEED_SIZE);
-      check(feed.error);
-      const byId = new Map((feed.data || []).map((row) => [row.id, listingDTO(row)]));
-      if (!uid) return { viewer: null, profile: null, listings: [...byId.values()], favorites: [], conversations: [] };
+      const feed = await publicFeed(null);
+      const byId = new Map(feed.rows.map((row) => [row.id, listingDTO(row)]));
+      const hasMoreListings = feed.hasMore;
+      if (!uid) return { viewer: null, profile: null, listings: [...byId.values()], favorites: [], conversations: [], hasMoreListings };
 
       const [mine, favs, me, conversations] = await Promise.all([
         db.from('listings').select(LISTING).eq('seller_id', uid).is('deleted_at', null).order('created_at', { ascending: false }),
@@ -273,7 +285,27 @@
         // Saved pieces that were deleted or made private are left out; the app never sees them.
         favorites: (favs.data || []).filter((f) => f.listing && !f.listing.deleted_at).map((f) => f.listing_id),
         conversations,
+        hasMoreListings,
       };
+    },
+
+    // Next page of the public feed.
+    async loadMoreListings() {
+      if (!feedCursor) return { listings: [], hasMore: false };
+      const page = await publicFeed(feedCursor);
+      return { listings: page.rows.map(listingDTO), hasMore: page.hasMore };
+    },
+
+    // Search every public listing in the database (title, artist, medium, location, description).
+    async searchListings(text) {
+      const words = String(text || '').toLowerCase().replace(/[%_\\,()."']/g, ' ').trim().split(/\s+/).filter(Boolean).slice(0, 5);
+      if (!words.length || words.join('').length < 2) return [];
+      let query = db.from('listings').select(LISTING)
+        .eq('visibility', 'public').eq('moderation_status', 'active').is('deleted_at', null);
+      for (const word of words) query = query.ilike('search_text', '%' + word.slice(0, 40) + '%');
+      const { data, error } = await query.order('created_at', { ascending: false }).limit(200);
+      check(error);
+      return (data || []).map(listingDTO);
     },
 
     async uploadImage(input) {
@@ -296,10 +328,13 @@
 
     async updateListing(id, input) {
       const uid = requireViewer();
+      const { data: before } = await db.from('listings').select('image_path').eq('id', id).eq('seller_id', uid).maybeSingle();
       const { data, error } = await db.from('listings').update(listingRow(input, uid))
         .eq('id', id).eq('seller_id', uid).select(LISTING).maybeSingle();
       check(error);
       if (!data) throw failure('NOT_FOUND');
+      // The old photo is no longer used once a new one is saved.
+      if (before?.image_path && before.image_path !== data.image_path) removeOwnFile('listing-images', before.image_path);
       return listingDTO(data);
     },
 
