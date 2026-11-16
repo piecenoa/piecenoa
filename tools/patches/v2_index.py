@@ -34,3 +34,10 @@ sub('<footer class="market-bottom"><span data-i18n="market_footer">PIECENOA · F
     '<footer class="market-bottom"><span data-i18n="market_footer">PIECENOA</span><nav class="legal-links" aria-label="Legal"><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a></nav></footer>')
 open(target, 'w', encoding='utf-8', newline='').write(s)
 print('index.html: auth dialog + account scripts applied')
+# Google Analytics 4 (live site only; added 2026-11-16). Re-applies the snippet from tools/patches/ga4_snippet.html.
+import os
+ga = open(os.path.join(os.path.dirname(__file__), 'ga4_snippet.html'), encoding='utf-8').read().rstrip('\n')
+if 'G-QJEBJ8GX4V' not in s:
+    sub('<meta charset="utf-8">', ga)
+    open(target, 'w', encoding='utf-8', newline='').write(s)
+    print('index.html: GA4 added')
