@@ -1,9 +1,0 @@
-.DS_Store
-node_modules/
-.vercel/
-.env
-.env.*
-!.env.example
-supabase/.temp/
-public/js/config.js
-dist/

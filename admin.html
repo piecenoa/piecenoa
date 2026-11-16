@@ -1,4 +1,135 @@
-/* PIECENOA admin page.
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>PIECENOA 관리자</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2064%2064'%3E%3Crect%20width%3D'64'%20height%3D'64'%20rx%3D'12'%20fill%3D'%2314171c'%2F%3E%3Ctext%20font-style%3D%22italic%22%20x%3D'32'%20y%3D'47'%20text-anchor%3D'middle'%20font-family%3D'Georgia'%20font-size%3D'48'%20fill%3D'%23eee9db'%3EP%3C%2Ftext%3E%3C%2Fsvg%3E">
+<style>:root{--bg:#f4f1ea;--surface:#fbf9f4;--line:#ded7ca;--text:#2f2a23;--muted:#7a6f61;--accent:#80583e;--accent-ink:#fffaf2;--warn:#9b4332;--warn-bg:#f3e3da;--serif:"Cormorant Garamond",Georgia,serif;--sans:"DM Sans","Pretendard",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#1d1b18;--surface:#25221e;--line:#3d372f;--text:#ece5d8;--muted:#ab9f8d;--accent:#c0a475;--accent-ink:#231d15;--warn:#e0b18c;--warn-bg:#3c2e25}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 var(--sans)}
+button,input,select{font:inherit;color:inherit}
+.admin-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 24px;border-bottom:1px solid var(--line);background:var(--surface)}
+.admin-brand{display:flex;align-items:baseline;gap:10px;color:inherit;text-decoration:none}
+.admin-brand span{font:italic 400 26px/1 var(--serif);letter-spacing:-.02em}
+.admin-brand small{font-size:12px;color:var(--muted)}
+.admin-who{margin:0;font-size:12px;color:var(--muted);overflow-wrap:anywhere;text-align:right}
+.admin-main{max-width:1080px;margin:0 auto;padding:24px 16px 80px}
+.admin-gate{padding:48px 16px;text-align:center;color:var(--muted)}
+.admin-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.admin-tabs button{border:0;background:none;padding:12px 16px;min-height:44px;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.admin-tabs button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent)}
+.admin-badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:4px;border-radius:9px;background:var(--warn);color:#fff;font-size:11px}
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.admin-stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:4px}
+.admin-stat span{font-size:12px;color:var(--muted)}
+.admin-stat strong{font:500 30px/1.1 var(--sans);font-variant-numeric:tabular-nums}
+.admin-stat small{font-size:12px;color:var(--muted)}
+.admin-toolbar{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;margin-bottom:16px}
+.admin-toolbar label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
+.admin-toolbar input,.admin-toolbar select{min-height:40px;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.admin-button,.admin-actions button{min-height:40px;padding:8px 14px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.admin-actions button{background:transparent;color:var(--text);border-color:var(--line)}
+.admin-actions button:hover{border-color:var(--accent)}
+.admin-actions button:disabled,.admin-button:disabled{opacity:.5;cursor:progress}
+.admin-list{display:grid;gap:10px}
+.admin-row{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px}
+.admin-row img,.admin-thumb{width:64px;height:64px;border-radius:6px;object-fit:cover;background:var(--line);display:grid;place-items:center}
+.admin-thumb.is-person{border-radius:50%;font:italic 26px var(--serif);color:var(--muted)}
+.admin-row-body p{margin:0;overflow-wrap:anywhere}
+.admin-row-title{font-weight:500}
+.admin-meta{font-size:12px;color:var(--muted)}
+.admin-actions{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.admin-chip{display:inline-block;padding:1px 8px;border-radius:10px;border:1px solid var(--line);font-size:11px;font-weight:400;color:var(--muted)}
+.admin-chip.is-warn{border-color:var(--warn);color:var(--warn)}
+.admin-empty{color:var(--muted);padding:24px 0;text-align:center}
+.admin-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,12px);opacity:0;pointer-events:none;max-width:90vw;padding:12px 20px;border-radius:24px;background:var(--surface);border:1px solid var(--line);box-shadow:0 8px 24px #0002;transition:opacity .2s,transform .2s}
+.admin-toast.show{opacity:1;transform:translate(-50%,0)}
+.admin-toast.is-error{border-color:var(--warn);color:var(--warn)}
+@media (max-width:640px){.admin-row{grid-template-columns:48px 1fr}.admin-row img,.admin-thumb{width:48px;height:48px}.admin-actions{grid-column:1/-1;justify-content:flex-start}.admin-toolbar input,.admin-toolbar select{min-width:0;width:100%}.admin-toolbar label{flex:1 1 100%}}
+.admin-maintenance{margin-top:28px;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);display:grid;gap:8px;justify-items:start}
+.admin-maintenance h2{margin:0;font-size:15px;font-weight:500}
+.admin-maintenance p{margin:0}
+</style>
+</head>
+<body>
+<header class="admin-header">
+  <a class="admin-brand" href="./"><span>PIECENOA</span><small>관리자</small></a>
+  <p class="admin-who" id="admin-who"></p>
+</header>
+
+<main class="admin-main">
+  <section id="admin-gate" class="admin-gate" aria-live="polite">
+    <p id="admin-gate-text">확인 중이에요…</p>
+    <a id="admin-gate-link" class="admin-button" href="./" hidden>사이트로 돌아가서 로그인하기</a>
+  </section>
+
+  <div id="admin-app" hidden>
+    <nav class="admin-tabs" role="tablist" aria-label="관리 메뉴">
+      <button role="tab" aria-selected="true" data-tab="overview">개요</button>
+      <button role="tab" aria-selected="false" data-tab="reports">신고 <span id="reports-badge" class="admin-badge" hidden></span></button>
+      <button role="tab" aria-selected="false" data-tab="listings">작품</button>
+      <button role="tab" aria-selected="false" data-tab="members">회원</button>
+    </nav>
+
+    <section data-panel="overview" class="admin-panel">
+      <div class="admin-stats" id="stats"></div>
+      <div class="admin-maintenance">
+        <h2>저장소 정리</h2>
+        <p class="admin-meta">삭제한 지 30일이 지난 작품을 완전히 지우고, 아무 데도 쓰이지 않는 사진 파일(하루 이상 지난 것)을 지워요. 매일 자동으로도 실행돼요.</p>
+        <button class="admin-button" type="button" id="run-cleanup">지금 정리하기</button>
+        <p class="admin-meta" id="cleanup-result" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section data-panel="reports" class="admin-panel" hidden>
+      <div class="admin-toolbar">
+        <label>상태
+          <select id="report-filter">
+            <option value="open">처리 대기 (접수·검토 중)</option>
+            <option value="closed">처리 끝남</option>
+            <option value="all">전체</option>
+          </select>
+        </label>
+      </div>
+      <div id="reports" class="admin-list"></div>
+    </section>
+
+    <section data-panel="listings" class="admin-panel" hidden>
+      <form class="admin-toolbar" id="listing-search">
+        <label>제목 검색 <input id="listing-query" type="search" maxlength="60" autocomplete="off"></label>
+        <label>보기
+          <select id="listing-filter">
+            <option value="all">전체 (삭제 제외)</option>
+            <option value="public">공개 중</option>
+            <option value="private">비공개</option>
+            <option value="hidden">숨김 처리됨</option>
+            <option value="deleted">삭제됨</option>
+          </select>
+        </label>
+        <button class="admin-button" type="submit">찾기</button>
+      </form>
+      <div id="listings" class="admin-list"></div>
+    </section>
+
+    <section data-panel="members" class="admin-panel" hidden>
+      <form class="admin-toolbar" id="member-search">
+        <label>이메일 또는 이름 <input id="member-query" type="search" maxlength="80" autocomplete="off"></label>
+        <button class="admin-button" type="submit">찾기</button>
+      </form>
+      <div id="members" class="admin-list"></div>
+    </section>
+  </div>
+</main>
+<div class="admin-toast" id="admin-toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>// Generated by tools/write-config.mjs. Do not edit; do not commit.
+window.PIECENOA_CONFIG = Object.freeze({"supabaseUrl":"https://hqmzksyaktkpvpnugzpf.supabase.co","supabaseKey":"sb_publishable_9JQp8RYanQ0IkWgtdNm2sA_WWoPhu5N"});
+</script>
+<script>/* PIECENOA admin page.
  * Uses the same sign-in as the site (same browser storage key). Every action is checked again
  * in the database: admin functions call is_admin() and row level security limits reads.
  * This page only shows what the database already allows the signed-in admin to see.
@@ -241,3 +372,6 @@
     show('overview');
   })();
 })();
+</script>
+</body>
+</html>
