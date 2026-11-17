@@ -1774,20 +1774,61 @@ html[data-theme="dark"]{--heart-red:#ef6f7c}
  #chat-dialog#chat-dialog .chat-sidebar-heading h2{font:400 30px/1.1 "Cormorant Garamond","Gallery Hangul Serif",Georgia,serif!important}
 }
 </style>
-<style id="chat-header-refine">
-/* Chat header, refined: name and listing read as one calm header (no bands, no divider between them);
- * the listing sits in a light framed card; messages begin under a soft shadow instead of a hard rule. */
-#chat-dialog#chat-dialog .chat-topbar{border-bottom:0;background:var(--ui-bg,#f4f1ea);min-height:56px}
-#chat-dialog#chat-dialog .chat-main-header{margin:0 16px 14px;padding:10px 16px 10px 10px;column-gap:14px;row-gap:2px;background:color-mix(in srgb,var(--ui-surface,#ede8df) 45%,var(--ui-bg,#f4f1ea));border:1px solid color-mix(in srgb,var(--ui-gold,#7b5d38) 14%,var(--ui-border,#dcd5c8));border-radius:4px;box-shadow:0 1px 2px rgba(40,28,16,.04)}
-#chat-dialog#chat-dialog .chat-main-header .mobile-chat-artwork:not([hidden]){width:48px;height:48px;padding:0;border-radius:2px;background:none;box-shadow:0 0 0 1px color-mix(in srgb,var(--ui-gold,#7b5d38) 22%,transparent)}
-#chat-dialog#chat-dialog .chat-main-header h3{font-size:18.5px;line-height:1.2;letter-spacing:.005em}
-#chat-dialog#chat-dialog .chat-main-header #chat-product-price{font:500 12px/1.45 var(--sans);letter-spacing:.07em;color:color-mix(in srgb,var(--ui-gold,#7b5d38) 85%,var(--ui-text,#34312d))}
-#chat-dialog#chat-dialog .chat-main>#chat-messages{box-shadow:inset 0 12px 12px -12px rgba(40,28,16,.14)}
-html[data-theme="dark"] #chat-dialog#chat-dialog .chat-main>#chat-messages{box-shadow:inset 0 12px 12px -12px rgba(0,0,0,.5)}
-#chat-dialog#chat-dialog .chat-topbar-title{letter-spacing:.015em}
+<style id="chat-unified">
+/* Chat, unified with "Browse art": same ivory page, #c9c2b5 hairlines, serif headings with tight tracking,
+ * DM Sans 500 titles and prices, 16px-rounded hairline images, chip-like beige for your own messages.
+ * Quiet, typographic header in the manner of gallery inquiry threads: no boxes, one hairline. */
+#chat-dialog#chat-dialog#chat-dialog{background:var(--ui-bg,#f4f1ea)}
+#chat-dialog#chat-dialog#chat-dialog :is(.chat-layout,.chat-sidebar,.chat-main,#chat-messages,.chat-input){background:var(--ui-bg,#f4f1ea)!important}
+
+/* Header: name bar + listing row read as one block, closed by a single hairline. */
+#chat-dialog#chat-dialog#chat-dialog .chat-topbar{min-height:56px;border-bottom:0!important;background:var(--ui-bg,#f4f1ea)}
+#chat-dialog#chat-dialog#chat-dialog .chat-topbar-title{font:500 22px/1.15 "Cormorant Garamond","Gallery Hangul Serif",Georgia,serif!important;letter-spacing:-.02em;color:var(--ui-text,#34312d)}
+#chat-dialog#chat-dialog#chat-dialog .chat-back svg{width:21px;height:21px;stroke-width:1.3}
+#chat-dialog#chat-dialog#chat-dialog .chat-main-header{margin:0;padding:6px 20px 16px;column-gap:14px;row-gap:2px;background:var(--ui-bg,#f4f1ea)!important;border:0;border-bottom:1px solid var(--ui-border,#c9c2b5)!important;border-radius:0;box-shadow:none}
+#chat-dialog#chat-dialog#chat-dialog .chat-main-header .mobile-chat-artwork:not([hidden]){width:56px;height:56px;padding:0;border-radius:12px;border:1px solid var(--ui-border,#c9c2b5);background:var(--ui-surface,#ebe6dc);box-shadow:none;object-fit:cover}
+#chat-dialog#chat-dialog#chat-dialog .chat-main-header h3{font:500 14px/1.45 var(--sans)!important;letter-spacing:-.01em;color:var(--ui-text,#34312d)}
+#chat-dialog#chat-dialog#chat-dialog .chat-main-header #chat-product-price{font:500 16px/1.45 var(--sans);letter-spacing:-.025em;color:var(--ui-text,#34312d);font-variant-numeric:normal}
+#chat-dialog#chat-dialog#chat-dialog .chat-main>#chat-messages{box-shadow:none!important}
+
+/* Messages: yours sit in the selected-chip beige; theirs on the input ivory with a hairline. */
+#chat-dialog#chat-dialog#chat-dialog #chat-messages{padding:22px 20px 12px;gap:4px}
+#chat-dialog#chat-dialog#chat-dialog #chat-messages .message{max-width:78%;margin-left:auto;display:flex;flex-direction:column;align-items:flex-end}
+#chat-dialog#chat-dialog#chat-dialog #chat-messages .message.is-incoming{margin-left:0;margin-right:auto;align-items:flex-start}
+#chat-dialog#chat-dialog#chat-dialog #chat-messages .message p{margin:0;padding:11px 16px;border-radius:20px 20px 6px 20px;background:var(--ui-selected-bg,#e9dfd0);border:1px solid color-mix(in srgb,var(--ui-selected-border,#a38564) 45%,transparent);color:var(--ui-text,#34312d);font:400 14.5px/1.5 var(--sans);letter-spacing:-.005em;box-shadow:none}
+#chat-dialog#chat-dialog#chat-dialog #chat-messages .message.is-incoming p{border-radius:20px 20px 20px 6px;background:var(--ui-input,#fcfaf6);border-color:var(--ui-border,#c9c2b5)}
+#chat-dialog#chat-dialog#chat-dialog #chat-messages .message.is-deleted p{background:transparent;border-style:dashed;color:var(--ui-muted,#625b52);font-style:italic}
+#chat-dialog#chat-dialog#chat-dialog #chat-messages .message small{margin:5px 4px 12px;font:400 11px/1.4 var(--sans);letter-spacing:.01em;color:var(--ui-muted,#625b52)}
+#chat-dialog#chat-dialog#chat-dialog #chat-messages .chat-welcome{margin:auto;max-width:28ch;text-align:center;font:500 20px/1.35 "Cormorant Garamond","Gallery Hangul Serif",Georgia,serif;color:var(--ui-muted,#625b52)}
+
+/* Composer: the search field's ivory and hairline; the round action keeps the site's brown. */
+#chat-dialog#chat-dialog#chat-dialog .chat-input{padding:10px 16px 12px!important;gap:10px;border-top:1px solid var(--ui-border,#c9c2b5)!important}
+#chat-dialog#chat-dialog#chat-dialog .chat-input input{height:46px!important;padding:0 18px!important;border:1px solid var(--ui-border,#c9c2b5)!important;border-radius:999px!important;background:var(--ui-input,#fcfaf6)!important;font:400 15px/1 var(--sans)!important;color:var(--ui-text,#34312d)!important;box-shadow:none!important;transition:border-color .2s ease}
+#chat-dialog#chat-dialog#chat-dialog .chat-input input:focus{outline:none;border-color:var(--ui-field-border,#938472)!important}
+#chat-dialog#chat-dialog#chat-dialog .chat-input input::placeholder{color:var(--ui-muted,#625b52);opacity:.75}
+#chat-dialog#chat-dialog#chat-dialog .chat-input button{width:46px!important;height:46px!important;min-width:46px;border-radius:50%!important;background:var(--ui-action,#80583e)!important;border:0!important;box-shadow:none!important}
+
+/* Starter questions look like the category chips. */
+#chat-dialog#chat-dialog#chat-dialog .chat-quick-questions{padding:4px 16px 12px!important;gap:8px!important}
+#chat-dialog#chat-dialog#chat-dialog .chat-quick-questions button{min-height:38px!important;padding:8px 14px!important;border:1px solid var(--ui-selected-border,#a38564)!important;border-radius:999px!important;background:transparent!important;color:var(--ui-text,#34312d)!important;font:500 12.5px/1.4 var(--sans)!important}
+#chat-dialog#chat-dialog#chat-dialog .chat-quick-questions button:hover{background:var(--ui-selected-bg,#e9dfd0)!important}
+
+/* Conversation list: page title like "Find your next piece.", rows like the artwork cards. */
+#chat-dialog#chat-dialog#chat-dialog .chat-sidebar-heading h2{font:500 31px/1.2 "Cormorant Garamond","Gallery Hangul Serif",Georgia,serif!important;letter-spacing:-.025em;color:var(--ui-text,#34312d)}
+#chat-dialog#chat-dialog#chat-dialog #threads .thread-button{border-bottom:1px solid var(--ui-border,#c9c2b5)!important}
+#chat-dialog#chat-dialog#chat-dialog #threads .thread-button .chat-thread-art,#chat-dialog#chat-dialog#chat-dialog #threads .chat-thread-art{width:56px!important;height:56px!important;padding:0!important;border-radius:12px!important;border:1px solid var(--ui-border,#c9c2b5);background:var(--ui-surface,#ebe6dc);box-shadow:none!important}
+#chat-dialog#chat-dialog#chat-dialog #threads .chat-thread-content strong{font:500 14.5px/1.4 var(--sans)!important;letter-spacing:-.01em;color:var(--ui-text,#34312d)}
+#chat-dialog#chat-dialog#chat-dialog #threads :is(.chat-thread-who,.chat-thread-gone){font-size:12px;letter-spacing:0;color:var(--ui-muted,#625b52)}
+#chat-dialog#chat-dialog#chat-dialog #threads .chat-thread-preview{font-size:13.5px;color:var(--ui-muted,#625b52)}
+#chat-dialog#chat-dialog#chat-dialog #threads .thread-unread{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--ui-action,#80583e);color:#fff;font:600 11px/20px var(--sans);text-align:center}
+
 @media (min-width:761px) and (not ((max-width:1024px) and (pointer:coarse))){
- #chat-dialog#chat-dialog .chat-topbar{min-height:64px}
- #chat-dialog#chat-dialog .chat-main-header{margin:0 24px 16px;padding:12px 18px}
+ #chat-dialog#chat-dialog#chat-dialog .chat-topbar{min-height:64px}
+ #chat-dialog#chat-dialog#chat-dialog .chat-main-header{padding:4px 28px 18px}
+ #chat-dialog#chat-dialog#chat-dialog #chat-messages{padding:26px 28px 14px}
+ #chat-dialog#chat-dialog#chat-dialog #chat-messages .message{max-width:64%}
+ #chat-dialog#chat-dialog#chat-dialog .chat-input{padding:12px 24px 16px!important}
+ #chat-dialog#chat-dialog#chat-dialog .chat-sidebar{background:color-mix(in srgb,var(--ui-surface,#ebe6dc) 55%,var(--ui-bg,#f4f1ea))!important;border-right:1px solid var(--ui-border,#c9c2b5)}
 }
 </style>
 </head>
