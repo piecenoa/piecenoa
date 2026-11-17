@@ -1564,12 +1564,92 @@ html[data-theme] #chat-dialog .chat-peer-button:hover{background:var(--ui-raised
 @media (max-width:760px), (max-width:1024px) and (pointer:coarse){
 #open-messages{display:none!important}
 #chat-dialog.is-mobile-page{position:fixed;inset:var(--chat-page-top,66px) 0 var(--chat-page-bottom,76px) 0;z-index:7;width:100%!important;max-width:none!important;height:calc(100dvh - var(--chat-page-top,66px) - var(--chat-page-bottom,76px))!important;min-height:0!important;max-height:none!important;margin:0;border:0!important;border-radius:0!important;box-shadow:none!important;background:var(--ui-bg,#f4f1ea)!important}
-#chat-dialog.is-mobile-page .chat-layout,#chat-dialog.is-mobile-page .chat-sidebar,#chat-dialog.is-mobile-page .chat-main{height:100%;border-radius:0!important;background:var(--ui-bg,#f4f1ea)!important;box-shadow:none!important}
-#chat-dialog.is-mobile-page .chat-sidebar-heading,#chat-dialog.is-mobile-page.is-inbox .chat-sidebar-heading{min-height:0;padding:26px 18px 14px;border-bottom:0}
+#chat-dialog.is-mobile-page .chat-layout{height:100%}
+#chat-dialog.is-mobile-page #threads{align-self:stretch;width:auto}
+#chat-dialog.is-mobile-page:not(.is-empty) #threads{display:block;padding:4px 0 16px}
+#chat-dialog.is-mobile-page #threads .thread-button{display:grid!important;grid-template-columns:56px minmax(0,1fr) auto!important;align-items:center;gap:14px;width:100%!important;max-width:none!important;margin:0!important;padding:12px 18px!important;border:0!important;border-bottom:1px solid var(--ui-border,#dcd5c8)!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:left}
+#chat-dialog.is-mobile-page #threads .thread-button .chat-thread-art{width:56px!important;height:56px!important;border-radius:10px;object-fit:cover}
+#chat-dialog.is-mobile-page #threads .chat-thread-content{display:grid!important;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:3px;min-width:0;width:auto!important;max-width:none!important}
+#chat-dialog.is-mobile-page #threads .chat-thread-content strong{grid-column:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:400 18px/1.25 var(--serif)}
+#chat-dialog.is-mobile-page #threads .chat-thread-content small{grid-column:2;grid-row:1;align-self:center;white-space:nowrap;font-size:11.5px;color:var(--ui-muted,#80786c)}
+#chat-dialog.is-mobile-page #threads .chat-thread-preview{grid-column:1 / -1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;color:var(--ui-muted,#80786c)}
+#chat-dialog.is-mobile-page :is(.chat-layout,.chat-sidebar,.chat-main){border-radius:0!important;background:var(--ui-bg,#f4f1ea)!important;box-shadow:none!important}
+#chat-dialog.is-mobile-page.is-inbox .chat-sidebar-heading{min-height:0;padding:26px 18px 14px;border-bottom:0}
 #chat-dialog.is-mobile-page .chat-sidebar-heading h2{font-size:31px!important;line-height:1.1}
 #chat-dialog.is-mobile-page.is-inbox .dialog-close{display:none}
 body:has(#chat-dialog.is-mobile-page[open]) .mobile-sell{visibility:hidden}
 }
+</style>
+<style id="heart-burst-style">
+/* Chat page: no focus ring on the page container itself (Safari draws one on non-modal dialogs). */
+#chat-dialog.is-mobile-page:focus,#chat-dialog.is-mobile-page:focus-visible{outline:none}
+.market-bottom-nav button,.card-save,.detail-heart{-webkit-tap-highlight-color:transparent}
+/* Likes: Instagram-style pop, burst and big heart over the photo. */
+:root{--heart-red:#d43f4f}
+html[data-theme="dark"]{--heart-red:#ef6f7c}
+.card-save.saved,html[data-theme] .card-save.saved,#detail-dialog .detail-heart.saved,html[data-theme] #detail-dialog .detail-heart.saved{color:var(--heart-red)}
+#detail-dialog .detail-photo{touch-action:manipulation}
+.heart-fx{position:fixed;z-index:2147483000;pointer-events:none;width:0;height:0}
+.heart-fx svg{position:absolute;left:0;top:0;width:var(--s);height:var(--s);margin:calc(var(--s) / -2) 0 0 calc(var(--s) / -2);fill:var(--heart-red);stroke:var(--heart-red);overflow:visible}
+.heart-fx .pop{animation:heart-pop .62s cubic-bezier(.17,.89,.32,1.28) both}
+.heart-fx .ring{position:absolute;left:0;top:0;width:var(--r);height:var(--r);margin:calc(var(--r) / -2) 0 0 calc(var(--r) / -2);border-radius:50%;border:2px solid var(--heart-red);animation:heart-ring .55s cubic-bezier(.2,.7,.3,1) both}
+.heart-fx i{position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--heart-red);transform:rotate(var(--a)) translateY(0) scale(0);animation:heart-dot .6s cubic-bezier(.2,.75,.3,1) .08s both}
+.heart-fx i:nth-child(even){background:#e8b04b;width:5px;height:5px}
+.heart-big{position:fixed;z-index:2147483000;pointer-events:none;display:grid;place-items:center}
+.heart-big svg{width:min(34%,120px);height:auto;aspect-ratio:1;fill:#fff;stroke:#fff;filter:drop-shadow(0 6px 22px rgba(0,0,0,.28));animation:heart-big 1s cubic-bezier(.17,.89,.32,1.28) both}
+@keyframes heart-pop{0%{transform:scale(0);opacity:1}45%{transform:scale(1.35)}70%{transform:scale(.92)}100%{transform:scale(1);opacity:1}}
+@keyframes heart-ring{0%{transform:scale(.2);opacity:.9;border-width:6px}100%{transform:scale(1);opacity:0;border-width:0}}
+@keyframes heart-dot{0%{transform:rotate(var(--a)) translateY(0) scale(0);opacity:1}60%{opacity:1}100%{transform:rotate(var(--a)) translateY(calc(var(--d) * -1)) scale(1);opacity:0}}
+@keyframes heart-big{0%{transform:scale(0);opacity:0}15%{transform:scale(1.2);opacity:.95}30%{transform:scale(.95)}45%,78%{transform:scale(1);opacity:.95}100%{transform:scale(1.1) translateY(-14px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.heart-fx,.heart-big{display:none}}
+</style>
+<style id="notifications-style">
+/* Notifications: bell in the market header + inbox (popover on PC, full page on phones). */
+.notify-button[hidden]{display:none!important}
+.notify-button{position:relative}
+.notify-badge{position:absolute;top:7px;right:3px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--heart-red,#d43f4f);color:#fff;font:600 9.5px/16px var(--sans);text-align:center;letter-spacing:0;box-shadow:0 0 0 2px var(--ui-bg,#f4f1ea)}
+.notify-badge[hidden]{display:none}
+.notify-button.has-new svg{animation:notify-ring .9s cubic-bezier(.36,.07,.19,.97) both;transform-origin:50% 10%}
+@keyframes notify-ring{0%,100%{transform:translateY(1px) rotate(0)}20%{transform:translateY(1px) rotate(14deg)}40%{transform:translateY(1px) rotate(-11deg)}60%{transform:translateY(1px) rotate(7deg)}80%{transform:translateY(1px) rotate(-4deg)}}
+#notify-dialog{position:fixed;inset:var(--notify-top,72px) 24px auto auto;margin:0;width:min(392px,calc(100vw - 32px));max-height:min(600px,calc(100dvh - var(--notify-top,72px) - 24px));padding:0;overflow:hidden;border:1px solid var(--ui-border,#dcd5c8);border-radius:14px;background:var(--ui-bg,#f4f1ea);color:var(--ui-text,#34312d);box-shadow:0 18px 50px rgba(30,22,14,.18)}
+#notify-dialog[open]{display:flex;flex-direction:column;animation:notify-in .22s cubic-bezier(.22,.61,.36,1)}
+#notify-dialog::backdrop{background:transparent}
+@keyframes notify-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.notify-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 18px 12px 22px;border-bottom:1px solid var(--ui-border,#dcd5c8)}
+.notify-head h2{margin:0;font:400 26px/1.1 var(--serif);color:var(--ui-text,#34312d)}
+.notify-close{display:grid;place-items:center;width:40px;height:40px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-text,#34312d);cursor:pointer}
+.notify-close svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.4}
+.notify-list{flex:1 1 auto;overflow:auto;overscroll-behavior:contain;margin:0;padding:6px 0 10px;list-style:none}
+.notify-item{display:flex;gap:12px;align-items:flex-start;width:100%;padding:12px 22px;border:0;background:transparent;color:inherit;text-align:left;font:inherit;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent}
+.notify-item:hover{background:color-mix(in srgb,var(--ui-text,#34312d) 4%,transparent)}
+.notify-item.is-unread{background:color-mix(in srgb,var(--ui-gold,#7b5d38) 7%,transparent)}
+.notify-item.is-unread::before{content:"";position:absolute;left:9px;top:28px;width:6px;height:6px;border-radius:50%;background:var(--ui-gold,#7b5d38)}
+.notify-avatar{position:relative;flex:0 0 42px;width:42px;height:42px;border-radius:50%;background:var(--ui-surface,#ede8df);display:grid;place-items:center;font:400 18px/1 var(--serif);color:var(--ui-gold,#7b5d38);overflow:visible}
+.notify-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.notify-kind{position:absolute;right:-3px;bottom:-3px;width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:var(--ui-gold,#7b5d38);box-shadow:0 0 0 2px var(--ui-bg,#f4f1ea)}
+.notify-kind.is-favorite{background:var(--heart-red,#d43f4f)}
+.notify-kind svg{width:10px;height:10px;fill:#fff;stroke:#fff;stroke-width:1.5}
+.notify-text{min-width:0;flex:1}
+.notify-line{margin:1px 0 0;font-size:14px;line-height:1.45;color:var(--ui-text,#34312d)}
+.notify-line strong{font-weight:600}
+.notify-line em{font:italic 400 15.5px/1.3 var(--serif)}
+.notify-preview{margin:3px 0 0;font-size:13px;line-height:1.4;color:var(--ui-muted,#80786c);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.notify-time{display:block;margin-top:4px;font-size:11.5px;color:var(--ui-muted,#80786c)}
+.notify-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:56px 24px 64px;text-align:center}
+.notify-empty span{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ui-gold,#7b5d38) 45%,transparent);color:var(--ui-gold,#7b5d38)}
+.notify-empty svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.3}
+.notify-empty p{margin:0;font:400 19px/1.4 var(--serif);color:var(--ui-text,#34312d)}
+.notify-empty small{font-size:12.5px;color:var(--ui-muted,#80786c);max-width:26ch;line-height:1.5}
+@media (max-width:760px), (max-width:1024px) and (pointer:coarse){
+ #notify-dialog{inset:0;width:100%;max-width:none;height:100dvh;max-height:none;border:0;border-radius:0;box-shadow:none;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+ #notify-dialog[open]{animation:notify-page-in .28s cubic-bezier(.22,.61,.36,1)}
+ @keyframes notify-page-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+ .notify-head{padding:20px 12px 14px 18px;border-bottom:0}
+ .notify-head h2{font-size:31px}
+ .notify-item{padding:13px 18px}
+ .notify-item.is-unread::before{left:6px}
+}
+@media (prefers-reduced-motion:reduce){#notify-dialog[open],.notify-button.has-new svg{animation:none}}
 </style>
 </head>
 <body data-view="home">
@@ -4361,6 +4441,154 @@ $('#community-shortcut').addEventListener('click',()=>{if($('#home').classList.c
   const target=event.target.closest?.('.market-bottom-nav [data-mode],.market-header button,.market-header a');
   if(target)chat.close();
  },true);
+})();
+</script>
+<script id="heart-burst-controller">
+/* Like animation: plays the moment a heart actually turns "saved" after a tap (so refused likes never celebrate). */
+(()=>{
+ const HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ function burst(button){
+  const r=button.getBoundingClientRect();if(!r.width)return;
+  const size=Math.max(16,Math.min(24,r.width*.55)),fx=document.createElement('div');
+  fx.className='heart-fx';fx.style.left=(r.left+r.width/2)+'px';fx.style.top=(r.top+r.height/2)+'px';
+  fx.style.setProperty('--s',size+'px');fx.style.setProperty('--r',(r.width*1.9)+'px');
+  let dots='';for(let i=0;i<8;i++)dots+='<i style="--a:'+(i*45)+'deg;--d:'+(r.width*.95)+'px"></i>';
+  fx.innerHTML='<span class="ring"></span>'+dots+HEART.replace('<svg','<svg class="pop"');
+  document.body.appendChild(fx);setTimeout(()=>fx.remove(),700);
+ }
+ function bigHeart(photo){
+  if(!photo||reduced.matches)return;const r=photo.getBoundingClientRect();if(r.width<60||r.height<60)return;
+  const el=document.createElement('div');el.className='heart-big';
+  Object.assign(el.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
+  el.innerHTML=HEART;document.body.appendChild(el);setTimeout(()=>el.remove(),1050);
+ }
+ // Wait (up to 6s) for the re-rendered heart to become saved, then celebrate on it.
+ function whenSaved(find,photoOf){
+  const until=performance.now()+6000;
+  (function check(){const button=find();
+   if(button?.classList.contains('saved')){if(!reduced.matches){burst(button);bigHeart(photoOf(button))}return}
+   if(performance.now()<until)requestAnimationFrame(check)})();
+ }
+ const cardPhoto=b=>b.closest('.product-card')?.querySelector('.product-image');
+ const detailPhoto=()=>document.querySelector('#detail-dialog .detail-photo');
+ document.addEventListener('click',event=>{
+  const card=event.target.closest?.('[data-save]');
+  if(card){if(card.classList.contains('saved'))return;const id=card.dataset.save,scope=card.closest('dialog')||document;
+   whenSaved(()=>[...scope.querySelectorAll('[data-save]')].find(b=>b.dataset.save===id&&b.offsetParent),cardPhoto);return}
+  const detail=event.target.closest?.('#detail-heart');
+  if(detail&&!detail.classList.contains('saved'))whenSaved(()=>document.getElementById('detail-heart'),detailPhoto);
+ },true);
+ // Double-tap the photo in the detail view to like it, like Instagram.
+ let lastTap=0;
+ document.addEventListener('pointerup',event=>{
+  const photo=event.target.closest?.('#detail-dialog .detail-photo');if(!photo||event.button>0)return;
+  const now=Date.now();if(now-lastTap>320){lastTap=now;return}lastTap=0;
+  const heart=document.getElementById('detail-heart');if(!heart)return;
+  if(heart.classList.contains('saved'))bigHeart(photo);else heart.click();
+ });
+ window.PIECENOA_HEART_FX={burst,bigHeart};
+})();
+</script>
+<script id="notifications-controller">
+/* Notifications inbox. Rows come from database triggers (see supabase/migrations/*_notifications.sql);
+ * this only reads them, marks them read and listens for new ones. Does nothing when signed out. */
+(()=>{
+ const account=window.PIECENOA_ACCOUNT;if(!account?.client)return;
+ const db=account.client,header=document.querySelector('.market-account-actions'),settings=document.getElementById('open-settings');
+ if(!header||!settings)return;
+ const avatarBase=window.PIECENOA_CONFIG.supabaseUrl.replace(/\/$/,'')+'/storage/v1/object/public/avatars/';
+ const mobile=matchMedia('(max-width:760px), (max-width:1024px) and (pointer:coarse)');
+ const ICON={
+  bell:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2H4.5Z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></svg>',
+  heart:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l1.5-4A8.5 8.5 0 1 1 21 11.5Z"/></svg>',
+  close:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>'};
+ const ko=()=>/^ko/i.test(document.documentElement.lang||'');
+ const T={
+  title:()=>ko()?'알림':'Notifications',
+  open:n=>ko()?(n?`알림 ${n}개 안 읽음`:'알림'):(n?`Notifications, ${n} unread`:'Notifications'),
+  close:()=>ko()?'닫기':'Close',
+  empty:()=>ko()?'아직 알림이 없어요.':'No notifications yet.',
+  emptyNote:()=>ko()?'하트와 새 메시지가 여기에 모여요.':'Likes and new messages will appear here.',
+  favorite:(n,t)=>ko()?`<strong>${n}</strong>님이 <em>${t}</em> 작품을 좋아해요.`:`<strong>${n}</strong> liked <em>${t}</em>.`,
+  conversation:(n,t)=>ko()?`<strong>${n}</strong>님이 <em>${t}</em> 작품으로 대화를 시작했어요.`:`<strong>${n}</strong> started a chat about <em>${t}</em>.`,
+  message:(n,t)=>ko()?`<strong>${n}</strong>님이 메시지를 보냈어요${t?` · <em>${t}</em>`:''}.`:`<strong>${n}</strong> sent you a message${t?` · <em>${t}</em>`:''}.`,
+  toast:(type,n)=>ko()?({favorite:`${n}님이 내 작품을 좋아해요`,conversation:`${n}님이 대화를 시작했어요`,message:`${n}님의 새 메시지`})[type]:({favorite:`${n} liked your piece`,conversation:`${n} started a chat`,message:`New message from ${n}`})[type],
+  member:()=>ko()?'회원':'Member',piece:()=>ko()?'작품':'your piece'};
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+ function ago(iso){const s=Math.max(0,(Date.now()-new Date(iso).getTime())/1000),f=new Intl.RelativeTimeFormat(ko()?'ko':'en',{numeric:'auto'});
+  if(s<60)return ko()?'방금':'just now';if(s<3600)return f.format(-Math.floor(s/60),'minute');if(s<86400)return f.format(-Math.floor(s/3600),'hour');
+  if(s<604800)return f.format(-Math.floor(s/86400),'day');return new Date(iso).toLocaleDateString(ko()?'ko':'en',{month:'short',day:'numeric'})}
+
+ // Bell button, styled like the other header icons.
+ const bell=document.createElement('button');
+ bell.type='button';bell.id='open-notifications';bell.className='settings-button notify-button notranslate';bell.translate=false;bell.hidden=true;
+ bell.setAttribute('aria-haspopup','dialog');bell.setAttribute('aria-controls','notify-dialog');
+ bell.innerHTML=ICON.bell+'<span class="notify-badge" hidden></span>';
+ header.insertBefore(bell,settings);
+ const badge=bell.querySelector('.notify-badge');
+
+ const dialog=document.createElement('dialog');
+ dialog.id='notify-dialog';dialog.className='notify-dialog notranslate';dialog.translate=false;dialog.setAttribute('aria-labelledby','notify-title');
+ dialog.innerHTML='<header class="notify-head"><h2 id="notify-title"></h2><button type="button" class="notify-close">'+ICON.close+'</button></header><ul class="notify-list" role="list"></ul>';
+ document.body.appendChild(dialog);
+ const list=dialog.querySelector('.notify-list');
+
+ let uid=null,channel=null,items=[],unread=0,loading=null;
+ function setUnread(n){unread=Math.max(0,n|0);badge.hidden=!unread;badge.textContent=unread>99?'99+':String(unread);bell.setAttribute('aria-label',T.open(unread))}
+ async function countUnread(){if(!uid)return;const {count,error}=await db.from('notifications').select('id',{count:'exact',head:true}).is('read_at',null);if(!error)setUnread(count||0)}
+ async function load(){
+  if(!uid)return;loading=db.from('notifications').select('id,type,listing_id,conversation_id,listing_title,preview,created_at,read_at,actor:profiles!notifications_actor_id_fkey(id,display_name,avatar_path)').order('created_at',{ascending:false}).limit(50);
+  const {data,error}=await loading;if(error){console.warn('[notifications]',error.message);return}items=data||[];render()}
+ function render(){
+  dialog.querySelector('#notify-title').textContent=T.title();dialog.querySelector('.notify-close').setAttribute('aria-label',T.close());
+  if(!items.length){list.innerHTML='<li class="notify-empty"><span>'+ICON.bell+'</span><p>'+esc(T.empty())+'</p><small>'+esc(T.emptyNote())+'</small></li>';return}
+  list.innerHTML=items.map(n=>{
+   const name=esc(n.actor?.display_name||T.member()),title=esc(n.listing_title||T.piece()),initial=esc((n.actor?.display_name||'·').trim().charAt(0).toUpperCase());
+   const photo=n.actor?.avatar_path?'<img alt="" loading="lazy" src="'+esc(avatarBase+n.actor.avatar_path.split('/').map(encodeURIComponent).join('/'))+'">':initial;
+   const kind=n.type==='favorite'?'<span class="notify-kind is-favorite">'+ICON.heart+'</span>':'<span class="notify-kind">'+ICON.chat+'</span>';
+   const line=(T[n.type]||T.message)(name,n.type==='message'&&!n.listing_title?'':title);
+   const preview=n.type!=='favorite'&&n.preview?'<p class="notify-preview">'+esc(n.preview)+'</p>':'';
+   return '<li><button type="button" class="notify-item'+(n.read_at?'':' is-unread')+'" data-notify="'+esc(n.id)+'"><span class="notify-avatar">'+photo+kind+'</span><span class="notify-text"><p class="notify-line">'+line+'</p>'+preview+'<time class="notify-time" datetime="'+esc(n.created_at)+'">'+esc(ago(n.created_at))+'</time></span></button></li>'}).join('');
+ }
+ async function markAllRead(){
+  if(!uid||!unread)return;const now=new Date().toISOString();setUnread(0);
+  const {error}=await db.from('notifications').update({read_at:now}).is('read_at',null);if(error){console.warn('[notifications]',error.message);countUnread()}
+ }
+ function place(){const r=document.querySelector('.market-header')?.getBoundingClientRect();if(r)dialog.style.setProperty('--notify-top',Math.round(r.bottom+8)+'px')}
+ async function open(){if(!uid)return;bell.classList.remove('has-new');place();render();if(!dialog.open)dialog.showModal();bell.setAttribute('aria-expanded','true');await load();markAllRead()}
+ dialog.addEventListener('close',()=>{bell.setAttribute('aria-expanded','false');items=items.map(n=>n.read_at?n:{...n,read_at:new Date().toISOString()})});
+ dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+ dialog.querySelector('.notify-close').addEventListener('click',()=>dialog.close());
+ bell.addEventListener('click',()=>dialog.open?dialog.close():open());
+
+ // Opening a notification goes to the chats, or to the liked piece.
+ function clickWhenVisible(selector,tries=12){const el=[...document.querySelectorAll(selector)].find(e=>e.offsetParent!==null);if(el){el.click();return}if(tries>0)setTimeout(()=>clickWhenVisible(selector,tries-1),150)}
+ list.addEventListener('click',event=>{
+  const button=event.target.closest('[data-notify]');if(!button)return;const n=items.find(x=>x.id===button.dataset.notify);if(!n)return;dialog.close();
+  if(n.type==='favorite'&&n.listing_id){const card='[data-product="'+CSS.escape(n.listing_id)+'"]';
+   if([...document.querySelectorAll(card)].some(e=>e.offsetParent!==null))clickWhenVisible(card,0);
+   else{clickWhenVisible(mobile.matches?'.market-bottom-nav [data-mode="mine"]':'.market-nav [data-mode="mine"]',0);setTimeout(()=>clickWhenVisible(card),200)}
+  }else clickWhenVisible(mobile.matches?'.market-bottom-nav [data-market-chat]':'#open-messages',0);
+ });
+
+ function toast(text){const el=document.getElementById('toast');if(!el)return;el.textContent=text;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),3200)}
+ async function onRealtime(payload){
+  const row=payload.new||{};
+  if(payload.eventType==='INSERT'||(payload.eventType==='UPDATE'&&!row.read_at&&payload.old&&row.created_at!==payload.old.created_at)){
+   bell.classList.remove('has-new');void bell.offsetWidth;bell.classList.add('has-new');
+   let name=T.member();if(row.actor_id){const {data}=await db.from('profiles').select('display_name').eq('id',row.actor_id).maybeSingle();if(data?.display_name)name=data.display_name}
+   if(!dialog.open)toast(T.toast(row.type,name));
+  }
+  countUnread();if(dialog.open)load();
+ }
+ function subscribe(){if(channel){db.removeChannel(channel);channel=null}if(!uid)return;
+  channel=db.channel('notifications:'+uid).on('postgres_changes',{event:'*',schema:'public',table:'notifications',filter:'recipient_id=eq.'+uid},onRealtime).subscribe()}
+ function sync(){const next=account.session?.user?.id||null;if(next===uid)return;uid=next;bell.hidden=!uid;items=[];setUnread(0);if(dialog.open&&!uid)dialog.close();subscribe();if(uid)countUnread()}
+ account.onChange(sync);account.ready?.then?.(sync);sync();
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')countUnread()});
+ setInterval(()=>{if(dialog.open)list.querySelectorAll('time[datetime]').forEach(el=>el.textContent=ago(el.getAttribute('datetime')))},60000);
 })();
 </script>
 </body>
