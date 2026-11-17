@@ -1774,6 +1774,22 @@ html[data-theme="dark"]{--heart-red:#ef6f7c}
  #chat-dialog#chat-dialog .chat-sidebar-heading h2{font:400 30px/1.1 "Cormorant Garamond","Gallery Hangul Serif",Georgia,serif!important}
 }
 </style>
+<style id="chat-header-refine">
+/* Chat header, refined: name and listing read as one calm header (no bands, no divider between them);
+ * the listing sits in a light framed card; messages begin under a soft shadow instead of a hard rule. */
+#chat-dialog#chat-dialog .chat-topbar{border-bottom:0;background:var(--ui-bg,#f4f1ea);min-height:56px}
+#chat-dialog#chat-dialog .chat-main-header{margin:0 16px 14px;padding:10px 16px 10px 10px;column-gap:14px;row-gap:2px;background:color-mix(in srgb,var(--ui-surface,#ede8df) 45%,var(--ui-bg,#f4f1ea));border:1px solid color-mix(in srgb,var(--ui-gold,#7b5d38) 14%,var(--ui-border,#dcd5c8));border-radius:4px;box-shadow:0 1px 2px rgba(40,28,16,.04)}
+#chat-dialog#chat-dialog .chat-main-header .mobile-chat-artwork:not([hidden]){width:48px;height:48px;padding:0;border-radius:2px;background:none;box-shadow:0 0 0 1px color-mix(in srgb,var(--ui-gold,#7b5d38) 22%,transparent)}
+#chat-dialog#chat-dialog .chat-main-header h3{font-size:18.5px;line-height:1.2;letter-spacing:.005em}
+#chat-dialog#chat-dialog .chat-main-header #chat-product-price{font:500 12px/1.45 var(--sans);letter-spacing:.07em;color:color-mix(in srgb,var(--ui-gold,#7b5d38) 85%,var(--ui-text,#34312d))}
+#chat-dialog#chat-dialog .chat-main>#chat-messages{box-shadow:inset 0 12px 12px -12px rgba(40,28,16,.14)}
+html[data-theme="dark"] #chat-dialog#chat-dialog .chat-main>#chat-messages{box-shadow:inset 0 12px 12px -12px rgba(0,0,0,.5)}
+#chat-dialog#chat-dialog .chat-topbar-title{letter-spacing:.015em}
+@media (min-width:761px) and (not ((max-width:1024px) and (pointer:coarse))){
+ #chat-dialog#chat-dialog .chat-topbar{min-height:64px}
+ #chat-dialog#chat-dialog .chat-main-header{margin:0 24px 16px;padding:12px 18px}
+}
+</style>
 </head>
 <body data-view="home">
 <div id="mobile-intro" hidden aria-hidden="true"><span class="mobile-intro-wordmark notranslate" lang="en" translate="no" data-brand-name="PIECENOA"><span class="mobile-intro-letter" style="--letter-order:0;--letter-x:-34px;--letter-turn:-8deg">P</span><span class="mobile-intro-letter" style="--letter-order:1;--letter-x:-25px;--letter-turn:8deg">I</span><span class="mobile-intro-letter" style="--letter-order:2;--letter-x:-16px;--letter-turn:-8deg">E</span><span class="mobile-intro-letter" style="--letter-order:3;--letter-x:-6px;--letter-turn:8deg">C</span><span class="mobile-intro-letter" style="--letter-order:4;--letter-x:6px;--letter-turn:-8deg">E</span><span class="mobile-intro-letter" style="--letter-order:5;--letter-x:16px;--letter-turn:8deg">N</span><span class="mobile-intro-letter" style="--letter-order:6;--letter-x:25px;--letter-turn:-8deg">O</span><span class="mobile-intro-letter" style="--letter-order:7;--letter-x:34px;--letter-turn:8deg">A</span></span></div>
@@ -4771,6 +4787,11 @@ $('#community-shortcut').addEventListener('click',()=>{if($('#home').classList.c
    if(more.hidden!==!buttons.length)more.hidden=!buttons.length; // write only on change: an unchanged write still fires the observer
    if(menu.dataset.signature!==items){menu.dataset.signature=items;menu.innerHTML='';buttons.forEach(b=>{const c=b.cloneNode(true);c.setAttribute('role','menuitem');menu.appendChild(c)})}
    box?.classList.toggle('is-moved',buttons.length>0);
+   // PC: the app only adds the listing thumbnail on phones; mirror the open thread's artwork into the card.
+   const appThumb=head.querySelector('#chat-listing-thumb:not([hidden])');let own=head.querySelector('.chat-card-art');
+   const src=appThumb?'':(dialog.querySelector('#threads .thread-button.active .chat-thread-art')?.getAttribute('src')||'');
+   if(src){if(!own){own=document.createElement('img');own.className='chat-card-art mobile-chat-artwork';own.alt='';own.decoding='async';head.prepend(own)}if(own.getAttribute('src')!==src)own.setAttribute('src',src);if(own.hidden)own.hidden=false}
+   else if(own&&!own.hidden)own.hidden=true;
   }finally{syncing=false}
  }
  function close(){const menu=dialog.querySelector('.chat-more-menu');if(!menu)return;menu.hidden=true;dialog.querySelector('.chat-more-button')?.setAttribute('aria-expanded','false')}
