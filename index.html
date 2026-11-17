@@ -1747,6 +1747,33 @@ html[data-theme="dark"]{--heart-red:#ef6f7c}
  #chat-dialog#chat-dialog .chat-main-header{padding:14px 24px 16px}
 }
 </style>
+<style id="chat-pc-nav">
+/* PC chat: a back arrow inside a conversation replaces "All chats" and the close button; the list keeps a quiet hairline ×. */
+@media (min-width:761px) and (not ((max-width:1024px) and (pointer:coarse))){
+ #chat-dialog#chat-dialog #chat-show-all{display:none!important}
+ #chat-dialog#chat-dialog:not(.is-inbox)>.dialog-close{display:none!important}
+ #chat-dialog#chat-dialog .chat-topbar{grid-template-columns:44px minmax(0,1fr) 44px;padding:0 16px 0 12px;min-height:66px}
+ #chat-dialog#chat-dialog .chat-back{display:grid}
+ #chat-dialog#chat-dialog .chat-topbar-title{justify-self:start;padding-left:6px}
+ #chat-dialog#chat-dialog .chat-back:hover,#chat-dialog#chat-dialog .chat-more-button:hover,#chat-dialog#chat-dialog .chat-more-button[aria-expanded="true"]{background:transparent;color:var(--ui-gold,#7b5d38)}
+ #chat-dialog#chat-dialog.is-inbox>.dialog-close,#chat-dialog#chat-dialog.is-inbox>.dialog-close:hover,#chat-dialog#chat-dialog.is-inbox>.dialog-close:focus-visible{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;width:40px;height:40px;color:var(--ui-text,#34312d);transition:color .2s ease,transform .3s cubic-bezier(.22,.61,.36,1)}
+ #chat-dialog#chat-dialog.is-inbox>.dialog-close::before,#chat-dialog#chat-dialog.is-inbox>.dialog-close::after{background:transparent!important;box-shadow:none!important;border:0!important}
+ #chat-dialog#chat-dialog.is-inbox>.dialog-close:hover{color:var(--ui-gold,#7b5d38);transform:rotate(90deg)}
+ #chat-dialog#chat-dialog.is-inbox>.dialog-close svg{width:19px;height:19px;stroke-width:1.15}
+ /* Conversation list: full-width hairline rows, serif titles, like the phone layout. */
+ #chat-dialog#chat-dialog #threads{padding:4px 0 16px}
+ #chat-dialog#chat-dialog #threads .thread-button{display:grid!important;grid-template-columns:56px minmax(0,1fr) auto!important;align-items:center;gap:14px;width:100%!important;max-width:none!important;margin:0!important;padding:14px 24px!important;border:0!important;border-bottom:1px solid color-mix(in srgb,var(--ui-gold,#7b5d38) 16%,var(--ui-border,#dcd5c8))!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:left;transition:background .2s ease}
+ #chat-dialog#chat-dialog #threads .thread-button:hover{background:color-mix(in srgb,var(--ui-gold,#7b5d38) 5%,transparent)!important}
+ #chat-dialog#chat-dialog #threads .thread-button.active{background:color-mix(in srgb,var(--ui-gold,#7b5d38) 9%,transparent)!important}
+ #chat-dialog#chat-dialog #threads .chat-thread-art{width:56px!important;height:56px!important;padding:3px;border-radius:2px;object-fit:cover;background:var(--ui-bg,#f4f1ea);box-shadow:0 0 0 1px color-mix(in srgb,var(--ui-gold,#7b5d38) 35%,transparent)}
+ #chat-dialog#chat-dialog #threads .chat-thread-content{display:grid!important;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:3px;min-width:0;width:auto!important;max-width:none!important}
+ #chat-dialog#chat-dialog #threads .chat-thread-content strong{grid-column:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:400 19px/1.25 "Cormorant Garamond","Gallery Hangul Serif",Georgia,serif!important}
+ #chat-dialog#chat-dialog #threads .chat-thread-content small{grid-column:2;grid-row:1;align-self:center;white-space:nowrap;font-size:11.5px;letter-spacing:.03em;color:var(--ui-muted,#80786c)}
+ #chat-dialog#chat-dialog #threads :is(.chat-thread-who,.chat-thread-gone){grid-column:1 / -1;font-size:12px;letter-spacing:.02em;color:var(--ui-gold,#7b5d38)}
+ #chat-dialog#chat-dialog #threads .chat-thread-preview{grid-column:1 / -1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;color:var(--ui-muted,#80786c)}
+ #chat-dialog#chat-dialog .chat-sidebar-heading h2{font:400 30px/1.1 "Cormorant Garamond","Gallery Hangul Serif",Georgia,serif!important}
+}
+</style>
 </head>
 <body data-view="home">
 <div id="mobile-intro" hidden aria-hidden="true"><span class="mobile-intro-wordmark notranslate" lang="en" translate="no" data-brand-name="PIECENOA"><span class="mobile-intro-letter" style="--letter-order:0;--letter-x:-34px;--letter-turn:-8deg">P</span><span class="mobile-intro-letter" style="--letter-order:1;--letter-x:-25px;--letter-turn:8deg">I</span><span class="mobile-intro-letter" style="--letter-order:2;--letter-x:-16px;--letter-turn:-8deg">E</span><span class="mobile-intro-letter" style="--letter-order:3;--letter-x:-6px;--letter-turn:8deg">C</span><span class="mobile-intro-letter" style="--letter-order:4;--letter-x:6px;--letter-turn:-8deg">E</span><span class="mobile-intro-letter" style="--letter-order:5;--letter-x:16px;--letter-turn:8deg">N</span><span class="mobile-intro-letter" style="--letter-order:6;--letter-x:25px;--letter-turn:-8deg">O</span><span class="mobile-intro-letter" style="--letter-order:7;--letter-x:34px;--letter-turn:8deg">A</span></span></div>
