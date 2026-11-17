@@ -1517,7 +1517,8 @@ html[data-theme] #chat-dialog #send-message{width:46px;height:46px;flex:0 0 46px
 /* Mobile intro: a quiet, gallery-style wordmark reveal (phones only). */
 @media (max-width:760px), (max-width:1024px) and (pointer:coarse){
 html.mobile-intro-active,html.mobile-intro-active body{background:var(--ui-bg,#f4f1ea)}
-html.mobile-intro-active:not(.mobile-intro-revealing) #market{visibility:hidden}
+/* Keep the market rendered under the opaque overlay so the reveal is a pure cross-fade (no first-paint stall). */
+html.mobile-market-first,html.mobile-market-first body{background:var(--ui-bg,#f4f1ea)}
 #mobile-intro{position:fixed;inset:0;z-index:100;display:grid;place-items:center;width:100%;height:100dvh;padding:env(safe-area-inset-top) 28px env(safe-area-inset-bottom);overflow:hidden;color:var(--ui-text,#34312d);background:var(--ui-bg,#f4f1ea);background:radial-gradient(130% 85% at 50% 46%,transparent 52%,color-mix(in srgb,var(--ui-text,#34312d) 7%,transparent) 100%),var(--ui-bg,#f4f1ea);isolation:isolate;opacity:1;touch-action:none;user-select:none;outline:1px solid transparent;outline-offset:-14px;animation:intro-frame 1.8s cubic-bezier(.22,.61,.36,1) .25s forwards;transition:opacity 1s cubic-bezier(.4,0,.2,1) .1s}
 #mobile-intro .mobile-intro-wordmark{display:inline-flex;align-items:baseline;justify-content:center;max-width:100%;margin:0;font:400 clamp(34px,9.8vw,42px)/1 var(--serif);font-style:normal;letter-spacing:.16em;padding-left:.16em;text-align:center;white-space:nowrap;animation:intro-track 2.8s cubic-bezier(.22,.61,.36,1) both}
 #mobile-intro .mobile-intro-letter{display:inline-block;opacity:0;animation:intro-letter 1.25s cubic-bezier(.22,.61,.36,1) both;animation-delay:calc(.15s + var(--letter-order) * 70ms)}
@@ -1526,14 +1527,12 @@ html.mobile-intro-active:not(.mobile-intro-revealing) #market{visibility:hidden}
 #mobile-intro.is-leaving{opacity:0}
 #mobile-intro.is-leaving .mobile-intro-wordmark,#mobile-intro.is-leaving::before,#mobile-intro.is-leaving::after{transition:opacity .7s cubic-bezier(.4,0,.2,1),transform 1s cubic-bezier(.22,.61,.36,1)}
 #mobile-intro.is-leaving .mobile-intro-wordmark{opacity:0;transform:translateY(-8px)}
-html.mobile-intro-revealing #market{animation:mobile-home-soft-reveal 1.25s cubic-bezier(.4,0,.2,1) .25s both}
-@keyframes mobile-home-soft-reveal{from{opacity:0}to{opacity:1}}
 @keyframes intro-letter{from{opacity:0;transform:translateY(.24em);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
 @keyframes intro-track{from{letter-spacing:.34em;padding-left:.34em}to{letter-spacing:.16em;padding-left:.16em}}
 @keyframes intro-line{to{transform:translateX(-50%) scaleX(1)}}
 @keyframes intro-caption{from{opacity:0;transform:translateY(4px)}to{opacity:.9;transform:none}}
 @keyframes intro-frame{to{outline-color:color-mix(in srgb,var(--ui-gold,#7b5d38) 30%,transparent)}}
-@media(prefers-reduced-motion:reduce){#mobile-intro{transition:opacity .1s linear;animation:none;outline-color:color-mix(in srgb,var(--ui-gold,#7b5d38) 30%,transparent)}html.mobile-intro-revealing #market{animation:none}#mobile-intro .mobile-intro-wordmark,#mobile-intro .mobile-intro-letter,#mobile-intro::before,#mobile-intro::after{animation:none;opacity:1;filter:none}#mobile-intro::before{opacity:.9}#mobile-intro::after{transform:translateX(-50%) scaleX(1)}#mobile-intro.is-leaving .mobile-intro-wordmark{transform:none;transition:opacity .1s linear}}
+@media(prefers-reduced-motion:reduce){#mobile-intro{transition:opacity .1s linear;animation:none;outline-color:color-mix(in srgb,var(--ui-gold,#7b5d38) 30%,transparent)}#mobile-intro .mobile-intro-wordmark,#mobile-intro .mobile-intro-letter,#mobile-intro::before,#mobile-intro::after{animation:none;opacity:1;filter:none}#mobile-intro::before{opacity:.9}#mobile-intro::after{transform:translateX(-50%) scaleX(1)}#mobile-intro.is-leaving .mobile-intro-wordmark{transform:none;transition:opacity .1s linear}}
 }
 
 </style>
@@ -1558,6 +1557,18 @@ html[data-theme] #chat-dialog .chat-peer-button:hover{background:var(--ui-raised
 #chat-dialog:not(.is-inbox) .chat-sidebar-heading h2{font-size:24px!important}
 #chat-dialog .mobile-chat-empty>svg{width:52px;height:52px;padding:15px;border-radius:50%;border-color:color-mix(in srgb,var(--ui-gold,#7b5d38) 45%,transparent);background:transparent}
 #chat-dialog .mobile-chat-empty .no-threads{font:400 italic 19px/1.4 var(--serif);letter-spacing:.005em}
+}
+</style>
+<style id="mobile-chat-page">
+/* Mobile chat as a full page between the market header and the bottom navigation. */
+@media (max-width:760px), (max-width:1024px) and (pointer:coarse){
+#open-messages{display:none!important}
+#chat-dialog.is-mobile-page{position:fixed;inset:var(--chat-page-top,66px) 0 var(--chat-page-bottom,76px) 0;z-index:7;width:100%!important;max-width:none!important;height:calc(100dvh - var(--chat-page-top,66px) - var(--chat-page-bottom,76px))!important;min-height:0!important;max-height:none!important;margin:0;border:0!important;border-radius:0!important;box-shadow:none!important;background:var(--ui-bg,#f4f1ea)!important}
+#chat-dialog.is-mobile-page .chat-layout,#chat-dialog.is-mobile-page .chat-sidebar,#chat-dialog.is-mobile-page .chat-main{height:100%;border-radius:0!important;background:var(--ui-bg,#f4f1ea)!important;box-shadow:none!important}
+#chat-dialog.is-mobile-page .chat-sidebar-heading,#chat-dialog.is-mobile-page.is-inbox .chat-sidebar-heading{min-height:0;padding:26px 18px 14px;border-bottom:0}
+#chat-dialog.is-mobile-page .chat-sidebar-heading h2{font-size:31px!important;line-height:1.1}
+#chat-dialog.is-mobile-page.is-inbox .dialog-close{display:none}
+body:has(#chat-dialog.is-mobile-page[open]) .mobile-sell{visibility:hidden}
 }
 </style>
 </head>
@@ -3974,7 +3985,7 @@ function getAsset(name){if(assetCache.has(name))return assetCache.get(name);cons
 const imageFor=p=>p.demo?getAsset(p.image):p.image;
 $$('[data-asset]').forEach(image=>{if(image.closest('#home'))return;image.src=getAsset(image.dataset.asset);image.decoding='async'});
 const returnFocus=new WeakMap();
-function showDialog(dialog){syncMarketLabels();const origin=document.activeElement;returnFocus.set(dialog,{element:origin,product:origin?.closest?.('[data-product]')?.dataset.product});dialog.showModal()}
+function showDialog(dialog){syncMarketLabels();const origin=document.activeElement;returnFocus.set(dialog,{element:origin,product:origin?.closest?.('[data-product]')?.dataset.product});if(dialog.id==='chat-dialog'&&mobileMarket()){dialog.classList.add('is-mobile-page');window.PIECENOA_FIT_CHAT_PAGE?.();dialog.show();return}dialog.showModal()}
 // Keep the native English source; use reviewed Korean labels when the surrounding page is translated.
 function setupSortTranslation(){
  const select=$('#sort'),anchors=[$('#market-title'),$('[data-i18n="market_note"]'),$('#gallery-motto')].filter(Boolean);
@@ -4332,6 +4343,24 @@ $('#community-shortcut').addEventListener('click',()=>{if($('#home').classList.c
  const logo=document.querySelector('.home-header .brand-lockup>.wordmark');
  function protect(){document.querySelectorAll('[data-brand-name]').forEach(el=>{el.setAttribute('translate','no');el.classList.add('notranslate');if(el.textContent!=='PIECENOA')el.textContent='PIECENOA'});const korean=/^ko(?:-|$)/i.test(document.documentElement.lang)||/[\uac00-\ud7a3]/.test(document.getElementById('gallery-motto')?.textContent||''),link=logo?.closest('a');if(link){const ui=window.PIECENOA_I18N,language=ui?.explicit?ui.language:korean?'ko':'en';link.setAttribute('aria-label',ui?ui.text('PIECENOA home',language):korean?'피스노아 홈':'PIECENOA home');link.setAttribute('title',language==='ko'?'피스노아':'PIECENOA')}}
  const observer=new MutationObserver(protect);document.querySelectorAll('[data-brand-name]').forEach(el=>observer.observe(el,{childList:true,characterData:true,subtree:true}));const motto=document.getElementById('gallery-motto');if(motto)observer.observe(motto,{childList:true,characterData:true,subtree:true});observer.observe(document.documentElement,{attributes:true,attributeFilter:['lang']});protect();
+})();
+</script>
+<script id="mobile-chat-page-controller">
+/* Phones: chat opens as a page (non-modal) so the header and bottom navigation stay usable. */
+(()=>{
+ const chat=document.getElementById('chat-dialog');if(!chat)return;
+ const fit=()=>{const header=document.querySelector('.market-header'),nav=document.querySelector('.market-bottom-nav'),root=document.documentElement.style;
+  if(header)root.setProperty('--chat-page-top',Math.max(0,Math.round(header.getBoundingClientRect().bottom))+'px');
+  if(nav&&nav.offsetParent!==null)root.setProperty('--chat-page-bottom',Math.max(0,Math.round(innerHeight-nav.getBoundingClientRect().top))+'px')};
+ window.PIECENOA_FIT_CHAT_PAGE=fit;
+ addEventListener('resize',()=>{if(chat.classList.contains('is-mobile-page'))fit()});
+ chat.addEventListener('close',()=>chat.classList.remove('is-mobile-page'));
+ // Leaving the chat page through the header or bottom navigation closes it first.
+ document.addEventListener('click',event=>{
+  if(!chat.open||!chat.classList.contains('is-mobile-page'))return;
+  const target=event.target.closest?.('.market-bottom-nav [data-mode],.market-header button,.market-header a');
+  if(target)chat.close();
+ },true);
 })();
 </script>
 </body>
