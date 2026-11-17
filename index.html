@@ -1593,21 +1593,18 @@ body:has(#chat-dialog.is-mobile-page[open]) .mobile-sell{visibility:hidden}
 html[data-theme="dark"]{--heart-red:#ef6f7c}
 .card-save.saved,#detail-dialog .detail-heart.saved,.card-stat.is-saved{color:var(--heart-red)!important}
 #detail-dialog .detail-photo{touch-action:manipulation}
-.heart-fx{position:fixed;z-index:2147483000;pointer-events:none;width:0;height:0}
-.heart-fx svg{position:absolute;left:0;top:0;width:var(--s);height:var(--s);margin:calc(var(--s) / -2) 0 0 calc(var(--s) / -2);fill:var(--heart-red);stroke:var(--heart-red);overflow:visible;will-change:transform,opacity}
-.heart-fx .pop{animation:heart-pop .5s cubic-bezier(.34,1.45,.64,1) both}
-.heart-fx .ring{position:absolute;left:0;top:0;width:var(--r);height:var(--r);margin:calc(var(--r) / -2) 0 0 calc(var(--r) / -2);border-radius:50%;border:1.5px solid var(--heart-red);opacity:0;will-change:transform,opacity;animation:heart-ring .6s cubic-bezier(.22,.61,.36,1) .04s both}
-.heart-fx i{position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:var(--heart-red);opacity:0;will-change:transform,opacity;animation:heart-dot .62s cubic-bezier(.22,.61,.36,1) .1s both}
-.heart-fx i:nth-child(even){background:#d9a85a}
-.heart-big{position:fixed;z-index:2147483000;pointer-events:none;display:grid;place-items:center}
-.heart-big svg{width:min(32%,112px);height:auto;aspect-ratio:1;fill:var(--heart-red);stroke:#fff;stroke-width:.6;stroke-opacity:.7;backface-visibility:hidden;opacity:0;will-change:transform,opacity;animation:heart-big .95s cubic-bezier(.22,.61,.36,1) both}
-@keyframes heart-pop{0%{transform:scale(.55);opacity:.4}55%{transform:scale(1.16);opacity:1}100%{transform:scale(1);opacity:0}}
-@keyframes heart-ring{0%{transform:scale(.45);opacity:.55}100%{transform:scale(1);opacity:0}}
-@keyframes heart-dot{0%{transform:rotate(var(--a)) translateY(calc(var(--d) * -.45)) scale(.6);opacity:0}25%{opacity:.9}100%{transform:rotate(var(--a)) translateY(calc(var(--d) * -1)) scale(1);opacity:0}}
-@keyframes heart-big{0%{transform:scale(.6);opacity:0}22%{transform:scale(1.06);opacity:.95}36%{transform:scale(1);opacity:.95}72%{transform:scale(1);opacity:.9}100%{transform:scale(.92);opacity:0}}
-.card-save.heart-pulse svg,.detail-heart.heart-pulse svg{animation:heart-btn .45s cubic-bezier(.34,1.45,.64,1)}
-@keyframes heart-btn{0%{transform:scale(.8)}55%{transform:scale(1.18)}100%{transform:scale(1)}}
-@media (prefers-reduced-motion:reduce){.heart-fx,.heart-big{display:none}.card-save.heart-pulse svg,.detail-heart.heart-pulse svg{animation:none}}
+.card-save,.detail-heart{touch-action:manipulation}
+.heart-fx,.heart-big{position:fixed;z-index:2147483000;pointer-events:none;contain:layout style}
+.heart-fx{width:0;height:0}
+.heart-fx>*{position:absolute;left:0;top:0;opacity:0;backface-visibility:hidden}
+.heart-fx .pop{width:var(--s);height:var(--s);margin:calc(var(--s) / -2) 0 0 calc(var(--s) / -2)}
+.heart-fx .pop svg,.heart-big .big svg{display:block;width:100%;height:100%;fill:var(--heart-red);stroke:none}
+.heart-fx .ring{width:var(--r);height:var(--r);margin:calc(var(--r) / -2) 0 0 calc(var(--r) / -2);border-radius:50%;border:1.5px solid var(--heart-red)}
+.heart-fx .dot{width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;background:var(--heart-red)}
+.heart-fx .dot.alt{background:#d9a85a}
+.heart-big{display:grid;place-items:center}
+.heart-big .big{display:block;width:min(32%,112px);aspect-ratio:1;opacity:0;backface-visibility:hidden}
+@media (prefers-reduced-motion:reduce){.heart-fx,.heart-big{display:none}}
 </style>
 <style id="notifications-style">
 /* Notifications: bell in the market header + inbox (popover on PC, full page on phones). */
@@ -1682,6 +1679,22 @@ html[data-theme="dark"]{--heart-red:#ef6f7c}
  #chat-dialog#chat-dialog .chat-input{padding:8px 12px}
  #chat-dialog#chat-dialog .chat-input input{height:42px}
 }
+</style>
+<style id="chat-more-menu">
+/* Block / delete live in a small menu next to the other person's name; the separate row is gone. */
+#chat-dialog#chat-dialog #chat-safety.is-moved .chat-safety-actions{display:none!important}
+#chat-dialog#chat-dialog #chat-safety.is-moved:not(:has(p)){display:none!important}
+#chat-dialog#chat-dialog .chat-main-header:has(.chat-more){overflow:visible;position:relative;z-index:3}
+#chat-dialog .chat-with{position:relative;overflow:visible}
+#chat-dialog .chat-more{position:relative;margin-left:auto;flex:none}
+#chat-dialog .chat-more-button{display:grid;place-items:center;width:34px;height:34px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--ui-muted,#80786c);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#chat-dialog .chat-more-button:hover,#chat-dialog .chat-more-button[aria-expanded="true"]{background:color-mix(in srgb,var(--ui-text,#34312d) 7%,transparent);color:var(--ui-text,#34312d)}
+#chat-dialog .chat-more-button svg{width:18px;height:18px;fill:currentColor}
+#chat-dialog .chat-more-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:20;min-width:168px;padding:6px;border:1px solid var(--ui-border,#dcd5c8);border-radius:12px;background:var(--ui-bg,#f4f1ea);box-shadow:0 12px 32px rgba(30,22,14,.16)}
+#chat-dialog .chat-more-menu[hidden]{display:none}
+#chat-dialog .chat-more-menu .chat-safety-button{display:flex!important;align-items:center;width:100%;min-height:40px!important;padding:0 12px!important;border:0!important;border-radius:8px!important;background:transparent!important;box-shadow:none!important;font:13.5px/1.3 var(--sans)!important;color:var(--ui-text,#34312d)!important;text-decoration:none!important;text-align:left;justify-content:flex-start}
+#chat-dialog .chat-more-menu .chat-safety-button:hover{background:color-mix(in srgb,var(--ui-text,#34312d) 6%,transparent)!important}
+#chat-dialog .chat-more-menu [data-chat-leave]{color:var(--heart-red,#d43f4f)!important}
 </style>
 </head>
 <body data-view="home">
@@ -4479,46 +4492,59 @@ $('#community-shortcut').addEventListener('click',()=>{if($('#home').classList.c
 })();
 </script>
 <script id="heart-burst-controller">
-/* Like animation: plays the moment a heart actually turns "saved" after a tap (so refused likes never celebrate). */
+/* Like animation. Motion uses element.animate() with transform/opacity only, so it runs on the compositor
+ * and stays smooth while the page saves the like. No per-frame layout reads. */
 (()=>{
  const HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const ease='cubic-bezier(.22,.61,.36,1)',spring='cubic-bezier(.34,1.4,.64,1)';
+ function play(el,frames,options){try{return el.animate(frames,{fill:'both',...options}).finished}catch{return Promise.resolve()}}
  function burst(button){
   const r=button.getBoundingClientRect();if(!r.width)return;
   const size=Math.max(16,Math.min(24,r.width*.55)),fx=document.createElement('div');
   fx.className='heart-fx';fx.style.left=(r.left+r.width/2)+'px';fx.style.top=(r.top+r.height/2)+'px';
   fx.style.setProperty('--s',size+'px');fx.style.setProperty('--r',(r.width*1.7)+'px');
-  let dots='';for(let i=0;i<6;i++)dots+='<i style="--a:'+(i*60+30)+'deg;--d:'+(r.width*.85)+'px"></i>';
-  fx.innerHTML='<span class="ring"></span>'+dots+HEART.replace('<svg','<svg class="pop"');
-  document.body.appendChild(fx);setTimeout(()=>fx.remove(),700);
+  fx.innerHTML='<span class="ring"></span>'+'<span class="dot"></span><span class="dot alt"></span>'.repeat(3)+'<span class="pop">'+HEART+'</span>';
+  document.body.appendChild(fx);
+  const done=[
+   play(fx.querySelector('.pop'),[{transform:'scale(.55)',opacity:.5},{transform:'scale(1.14)',opacity:1,offset:.5},{transform:'scale(1)',opacity:0}],{duration:520,easing:ease}),
+   play(fx.querySelector('.ring'),[{transform:'scale(.45)',opacity:.5},{transform:'scale(1)',opacity:0}],{duration:560,delay:30,easing:ease})];
+  fx.querySelectorAll('.dot').forEach((dot,i)=>{const a=i*60+30,d=r.width*.85;
+   done.push(play(dot,[{transform:`rotate(${a}deg) translateY(${-d*.45}px) scale(.6)`,opacity:0},{transform:`rotate(${a}deg) translateY(${-d*.7}px) scale(1)`,opacity:.9,offset:.3},{transform:`rotate(${a}deg) translateY(${-d}px) scale(1)`,opacity:0}],{duration:580,delay:70,easing:ease}))});
+  Promise.all(done).then(()=>fx.remove());setTimeout(()=>fx.remove(),1200);
  }
  function bigHeart(photo){
   if(!photo||reduced.matches)return;const r=photo.getBoundingClientRect();if(r.width<60||r.height<60)return;
   const el=document.createElement('div');el.className='heart-big';
   Object.assign(el.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
-  el.innerHTML=HEART;document.body.appendChild(el);setTimeout(()=>el.remove(),1050);
+  el.innerHTML='<span class="big">'+HEART+'</span>';document.body.appendChild(el);
+  play(el.firstChild,[{transform:'scale(.6)',opacity:0},{transform:'scale(1.06)',opacity:.95,offset:.22},{transform:'scale(1)',opacity:.95,offset:.36},{transform:'scale(1)',opacity:.9,offset:.72},{transform:'scale(.92)',opacity:0}],{duration:950,easing:ease}).then(()=>el.remove());
+  setTimeout(()=>el.remove(),1500);
  }
- // Wait (up to 6s) for the re-rendered heart to become saved, then celebrate on it.
- function whenSaved(find,photoOf,pulseOnly){
-  const until=performance.now()+6000;
-  (function check(){const button=find();
-   if(button?.classList.contains('saved')){if(!reduced.matches){if(pulseOnly)pulse(find);else{burst(button);bigHeart(photoOf(button));pulse(find)}}return}
-   if(performance.now()<until)requestAnimationFrame(check)})();
+ function pulse(button){if(button&&!reduced.matches)play(button,[{transform:'scale(.86)'},{transform:'scale(1.12)',offset:.55},{transform:'scale(1)'}],{duration:420,easing:spring,fill:'none'})}
+ // Wait (up to 6s) for the heart to become saved. Uses a MutationObserver: nothing runs between changes.
+ function whenSaved(root,find,onSaved){
+  const check=()=>{const b=find();if(b?.classList.contains('saved')){stop();onSaved(b);return true}return false};
+  const observer=new MutationObserver(check),timer=setTimeout(()=>stop(),6000);
+  function stop(){observer.disconnect();clearTimeout(timer)}
+  observer.observe(root,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
  }
  const cardPhoto=b=>b.closest('.product-card')?.querySelector('.product-image');
  const detailPhoto=()=>document.querySelector('#detail-dialog .detail-photo');
  // Signed in + a real (database) listing: the like will go through, so react on the tap itself.
  const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
  const instant=id=>Boolean(window.PIECENOA_ACCOUNT?.session&&UUID.test(id||''));
- function pulse(find){requestAnimationFrame(()=>{const b=find();if(!b)return;b.classList.remove('heart-pulse');void b.offsetWidth;b.classList.add('heart-pulse');setTimeout(()=>b.classList.remove('heart-pulse'),500)})}
- function celebrate(button,photo){if(reduced.matches)return;burst(button);bigHeart(photo)}
  document.addEventListener('click',event=>{
   const card=event.target.closest?.('[data-save]');
-  if(card){if(card.classList.contains('saved'))return;const id=card.dataset.save,scope=card.closest('dialog')||document;
-   const find=()=>[...scope.querySelectorAll('[data-save]')].find(b=>b.dataset.save===id&&b.offsetParent);
-   if(instant(id)){celebrate(card,cardPhoto(card));whenSaved(find,()=>null,true)}else whenSaved(find,cardPhoto);return}
+  if(card){if(card.classList.contains('saved')||reduced.matches)return;
+   const id=card.dataset.save,root=card.closest('dialog')||document.getElementById('product-grid')||document.body;
+   const find=()=>[...root.querySelectorAll('[data-save]')].find(b=>b.dataset.save===id);
+   if(instant(id)){const photo=cardPhoto(card);requestAnimationFrame(()=>{burst(card);bigHeart(photo);pulse(card)})}
+   else whenSaved(root,find,b=>requestAnimationFrame(()=>{burst(b);bigHeart(cardPhoto(b));pulse(b)}));
+   return}
   const detail=event.target.closest?.('#detail-heart');
-  if(detail&&!detail.classList.contains('saved'))whenSaved(()=>document.getElementById('detail-heart'),detailPhoto);
+  if(detail&&!detail.classList.contains('saved')&&!reduced.matches){const dialog=document.getElementById('detail-dialog');
+   whenSaved(dialog,()=>document.getElementById('detail-heart'),b=>requestAnimationFrame(()=>{burst(b);bigHeart(detailPhoto());pulse(b)}))}
  },true);
  // Double-tap the photo in the detail view to like it, like Instagram.
  let lastTap=0;
@@ -4630,6 +4656,43 @@ $('#community-shortcut').addEventListener('click',()=>{if($('#home').classList.c
  account.onChange(sync);account.ready?.then?.(sync);sync();
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')countUnread()});
  setInterval(()=>{if(dialog.open)list.querySelectorAll('time[datetime]').forEach(el=>el.textContent=ago(el.getAttribute('datetime')))},60000);
+})();
+</script>
+<script id="chat-more-controller">
+/* Moves the chat's Block / Delete buttons into a "..." menu beside the other person's name.
+ * The moved buttons keep their data-chat-* attributes, so the existing #chat-dialog click handler runs them. */
+(()=>{
+ const dialog=document.getElementById('chat-dialog');if(!dialog)return;
+ const DOTS='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>';
+ const label=()=>/^ko/i.test(document.documentElement.lang||'')?'채팅 메뉴':'Chat options';
+ let syncing=false;
+ function sync(){
+  if(syncing)return;syncing=true;
+  try{
+   const box=document.getElementById('chat-safety'),who=document.getElementById('chat-with');
+   const buttons=box&&!box.hidden?[...box.querySelectorAll('.chat-safety-actions .chat-safety-button')]:[];
+   let more=dialog.querySelector('.chat-more');
+   if(!buttons.length||!who||who.hidden){more?.remove();box?.classList.remove('is-moved');return}
+   const signature=buttons.map(b=>b.outerHTML).join('');
+   if(!more||more.parentElement!==who){more?.remove();more=document.createElement('span');more.className='chat-more';
+    more.innerHTML='<button type="button" class="chat-more-button" aria-haspopup="menu" aria-expanded="false">'+DOTS+'</button><span class="chat-more-menu" role="menu" hidden></span>';who.appendChild(more)}
+   more.firstChild.setAttribute('aria-label',label());
+   const menu=more.querySelector('.chat-more-menu');
+   if(menu.dataset.signature!==signature){menu.dataset.signature=signature;menu.innerHTML='';buttons.forEach(b=>{const c=b.cloneNode(true);c.setAttribute('role','menuitem');menu.appendChild(c)})}
+   box.classList.add('is-moved');
+  }finally{syncing=false}
+ }
+ function close(){const more=dialog.querySelector('.chat-more');if(!more)return;more.querySelector('.chat-more-menu').hidden=true;more.firstChild.setAttribute('aria-expanded','false')}
+ dialog.addEventListener('click',event=>{
+  const toggle=event.target.closest('.chat-more-button');
+  if(toggle){event.stopPropagation();const menu=toggle.nextElementSibling,open=menu.hidden;close();menu.hidden=!open;toggle.setAttribute('aria-expanded',String(open));return}
+  if(event.target.closest('.chat-more-menu')){setTimeout(close,0);return}
+  close();
+ },true);
+ document.addEventListener('keydown',event=>{if(event.key==='Escape')close()});
+ dialog.addEventListener('close',close);
+ new MutationObserver(()=>queueMicrotask(sync)).observe(dialog,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden']});
+ sync();
 })();
 </script>
 </body>
