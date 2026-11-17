@@ -1723,6 +1723,11 @@ html[data-theme="dark"]{--heart-red:#ef6f7c}
 }
 </style>
 <style id="chat-room-luxe">
+/* Cormorant has no Hangul, so Korean names/titles fell back to the system sans. The site already embeds
+ * "Gallery Hangul Serif" (all 11,172 syllables); put it right after Cormorant for chat and notification text. */
+#chat-dialog#chat-dialog :is(.chat-topbar-title,.chat-main-header h3,.chat-sidebar-heading h2,#threads .chat-thread-content strong),
+#notify-dialog .notify-head h2,#notify-dialog .notify-line em{font-family:"Cormorant Garamond","Gallery Hangul Serif",Georgia,serif!important}
+#chat-dialog#chat-dialog .chat-topbar-title:lang(ko),#chat-dialog#chat-dialog .chat-topbar-title{font-synthesis:none}
 /* Chat room header in the PIECENOA voice: serif name, hairline icons, gallery-framed thumbnail, quiet tracked price. */
 #chat-dialog#chat-dialog .chat-topbar{min-height:58px;background:var(--ui-bg,#f4f1ea);border-bottom:1px solid color-mix(in srgb,var(--ui-gold,#7b5d38) 22%,var(--ui-border,#dcd5c8))}
 #chat-dialog#chat-dialog .chat-back svg{width:20px;height:20px;stroke-width:1.25}
