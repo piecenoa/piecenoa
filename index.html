@@ -1722,6 +1722,26 @@ html[data-theme="dark"]{--heart-red:#ef6f7c}
  #chat-dialog#chat-dialog .chat-main-header h3{font-size:15px}
 }
 </style>
+<style id="chat-room-luxe">
+/* Chat room header in the PIECENOA voice: serif name, hairline icons, gallery-framed thumbnail, quiet tracked price. */
+#chat-dialog#chat-dialog .chat-topbar{min-height:58px;background:var(--ui-bg,#f4f1ea);border-bottom:1px solid color-mix(in srgb,var(--ui-gold,#7b5d38) 22%,var(--ui-border,#dcd5c8))}
+#chat-dialog#chat-dialog .chat-back svg{width:20px;height:20px;stroke-width:1.25}
+#chat-dialog#chat-dialog .chat-more-button svg{width:17px;height:17px}
+#chat-dialog#chat-dialog .chat-back,#chat-dialog#chat-dialog .chat-more-button{color:var(--ui-text,#34312d)}
+#chat-dialog#chat-dialog .chat-topbar-title{font:400 23px/1.15 var(--serif);font-style:normal;letter-spacing:.01em;color:var(--ui-text,#34312d);padding:6px 10px}
+#chat-dialog#chat-dialog .chat-topbar-title .is-gone{font:italic 400 20px/1.2 var(--serif);color:var(--ui-muted,#80786c)}
+#chat-dialog#chat-dialog .chat-main-header{column-gap:14px;row-gap:4px;padding:14px 20px 15px;background:color-mix(in srgb,var(--ui-surface,#ede8df) 55%,var(--ui-bg,#f4f1ea));border-bottom:1px solid color-mix(in srgb,var(--ui-gold,#7b5d38) 18%,var(--ui-border,#dcd5c8))}
+#chat-dialog#chat-dialog .chat-main-header .mobile-chat-artwork:not([hidden]){width:54px;height:54px;padding:3px;border-radius:2px;background:var(--ui-bg,#f4f1ea);box-shadow:0 0 0 1px color-mix(in srgb,var(--ui-gold,#7b5d38) 40%,transparent),0 4px 12px rgba(40,28,16,.10)}
+#chat-dialog#chat-dialog .chat-main-header h3{font:400 19px/1.2 var(--serif);font-style:normal;letter-spacing:.005em;color:var(--ui-text,#34312d)}
+#chat-dialog#chat-dialog .chat-main-header #chat-product-price{font:500 12.5px/1.4 var(--sans);letter-spacing:.06em;font-variant-numeric:tabular-nums lining-nums;color:var(--ui-gold,#7b5d38)}
+#chat-dialog#chat-dialog .chat-more-menu{border-radius:4px;padding:6px 0;border-color:color-mix(in srgb,var(--ui-gold,#7b5d38) 25%,var(--ui-border,#dcd5c8))}
+#chat-dialog#chat-dialog .chat-more-menu .chat-safety-button{border-radius:0!important;padding:0 18px!important;font:400 13.5px/1.3 var(--sans)!important;letter-spacing:.02em}
+@media (min-width:761px) and (not ((max-width:1024px) and (pointer:coarse))){
+ #chat-dialog#chat-dialog .chat-topbar{min-height:66px}
+ #chat-dialog#chat-dialog .chat-topbar-title{font-size:25px}
+ #chat-dialog#chat-dialog .chat-main-header{padding:14px 24px 16px}
+}
+</style>
 </head>
 <body data-view="home">
 <div id="mobile-intro" hidden aria-hidden="true"><span class="mobile-intro-wordmark notranslate" lang="en" translate="no" data-brand-name="PIECENOA"><span class="mobile-intro-letter" style="--letter-order:0;--letter-x:-34px;--letter-turn:-8deg">P</span><span class="mobile-intro-letter" style="--letter-order:1;--letter-x:-25px;--letter-turn:8deg">I</span><span class="mobile-intro-letter" style="--letter-order:2;--letter-x:-16px;--letter-turn:-8deg">E</span><span class="mobile-intro-letter" style="--letter-order:3;--letter-x:-6px;--letter-turn:8deg">C</span><span class="mobile-intro-letter" style="--letter-order:4;--letter-x:6px;--letter-turn:-8deg">E</span><span class="mobile-intro-letter" style="--letter-order:5;--letter-x:16px;--letter-turn:8deg">N</span><span class="mobile-intro-letter" style="--letter-order:6;--letter-x:25px;--letter-turn:-8deg">O</span><span class="mobile-intro-letter" style="--letter-order:7;--letter-x:34px;--letter-turn:8deg">A</span></span></div>
