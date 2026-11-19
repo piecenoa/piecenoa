@@ -15,7 +15,7 @@ No AI-generated or upscaled image is used for the current exterior.
 -->
 <html lang="en" translate="yes">
 <head>
-<meta name="piecenoa-build" content="mobile-artwork-menu-focus-20261119">
+<meta name="piecenoa-build" content="auth-independent-of-gallery-20261119">
 <link rel="preload" href="assets/fonts/cormorant-garamond-latin.d80df8ff5aec.woff2" as="font" type="font/woff2" crossorigin>
 
 <meta charset="utf-8">
@@ -2445,7 +2445,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  -->
-<script id="gallery-library-manifest" type="application/json">{"three":"assets/js/three-r160.835a61b7e950.js","museum":"assets/js/museum-gallery.96d4d06a9f9f.js"}</script>
+<script id="gallery-library-manifest" type="application/json">{"three":"assets/js/three-r160.835a61b7e950.js","museum":"assets/js/museum-gallery.83be48fa3fa1.js"}</script>
 
 <script id="supabase-sdk-local">
 /* Pinned Supabase JS 2.45.4, same SDK as the original CDN URL. Inline build sets its optional chunk base explicitly.
@@ -4691,6 +4691,45 @@ function viewportMarketChanged(){
 }
 if(mobileMarketQuery.addEventListener)mobileMarketQuery.addEventListener('change',viewportMarketChanged);else mobileMarketQuery.addListener?.(viewportMarketChanged);
 $('.market-brand').addEventListener('click',event=>{if(!mobileMarket())return;event.preventDefault();setMode('all');$('.market-scroll').scrollTop=0});
+function setupGalleryAuth({showDialog}) {
+ // With Supabase configured, js/account.js owns this dialog (sign-in, sign-up, reset, account).
+ if(window.PIECENOA_ACCOUNT?.setup){window.PIECENOA_ACCOUNT.setup({showDialog});return}
+ const $=selector=>document.querySelector(selector);
+ const dialog=$('#auth-dialog'),form=$('#auth-form');
+ const tabs=[...dialog.querySelectorAll('[data-auth-mode]')];
+ const password=$('#auth-password'),confirm=$('#auth-confirm'),status=$('#auth-status');
+ let mode='login';
+ function setMode(next){
+  mode=next==='signup'?'signup':'login';const signup=mode==='signup';
+  tabs.forEach(tab=>{const active=tab.dataset.authMode===mode;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1});
+  $('#auth-title').textContent=signup?'Discover your art.':'Welcome back.';
+  $('#auth-intro').textContent=signup?'Where new art and people meet.':'Your own space, connected through art.';
+  $('#auth-panel').setAttribute('aria-labelledby',signup?'auth-signup-tab':'auth-login-tab');
+  for(const [field,input]of [['#auth-name-field','#auth-name'],['#auth-confirm-field','#auth-confirm']]){$(field).hidden=!signup;$(input).disabled=!signup;$(input).required=signup;}
+  password.autocomplete=signup?'new-password':'current-password';password.minLength=signup?8:1;
+  password.placeholder=signup?'Enter at least 8 characters':'Enter your password';
+  password.value='';confirm.value='';confirm.setCustomValidity?.('');
+  password.type='password';$('#auth-show-password').setAttribute('aria-pressed','false');$('#auth-show-password').setAttribute('aria-label','Show password');
+  $('#auth-submit').innerHTML=(signup?'Sign up':'Log in')+'<svg aria-hidden="true"><use href="#i-arrow"/></svg>';
+  $('#auth-switch-note').textContent=signup?'Already have an account?':'Don’t have an account?';
+  $('#auth-switch').textContent=signup?'Log in':'Sign up';status.hidden=true;status.textContent='';
+ }
+ document.querySelectorAll('[data-auth-open]').forEach(button=>button.addEventListener('click',()=>{form.reset();setMode('login');showDialog(dialog)}));
+ tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>setMode(tab.dataset.authMode));
+  tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?'login':event.key==='End'?'signup':mode==='login'?'signup':'login';setMode(next);tabs.find(x=>x.dataset.authMode===next).focus()});
+ });
+ $('#auth-switch').addEventListener('click',()=>{setMode(mode==='login'?'signup':'login');$('#auth-email').focus()});
+ $('#auth-show-password').addEventListener('click',()=>{const visible=password.type==='password';password.type=visible?'text':'password';$('#auth-show-password').setAttribute('aria-pressed',String(visible));$('#auth-show-password').setAttribute('aria-label',visible?'Hide password':'Show password')});
+ confirm.addEventListener('input',()=>confirm.setCustomValidity?.(''));
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  if(mode==='signup'&&password.value!==confirm.value){confirm.setCustomValidity?.('Passwords do not match.');confirm.reportValidity?.();status.textContent='Passwords do not match.';status.hidden=false;confirm.focus();return;}
+  // No authentication service exists in this static site. Never store passwords or claim success.
+  status.textContent='Account service is coming soon. Please try again after launch.';status.hidden=false;
+ });
+ dialog.addEventListener('close',()=>{form.reset();password.value='';confirm.value='';setMode('login')});
+}
 setupGalleryAuth({showDialog});
 window.addEventListener('piecenoa:viewer-changed',()=>initializeMarketData());
 initializeMarketData();
