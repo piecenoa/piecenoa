@@ -15,7 +15,7 @@ No AI-generated or upscaled image is used for the current exterior.
 -->
 <html lang="en" translate="yes">
 <head>
-<meta name="piecenoa-build" content="real-artworks-only-20261119">
+<meta name="piecenoa-build" content="mobile-intro-tap-skip-20261119">
 <link rel="preload" href="assets/fonts/cormorant-garamond-latin.d80df8ff5aec.woff2" as="font" type="font/woff2" crossorigin>
 
 <meta charset="utf-8">
@@ -516,12 +516,14 @@ OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
  if(!overlay||!media.matches||!root.classList.contains('mobile-intro-active'))return;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,hold=reduced?320:5920,exitTime=reduced?100:1550;
  let appReady=false,paintedAt=null,writingAt=null,state='showing',holdTimer=null,exitTimer=null,fallbackTimer=null,market=null,previousInert=false;
- function finish(){if(state==='finished')return;state='finished';clearTimeout(holdTimer);clearTimeout(exitTimer);clearTimeout(fallbackTimer);root.classList.remove('mobile-intro-active','mobile-intro-revealing');overlay.hidden=true;overlay.classList.remove('is-leaving');if(market)market.inert=previousInert;media.removeEventListener?.('change',viewportChanged)}
+ function finish(){if(state==='finished')return;state='finished';clearTimeout(holdTimer);clearTimeout(exitTimer);clearTimeout(fallbackTimer);root.classList.remove('mobile-intro-active','mobile-intro-revealing');overlay.hidden=true;overlay.classList.remove('is-leaving');if(market)market.inert=previousInert;overlay.removeEventListener('click',skip);media.removeEventListener?.('change',viewportChanged)}
  function leave(){if(state!=='showing')return;state='leaving';clearTimeout(holdTimer);root.classList.add('mobile-intro-revealing');overlay.classList.add('is-leaving');exitTimer=setTimeout(finish,exitTime)}
  function schedule(){if(!appReady||paintedAt===null||state!=='showing')return;clearTimeout(holdTimer);holdTimer=setTimeout(leave,Math.max(0,hold-(performance.now()-Math.max(paintedAt,writingAt??paintedAt))))}
  function writingStarted(){if(state!=='showing'||writingAt!==null)return;writingAt=performance.now();schedule()}
  function ready(){if(appReady||state!=='showing')return;appReady=true;market=document.getElementById('market');if(market){previousInert=Boolean(market.inert);market.inert=true}schedule()}
  function viewportChanged(event){if(!event.matches)finish()}
+ function skip(event){event.preventDefault();event.stopPropagation();finish()}
+ overlay.addEventListener('click',skip);
  overlay.hidden=false;
  requestAnimationFrame(()=>requestAnimationFrame(()=>{paintedAt=performance.now();schedule()}));
  fallbackTimer=setTimeout(leave,9300);
