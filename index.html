@@ -15,7 +15,7 @@ No AI-generated or upscaled image is used for the current exterior.
 -->
 <html lang="en" translate="yes">
 <head>
-<meta name="piecenoa-build" content="quiet-market-loading-20261119">
+<meta name="piecenoa-build" content="mobile-artwork-menu-focus-20261119">
 <link rel="preload" href="assets/fonts/cormorant-garamond-latin.d80df8ff5aec.woff2" as="font" type="font/woff2" crossorigin>
 
 <meta charset="utf-8">
@@ -2207,6 +2207,7 @@ html[data-theme] :is(#market,#seller-dialog) .card-more:hover,html[data-theme] :
 html[data-theme] #artwork-menu-dialog{position:fixed;inset:auto auto auto auto;max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px);margin:0;padding:6px;border:1px solid var(--ui-border);border-radius:16px!important;background:var(--ui-input);color:var(--ui-text);overflow-y:auto;overscroll-behavior:contain;box-shadow:0 10px 32px var(--ui-shadow)}
 #artwork-menu-dialog::backdrop{background:transparent;backdrop-filter:none}
 #artwork-menu-actions{display:flex;flex-direction:column;gap:0}
+#artwork-menu-actions:focus{outline:none}
 html[data-theme] #artwork-menu-actions button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0;min-height:46px;margin:0;padding:12px 14px;border:0;border-radius:10px!important;background:transparent;color:var(--ui-text);font:400 13px/1.5 var(--sans);text-align:left;white-space:normal}
 html[data-theme] #artwork-menu-actions button:hover,html[data-theme] #artwork-menu-actions button[aria-checked="true"]{background:var(--ui-selected-bg);color:var(--ui-selected-text)}
 html[data-theme] #artwork-menu-actions [data-artwork-action="report"]{color:var(--ui-error)}
@@ -2420,7 +2421,7 @@ html[data-theme] #artwork-menu-actions [data-artwork-action="report"]{color:var(
 <dialog id="info-dialog" class="dialog info-dialog" aria-labelledby="info-title"><button type="button" class="dialog-close" data-close aria-label="Close information" data-i18n-aria="close_info"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4 4 12 12M16 4 4 16"/></svg></button><p class="eyebrow" data-i18n="info_eyebrow">PIECENOA</p><h2 id="info-title"></h2><div id="info-content"></div><button class="primary-button" id="info-enter"><span data-i18n="browse_art">Browse art</span><svg aria-hidden="true"><use href="#i-diagonal"/></svg></button></dialog>
 <dialog id="chat-dialog" class="dialog chat-dialog is-inbox" aria-label="Chats" data-i18n-aria="chat_label"><button type="button" class="dialog-close" data-close="" aria-label="Close chats" data-i18n-aria="close_chat"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="m4 4 12 12M16 4 4 16"/></svg></button><div class="chat-layout"><aside class="chat-sidebar"><div class="chat-sidebar-heading"><h2 class="notranslate sr-only" translate="no" data-ui-copy="inquiries" data-i18n="inquiries">Chats</h2><button hidden class="notranslate" id="chat-show-all" type="button" data-i18n="chat_all" data-ui-copy="chat_all" translate="no">All chats</button></div><div id="threads"></div></aside><section hidden class="chat-main"><header class="chat-main-header"><h3 id="chat-product" data-i18n="chat_no_product">Select a conversation</h3><p id="chat-product-price" data-i18n="chat_no_product_hint">Choose a chat on the left, or start one from an artwork.</p></header><div translate="no" data-ui-copy="chat_disclaimer" class="chat-disclaimer notranslate" data-i18n="chat_disclaimer">Preview chat · messages stay on this device and are not sent to the seller.</div><div class="chat-messages" id="chat-messages"><div class="chat-welcome" data-i18n="chat_start">Your conversations will appear here.</div></div><div hidden class="chat-quick-questions"><button data-quick-inquiry="quick_available" data-i18n="quick_available" disabled>Is this piece still available?</button><button data-quick-inquiry="quick_condition" data-i18n="quick_condition" disabled>Could you tell me more about its condition?</button><button data-quick-inquiry="quick_viewing" data-i18n="quick_viewing" disabled>Could we arrange a viewing or collection?</button></div><form hidden class="chat-input" id="chat-form" novalidate><input class="notranslate" translate="no" id="chat-input" maxlength="500" autocomplete="off" placeholder="Write a message" data-i18n-placeholder="chat_placeholder" aria-label="Inquiry message" data-i18n-aria="chat_input_label" disabled><button type="submit" id="send-message" aria-label="Send message" data-i18n-aria="send_inquiry" disabled><svg aria-hidden="true"><use href="#i-send" /></svg></button></form></section></div></dialog>
 
-<dialog id="artwork-menu-dialog" class="dialog artwork-menu-dialog" aria-label="Artwork options" data-i18n-aria="artwork_menu_label"><div id="artwork-menu-actions" role="menu"></div></dialog>
+<dialog id="artwork-menu-dialog" class="dialog artwork-menu-dialog" aria-label="Artwork options" data-i18n-aria="artwork_menu_label"><div id="artwork-menu-actions" role="menu" tabindex="-1"></div></dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <!-- Three.js and Reflector: The MIT License
 
@@ -4215,7 +4216,7 @@ function openArtworkMenu(id, trigger) {
   trigger.setAttribute('aria-expanded', 'true');
   positionArtworkMenu();
   showDialog($('#artwork-menu-dialog'));
-  $('#artwork-menu-actions button')?.focus({ preventScroll:true });
+  (mobileMarket() ? $('#artwork-menu-actions') : $('#artwork-menu-actions button'))?.focus({ preventScroll:true });
 }
 
 async function markArtworkInterested(piece) {
@@ -4322,7 +4323,7 @@ function setupArtworkMenus() {
     const buttons = [...$('#artwork-menu-actions').querySelectorAll('button')];
     const current = buttons.indexOf(document.activeElement);
     const index = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length - 1
-      : event.key === 'ArrowUp' ? (current - 1 + buttons.length) % buttons.length : (current + 1) % buttons.length;
+      : event.key === 'ArrowUp' ? (current < 0 ? buttons.length - 1 : (current - 1 + buttons.length) % buttons.length) : (current + 1) % buttons.length;
     buttons[index]?.focus();
   });
   $('#restore-artwork-preferences').addEventListener('click', () => {
