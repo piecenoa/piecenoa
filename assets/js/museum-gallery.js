@@ -290,7 +290,7 @@ const masterpieceCatalog={"artMilkmaid":{"title":"우유 따르는 여인","titl
    doorway.setOpen(smoother(doorRange.start,doorRange.end,progress));
    const complete=()=>{if(disposed||host.classList.contains('is-fallback'))return;ready=true;requestTick()};
    scene.traverse(object=>{if(object.isMesh&&!object.isSkinnedMesh&&!object.morphTargetInfluences){object.updateMatrix();object.matrixAutoUpdate=false}});
-   if(typeof renderer.compileAsync==='function'){Promise.resolve().then(()=>renderer.compileAsync(scene,camera)).then(complete,complete)}else complete();
+   const warm=async()=>{const set=new Set(textures);scene.traverse(object=>{for(const material of Array.isArray(object.material)?object.material:[object.material]){if(!material)continue;for(const value of Object.values(material))if(value&&value.isTexture)set.add(value)}});for(const texture of set){if(disposed)return;const image=texture.image;if(!image)continue;try{if(typeof image.decode==='function'&&image.complete)await image.decode()}catch{}if(image.width||image.data){try{renderer.initTexture(texture)}catch{}await new Promise(resolve=>requestAnimationFrame(()=>resolve()))}}};if(typeof renderer.compileAsync==='function'){Promise.resolve().then(()=>renderer.compileAsync(scene,camera)).catch(()=>{}).then(warm).then(complete,complete)}else warm().then(complete,complete);
   },error=>{console.warn('Captured gallery could not be decoded.',error);fallback()});
   listen(document,'wheel',onWheel,{capture:true,passive:false});
   listen(surface,'pointerdown',event=>{if(portal||event.button!==0)return;event.preventDefault();drag={id:event.pointerId,x:event.clientX,y:event.clientY,moved:0};surface.setPointerCapture(event.pointerId)});
