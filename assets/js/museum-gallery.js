@@ -114,7 +114,9 @@ const masterpieceCatalog={"artMilkmaid":{"title":"우유 따르는 여인","titl
   scene=new T.Scene();scene.background=new T.Color(0x171922);
   camera=new T.PerspectiveCamera(54,1,.035,3000);
   scene.fog=new T.Fog(0x111722,500,2400);
-  const loader=new T.TextureLoader(),artworkTextures=new Map(),anisotropy=Math.min(12,renderer.capabilities.getMaxAnisotropy());
+  // Chromium decodes images off the main thread through createImageBitmap; other browsers keep the standard loader.
+     const plainLoader=new T.TextureLoader(),bitmapDecode=typeof createImageBitmap==='function'&&/Chrome\/|Chromium\/|Edg\//.test(navigator.userAgent)&&!/Firefox\//.test(navigator.userAgent);
+     const loader={load(url,onLoad,onProgress,onError){if(!bitmapDecode)return plainLoader.load(url,onLoad,onProgress,onError);const texture=new T.Texture();texture.flipY=false;fetch(url).then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.blob()}).then(blob=>createImageBitmap(blob,{imageOrientation:'flipY',premultiplyAlpha:'none',colorSpaceConversion:'none'})).then(bitmap=>{if(disposed){bitmap.close?.();return}texture.image=bitmap;texture.needsUpdate=true;onLoad&&onLoad(texture)}).catch(()=>{plainLoader.load(url,loaded=>{texture.image=loaded.image;texture.flipY=true;texture.needsUpdate=true;onLoad&&onLoad(texture)},undefined,onError)});return texture}},artworkTextures=new Map(),anisotropy=Math.min(12,renderer.capabilities.getMaxAnisotropy());
   const panorama=loader.load(assets.galleryPanorama,()=>{if(disposed)return;panorama.colorSpace=T.SRGBColorSpace;const pmrem=new T.PMREMGenerator(renderer);const environment=pmrem.fromEquirectangular(panorama);scene.environment=environment.texture;resources.push(environment);pmrem.dispose();requestTick()},undefined,()=>{});
   panorama.colorSpace=T.SRGBColorSpace;panorama.anisotropy=anisotropy;textures.push(panorama);
   // One captured 360-degree river environment, projected onto separated depth layers.
