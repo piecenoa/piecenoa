@@ -16,7 +16,7 @@ No AI-generated or upscaled image is used for the current exterior.
 <html lang="en" translate="yes">
 <head>
 <meta name="piecenoa-build" content="split-assets-20261121">
-<link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/images/gallery-poster.jpg" as="image" fetchpriority="high" media="(min-width:761px) and (pointer:fine)"><link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
 
 <meta charset="utf-8"><script id="reload-to-gallery">(()=>{try{const nav=performance.getEntriesByType("navigation")[0];if(!nav||nav.type!=="reload")return;if(matchMedia("(max-width:760px), (pointer:coarse)").matches)return;if(/[?&](artwork|code|token_hash)=/.test(location.search)||/access_token|refresh_token|type=recovery|error=/.test(location.hash))return;history.replaceState(null,"",location.pathname+location.search)}catch{}})();</script>
 <style id="site-stylesheet">
@@ -474,7 +474,7 @@ OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
 <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol><symbol id="i-diagonal" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol><symbol id="i-location" viewBox="0 0 24 24"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l1.5-4A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 11.5h.01m4 0h.01m4 0h.01"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7h4l2-3h4l2 3h4v13H4Z"/><circle cx="12" cy="13" r="4"/></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="m3 3 19 9-19 9 4-9-4-9Zm4 9h15"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
 </defs><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H3Z"/><path d="M9 20v-7h6v7"/></symbol><symbol id="i-studio" viewBox="0 0 24 24"><path d="M4 21h16M5 17l3-14h8l3 14ZM7 8h10M12 17v4M3 17h18"/></symbol><symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18M7 3v6M17 9v6M10 15v6"/></symbol></svg>
 <section id="home" class="screen gallery" lang="en" translate="yes" aria-label="PIECENOA 3D gallery">
- <div id="gallery-stage" class="gallery-stage" aria-hidden="true"><img class="gallery-poster" src="assets/images/gallery-poster.jpg" alt="" loading="lazy" decoding="async" fetchpriority="high"></div>
+ <div id="gallery-stage" class="gallery-stage" aria-hidden="true"><img class="gallery-poster" src="assets/images/gallery-poster.jpg" alt="" loading="lazy" decoding="sync" fetchpriority="high"></div>
  <div id="gallery-scroll" class="gallery-scroll" tabindex="0" aria-label="Explore the gallery: scroll up to move forward, scroll down to move back"></div>
  <div class="gallery-vignette" aria-hidden="true"></div>
  <header class="home-header">
