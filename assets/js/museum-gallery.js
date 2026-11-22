@@ -61,7 +61,7 @@ function createGalleryJourney({assets,onEnter}){
  let renderer,scene,camera,outside,raf=0,ready=false,visible=!host.hidden,disposed=false,progress=0,target=0,velocity=0,lastTime=0,lastDirection=0,portal=null,drag=null,turnSpeed=0;
  const textures=[],resources=[],listeners=[];
  let refreshArtworks=null;
- const motion={smoothTime:.38,maxSpeed:.36,wheelGain:.00017,maxLead:.16};
+ const motion={smoothTime:.5,maxSpeed:.6,wheelGain:.00024,maxLead:.26};
  const doorRange={start:.46,end:.565};
  let doorway=null,viewMoving=false,viewInitialized=false,viewportWidth=0,viewportHeight=0,lastIntroOpacity=null,lastArrived=null;
  const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
@@ -99,7 +99,8 @@ const masterpieceCatalog={"artMilkmaid":{"title":"우유 따르는 여인","titl
  cameraPath.arcLengthDivisions=1024;cameraPath.updateArcLengths();
  // Turn toward the right-hand display before walking past it, then face the doors.
  const viewStops=[{p:0,at:v(-2,1.92,0)},{p:.008,at:v(-1.5,1.92,-1.5)},{p:.045,at:v(4.5,1.92,-1.25)},{p:.22,at:v(4.875,1.92,-1.25)},{p:.29,at:v(4.875,1.92,-1.25)},{p:.38,at:v(-.35,2.10,-11)},{p:.48,at:artCenter.clone()}];
- const lookPath={getPoint(p,out=new T.Vector3()){for(let i=1;i<viewStops.length;i++){const a=viewStops[i-1],b=viewStops[i];if(p<=b.p)return out.lerpVectors(a.at,b.at,smoother(a.p,b.p,p))}return out.copy(artCenter)}};
+ // One monotone cubic through the view stops: the gaze keeps moving between stops and only rests where the path itself rests.
+    const lookPath=(()=>{const P=viewStops.map(stop=>stop.p),n=P.length,axes=['x','y','z'],M={};for(const k of axes){const y=viewStops.map(stop=>stop.at[k]),d=[],m=new Array(n).fill(0);for(let i=0;i<n-1;i++)d.push((y[i+1]-y[i])/(P[i+1]-P[i]));for(let i=1;i<n-1;i++){if(d[i-1]*d[i]<=0)continue;const w1=2*(P[i+1]-P[i])+(P[i]-P[i-1]),w2=(P[i+1]-P[i])+2*(P[i]-P[i-1]);m[i]=(w1+w2)/(w1/d[i-1]+w2/d[i])}M[k]={y,m}}return{getPoint(p,out=new T.Vector3()){if(p>=P[n-1])return out.copy(artCenter);p=Math.max(0,p);let i=1;while(i<n-1&&p>P[i])i++;const a=i-1,h=P[i]-P[a],t=(p-P[a])/h,t2=t*t,t3=t2*t,h00=2*t3-3*t2+1,h10=t3-2*t2+t,h01=3*t2-2*t3,h11=t3-t2;for(const k of axes){const{y,m}=M[k];out[k]=h00*y[a]+h10*h*m[a]+h01*y[i]+h11*h*m[i]}return out}}})();
  const desiredRotation=new T.Quaternion(),viewMatrix=new T.Matrix4(),lookTarget=new T.Vector3();
  const frameCorners=[v(-frameSize.width/2,frameSize.height/2,.01),v(frameSize.width/2,frameSize.height/2,.01),v(frameSize.width/2,-frameSize.height/2,.01),v(-frameSize.width/2,-frameSize.height/2,.01)],projectedCorners=frameCorners.map(point=>point.clone());
  let mainFrame;
@@ -314,7 +315,7 @@ const masterpieceCatalog={"artMilkmaid":{"title":"우유 따르는 여인","titl
   if(!portal){const dx=look.x-camera.position.x,dz=look.z-camera.position.z,yaw=Math.atan2(dx,-dz),maxRight=35*Math.PI/180,softStart=28*Math.PI/180;if(yaw>softStart){const distance=Math.hypot(dx,dz),bounded=softStart+(maxRight-softStart)*(1-Math.exp(-(yaw-softStart)/(maxRight-softStart)));look.x=camera.position.x+Math.sin(bounded)*distance;look.z=camera.position.z-Math.cos(bounded)*distance}}
   viewMatrix.lookAt(camera.position,look,camera.up);desiredRotation.setFromRotationMatrix(viewMatrix);
   const angle=camera.quaternion.angleTo(desiredRotation);
-  if(snap||!viewInitialized||reduced.matches||portal){camera.quaternion.copy(desiredRotation);turnSpeed=0;viewMoving=false;viewInitialized=true}else{const desiredSpeed=Math.min(.72,angle/.30);turnSpeed+=(desiredSpeed-turnSpeed)*(1-Math.exp(-dt/.14));camera.quaternion.rotateTowards(desiredRotation,Math.min(angle,turnSpeed*dt));viewMoving=camera.quaternion.angleTo(desiredRotation)>.00018;if(!viewMoving){camera.quaternion.copy(desiredRotation);turnSpeed=0}}
+  if(snap||!viewInitialized||reduced.matches||portal){camera.quaternion.copy(desiredRotation);turnSpeed=0;viewMoving=false;viewInitialized=true}else{const desiredSpeed=Math.min(1.1,angle/.22);turnSpeed+=(desiredSpeed-turnSpeed)*(1-Math.exp(-dt/.1));camera.quaternion.rotateTowards(desiredRotation,Math.min(angle,turnSpeed*dt));viewMoving=camera.quaternion.angleTo(desiredRotation)>.00018;if(!viewMoving){camera.quaternion.copy(desiredRotation);turnSpeed=0}}
   // Exterior geometry remains in world space, producing real depth and parallax.
   camera.updateMatrixWorld();
  }
@@ -325,7 +326,7 @@ const masterpieceCatalog={"artMilkmaid":{"title":"우유 따르는 여인","titl
   cameraPose(dt);renderer.render(scene,camera);if(!portal){if(progress>.94)placeFrameButton();updateControls()}host.classList.add('is-3d-ready');
   if(visible&&(portal&&!portal.completed||Math.abs(target-progress)>.00001||Math.abs(velocity)>.0001||viewMoving))raf=requestAnimationFrame(tick);
  }
- function interact(delta){if(portal||!delta)return;const direction=Math.sign(delta);if(lastDirection&&direction!==lastDirection){target=progress;velocity*=.10}lastDirection=direction;target=clamp(clamp(target+delta,progress-motion.maxLead,progress+motion.maxLead));if(reduced.matches){progress=target;velocity=0}requestTick()}
+ function interact(delta){if(portal||!delta)return;const direction=Math.sign(delta);if(lastDirection&&direction!==lastDirection){if(Math.abs(delta)<.006&&Math.abs(target-progress)>.002)return;target=progress;velocity*=.10}lastDirection=direction;target=clamp(clamp(target+delta,progress-motion.maxLead,progress+motion.maxLead));if(reduced.matches){progress=target;velocity=0}requestTick()}
  function onWheel(event){if(host.hidden||portal||document.querySelector('dialog[open]'))return;const pixels=(event.deltaY||event.deltaX||0)*(event.deltaMode===1?18:event.deltaMode===2?stage.clientHeight*.75:1);if(!pixels)return;event.preventDefault();event.stopPropagation();interact(-clamp(pixels,-500,500)*motion.wheelGain)}
 }
 
