@@ -325,7 +325,7 @@ const masterpieceCatalog={"artMilkmaid":{"title":"우유 따르는 여인","titl
  }
  function requestTick(){if(!raf&&ready&&visible&&!document.hidden&&!disposed){lastTime=performance.now();raf=requestAnimationFrame(tick)}}
  function tick(time){
-  raf=0;if(!ready||!visible||document.hidden||disposed)return;const dt=Math.min(.05,(time-lastTime)/1000||.016);lastTime=time;
+  raf=0;if(!ready||!visible||document.hidden||disposed)return;const dt=Math.min(.05,Math.max(0,(time-lastTime)/1000||0));lastTime=time;
   if(!portal){const omega=2/motion.smoothTime,x=omega*dt,decay=Math.exp(-x),limit=motion.maxSpeed*motion.smoothTime,change=clamp(progress-target,-limit,limit),springTarget=progress-change,temp=(velocity+omega*change)*dt;velocity=(velocity-omega*temp)*decay;const next=springTarget+(change+temp)*decay;if((target-progress>0)===(next>target)){progress=target;velocity=0}else progress=clamp(next);if(Math.abs(progress-target)<.000015&&Math.abs(velocity)<.0001){progress=target;velocity=0}}
   cameraPose(dt);renderer.render(scene,camera);if(!portal){if(progress>.94)placeFrameButton();updateControls()}host.classList.add('is-3d-ready');
   if(visible&&(portal&&!portal.completed||Math.abs(target-progress)>.00001||Math.abs(velocity)>.0001||viewMoving))raf=requestAnimationFrame(tick);
